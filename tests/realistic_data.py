@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 SEROTYPES = ("DENV1", "DENV2", "DENV3", "DENV4")
@@ -68,11 +69,16 @@ def _rho_domain(s: str, chain: str, dom: str) -> float:
 def _f1() -> pd.DataFrame:
     rows = []
     for s in SEROTYPES:
-        for canon, chain, dom in RESIDUES:
-            rho = _rho_domain(s, chain, dom) + 0.01
+        si = _sero_idx(s)
+        for ri, (canon, chain, dom) in enumerate(RESIDUES):
+            # base reproducibility plus a serotype×residue interaction so the
+            # per-serotype ρ profiles have genuinely different *shapes* (not just
+            # a constant offset) — makes the S5 correlation matrix informative.
+            base = _rho_domain(s, chain, dom) + 0.01
+            wobble = 0.06 * np.sin(0.9 * ri + 1.3 * si) + 0.03 * ((ri * (si + 1)) % 3 - 1)
+            rho = min(0.99, max(0.05, base + wobble))
             rows.append(dict(serotype=s, canon_label=canon, chain=chain,
-                             domain=dom, rho_residue=round(min(rho, 0.99), 3),
-                             tier=_TIER))
+                             domain=dom, rho_residue=round(rho, 3), tier=_TIER))
     return pd.DataFrame(rows)
 
 

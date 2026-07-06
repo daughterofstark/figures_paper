@@ -62,7 +62,7 @@ def test_figure8_builds_on_duplicate_domain(realistic_paths):
 
 
 def test_full_build_all_on_realistic_outputs(realistic_paths):
-    """End-to-end: every figure + table builds with no exception and no font warning."""
+    """End-to-end: every figure + supplementary + table builds with no warning."""
     import build_all
 
     with warnings.catch_warnings():
@@ -70,8 +70,23 @@ def test_full_build_all_on_realistic_outputs(realistic_paths):
         results = build_all.build_all(realistic_paths)
 
     total = sum(len(v) for v in results.values())
-    assert total == 8 * 3 + 5 * 3  # 24 figure files + 15 table files
-    # spot-check a representative artifact of each kind exists
+    # 8 main + 5 supplementary figures ×3 formats, + 5 tables ×3 formats
+    assert total == 13 * 3 + 5 * 3
     out = realistic_paths.output
     assert (out / "figure6_variance_composition.svg").is_file()
     assert (out / "table5_variance_component_budget.tex").is_file()
+    for i in range(1, 6):
+        for ext in ("svg", "pdf", "png"):
+            assert (out / f"Supplementary_Figure_S{i}.{ext}").is_file()
+
+
+@pytest.mark.parametrize("i", [1, 2, 3, 4, 5])
+def test_supplementary_figures_build_on_realistic_outputs(realistic_paths, i):
+    """Each supplementary figure builds on the multi-chain real-like outputs."""
+    import importlib
+
+    mod = importlib.import_module(f"supplementary_figure{i}")
+    written = mod.build(realistic_paths)
+    assert {p.suffix for p in written} == {".svg", ".pdf", ".png"}
+    for p in written:
+        assert p.is_file() and p.stat().st_size > 0

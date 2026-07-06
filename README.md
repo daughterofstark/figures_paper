@@ -65,7 +65,8 @@ e.g. `python figure4.py`.
 ## Generated outputs
 
 For **every figure**: `output/figureN_<name>.{svg,pdf,png}` — vector SVG + PDF for
-typesetting and a 600 dpi PNG for quick viewing.
+typesetting and a 600 dpi PNG for quick viewing. The five **supplementary**
+figures follow the same format as `output/Supplementary_Figure_S{1..5}.{svg,pdf,png}`.
 
 For **every table**: `output/tableN_<name>.{tex,html,md}` — booktabs LaTeX, HTML,
 and Markdown.
@@ -90,6 +91,26 @@ corresponds to the S7 manuscript table (T1–T5).
 | `table3_catalytic_cross_serotype` | T3 | catalytic cross-serotype | " |
 | `table4_top_shared_signed_positions` | T4 | top shared signed positions | " |
 | `table5_variance_component_budget` | T5 | variance-component budget | " |
+
+### Supplementary figures (S1–S5)
+
+New supplementary figures that only *visualize* existing outputs (Figures 1–8 are
+unchanged). Filenames: `output/Supplementary_Figure_S{1..5}.{svg,pdf,png}`.
+
+| File | Shows | Built from (existing outputs) |
+| --- | --- | --- |
+| `supplementary_figure1` (S1) | structural domain map of NS2B–NS3 with per-position ρ overlaid as lollipops; chains shaded, domains blocked, catalytic ringed | `outputs_s5/position_conservation` (chain, domain, `rho_residue_median`, `is_catalytic_triad`; position parsed from `canon_label`) |
+| `supplementary_figure2` (S2) | conservation vs signed effect scatter (colour = domain, size = ρ), catalytic ringed, deterministic LOWESS trend | `outputs_s5/position_conservation` + `outputs_s4/significance_screen`, joined on `canon_label` |
+| `supplementary_figure3` (S3) | ranked domain summary: median/mean ρ bars + coherence and τ²-fraction dots; catalytic flagged | `outputs_s7/T2_domain_rho_signed_effect` + `outputs_s7/T5_variance_component_budget` (aggregated per (chain, domain)) |
+| `supplementary_figure4` (S4) | Manhattan/lollipop of signed β along the sequence; sign-coloured, size = FDR, top-10 ± labelled | `outputs_s4/significance_screen` |
+| `supplementary_figure5` (S5) | 4×4 cross-serotype similarity of ρ profiles (Pearson r) with hierarchical clustering + dendrogram | `outputs_s7/F1_reproducibility_landscape` (pivoted to positions × serotypes) |
+
+Supplementary figures are strictly presentation: S1–S4 use only pre-existing
+quantities and deterministic transformations (min/max spans, group aggregation);
+the LOWESS curve (S2) and the pairwise correlation + clustering (S5) are
+visualization aids that introduce no new claimed statistics, per the brief. All
+degrade gracefully on the single-chain synthetic example and render fully on the
+real multi-chain (NS2B–NS3) outputs.
 
 ## Design conventions
 
@@ -116,8 +137,10 @@ statistic or run a new hypothesis test. Improve presentation only.
 ```
 paper_figures/
   README.md          figure_config.py   styles.py   utils.py
-  build_all.py       tables.py
+  build_all.py       tables.py          conftest.py
   figure1.py … figure8.py
-  requirements.txt
+  supplementary_figure1.py … supplementary_figure5.py
+  requirements.txt   requirements-dev.txt
+  tests/             # regression tests (incl. real-data multi-chain fixture)
   output/            # generated artifacts (git-ignored)
 ```

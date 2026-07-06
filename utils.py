@@ -63,6 +63,61 @@ def residue_order(labels: pd.Series) -> list[str]:
     return sorted(uniq, key=parse_canon_label)
 
 
+def chain_bands(chains: list[str]) -> list[tuple[str, int, int]]:
+    """Contiguous (chain, start_idx, end_idx_exclusive) spans over an ordered list.
+
+    Used to shade chain regions along an ordinal residue axis.
+    """
+    bands: list[tuple[str, int, int]] = []
+    if not chains:
+        return bands
+    start = 0
+    for i in range(1, len(chains) + 1):
+        if i == len(chains) or chains[i] != chains[start]:
+            bands.append((chains[start], start, i))
+            start = i
+    return bands
+
+
+def lowess(
+    x: "np.ndarray", y: "np.ndarray", *, frac: float = 0.6, n_out: int = 120
+) -> "tuple[np.ndarray, np.ndarray] | None":
+    """Deterministic LOWESS smoother (tricube weights, local linear fit).
+
+    A visualization aid only — it draws a trend through points that already exist;
+    it does not create or claim any new statistic about the data. Returns
+    ``(xs, ys)`` or ``None`` when there are too few finite points.
+    """
+    import numpy as np
+
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+    m = np.isfinite(x) & np.isfinite(y)
+    x, y = x[m], y[m]
+    if len(x) < 4 or np.ptp(x) == 0:
+        return None
+    order = np.argsort(x, kind="stable")
+    x, y = x[order], y[order]
+    xs = np.linspace(x.min(), x.max(), n_out)
+    r = max(2, int(np.ceil(frac * len(x))))
+    ys = np.empty_like(xs)
+    for i, xv in enumerate(xs):
+        d = np.abs(x - xv)
+        h = np.sort(d)[min(r - 1, len(d) - 1)] or 1.0
+        w = np.clip(d / h, 0.0, 1.0)
+        w = (1.0 - w**3) ** 3
+        sw = w.sum()
+        if sw <= 0:
+            ys[i] = np.nan
+            continue
+        mx = (w * x).sum() / sw
+        my = (w * y).sum() / sw
+        bxx = (w * (x - mx) ** 2).sum()
+        b = (w * (x - mx) * (y - my)).sum() / bxx if bxx > 0 else 0.0
+        ys[i] = (my - b * mx) + b * xv
+    return xs, ys
+
+
 # --------------------------------------------------------------------------
 # Deterministic multi-format saving
 # --------------------------------------------------------------------------

@@ -23,18 +23,19 @@ from pathlib import Path
 from figure_config import Paths, resolve_paths
 
 FIGURE_MODULES = [f"figure{i}" for i in range(1, 9)]
+SUPPLEMENTARY_MODULES = [f"supplementary_figure{i}" for i in range(1, 6)]
 TABLE_MODULE = "tables"
 
 
 def build_all(paths: Paths) -> dict[str, list[Path]]:
     results: dict[str, list[Path]] = {}
-    for name in [*FIGURE_MODULES, TABLE_MODULE]:
+    for name in [*FIGURE_MODULES, *SUPPLEMENTARY_MODULES, TABLE_MODULE]:
         mod = importlib.import_module(name)
         t0 = time.perf_counter()
         written = mod.build(paths)
         dt = time.perf_counter() - t0
         results[name] = written
-        print(f"  {name:<10s} → {len(written):2d} files  ({dt:4.1f}s)")
+        print(f"  {name:<22s} → {len(written):2d} files  ({dt:4.1f}s)")
     return results
 
 
