@@ -1,0 +1,7 @@
+# paper_figures — presentation-only dependencies
+matplotlib>=3.7
+pandas>=2.0
+numpy>=1.24
+pyarrow>=12.0
+scipy>=1.10
+adjustText>=0.8

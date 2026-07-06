@@ -1,0 +1,8 @@
+# generated figures/tables (regenerate with `python build_all.py`)
+output/*
+!output/.gitkeep
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
