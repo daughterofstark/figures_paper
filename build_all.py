@@ -22,8 +22,8 @@ from pathlib import Path
 
 from figure_config import Paths, resolve_paths
 
-FIGURE_MODULES = [f"figure{i}" for i in range(1, 9)]
-SUPPLEMENTARY_MODULES = [f"supplementary_figure{i}" for i in range(1, 6)]
+FIGURE_MODULES = [f"figure{i}" for i in range(1, 7)]
+SUPPLEMENTARY_MODULES = [f"supplementary_figure{i}" for i in range(1, 3)]
 TABLE_MODULE = "tables"
 
 

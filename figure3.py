@@ -1,87 +1,128 @@
-"""Figure 3 — Domain × serotype reproducibility heatmap (redesign of S7 F3).
+"""Figure 3 — Catalytic domains are the most reproducible and coherent.
 
-Keeps the heatmap but improves it: domains ordered by mean rho (most reproducible
-at top), catalytic domains flagged in the row labels, per-cell rho annotations, a
-perceptually-uniform colour map with a slim colour bar, and hairline cell borders.
-
-Consumes: ``outputs_s7/F3_domain_serotype_rho_heatmap.parquet``.
+Biological message : catalytic domains sit at the top of the domain-scale
+    reproducibility ranking in every serotype AND are the most directionally coherent
+    — reproducibility and directional cleanliness coincide at the catalytic core.
+Why this figure exists : it identifies *which structural module* carries the signal,
+    combining the cross-serotype ρ landscape with the ρ–coherence relationship so the
+    two are read as one result rather than two.
+Generated from : outputs_s7/F3_domain_serotype_rho_heatmap.parquet (ρ per
+    serotype × domain) and outputs_s7/F8_coherence_vs_rho.parquet (coherence vs ρ).
+Placement : MAIN. Merges the former domain heatmap and coherence-vs-ρ figures.
 """
 from __future__ import annotations
+
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
+from matplotlib.colors import Normalize
 
 import styles
-from figure_config import CATALYTIC_DOMAINS, ONEHALF_COL, SEROTYPE_ORDER, Paths
-from utils import load_s7_figure, save_figure
+from figure_config import (
+    CATALYTIC_DOMAINS,
+    DOUBLE_COL,
+    PROVISIONAL_COHERENCE_THRESHOLD,
+    PROVISIONAL_RHO_STAR,
+    SEROTYPE_ORDER,
+    Paths,
+)
+from utils import is_catalytic, load_s7_figure, panel_letter, save_figure
+
+
+def _text_color(cmap, norm, v: float) -> str:
+    r, g, b, _ = cmap(norm(v))
+    return "white" if (0.299 * r + 0.587 * g + 0.114 * b) < 0.55 else "black"
+
+
+def _panel_heatmap(ax, df: pd.DataFrame, serotypes: list[str]):
+    df = df.copy()
+    df["chain"] = df["chain"].astype(str)
+    df["domain"] = df["domain"].astype(str)
+    df["rho_domain"] = pd.to_numeric(df["rho_domain"], errors="coerce")
+    mat = df.pivot_table(index=["chain", "domain"], columns="serotype",
+                         values="rho_domain", aggfunc="mean").reindex(columns=serotypes)
+    mat = mat.loc[mat.mean(axis=1).sort_values(ascending=False).index]
+    regions = list(mat.index)
+    norm = Normalize(0, 1)
+    cmap = plt.get_cmap(styles.SEQ_CMAP)
+    im = ax.imshow(mat.to_numpy(float), aspect="auto", cmap=cmap, norm=norm)
+    ax.set_xticks(range(len(serotypes)))
+    ax.set_xticklabels(serotypes, rotation=0)
+    ax.set_yticks(range(len(regions)))
+    ax.set_yticklabels(
+        [(f"{d} ({c})") for c, d in regions], fontsize=styles.FS_ANNOT)
+    for tick, (_c, d) in zip(ax.get_yticklabels(), regions, strict=True):
+        if d in CATALYTIC_DOMAINS:
+            tick.set_color(styles.CATALYTIC_ACCENT)
+            tick.set_fontweight("bold")
+    vals = mat.to_numpy(float)
+    for i in range(vals.shape[0]):
+        for j in range(vals.shape[1]):
+            if np.isfinite(vals[i, j]):
+                ax.text(j, i, f"{vals[i, j]:.2f}", ha="center", va="center",
+                        fontsize=styles.FS_ANNOT,
+                        color=_text_color(cmap, norm, vals[i, j]))
+    ax.set_title("domain-scale ρ across serotypes", fontsize=styles.FS_LABEL)
+    return im, norm, cmap
+
+
+def _panel_scatter(ax, df: pd.DataFrame, serotypes: list[str]):
+    df = df.copy()
+    df["rho_domain"] = pd.to_numeric(df["rho_domain"], errors="coerce")
+    df["coherence_domain"] = pd.to_numeric(df["coherence_domain"], errors="coerce")
+    df = df.dropna(subset=["rho_domain", "coherence_domain"])
+    # provisional guides — faint, explicitly uncalibrated
+    ax.axvline(PROVISIONAL_RHO_STAR, color="#d9d9d9", lw=0.6, ls=(0, (4, 3)), zorder=1)
+    ax.axhline(PROVISIONAL_COHERENCE_THRESHOLD, color="#d9d9d9", lw=0.6,
+               ls=(0, (4, 3)), zorder=1)
+    for sero in serotypes:
+        d = df[df["serotype"] == sero]
+        ax.scatter(d["rho_domain"], d["coherence_domain"], s=22,
+                   c=[styles.serotype_color(sero)], alpha=0.85, edgecolors="white",
+                   linewidths=0.3, label=sero, zorder=2)
+    cat = df[is_catalytic(df["domain"])]
+    if not cat.empty:
+        ax.scatter(cat["rho_domain"], cat["coherence_domain"], s=54,
+                   facecolors="none", edgecolors=styles.CATALYTIC_ACCENT,
+                   linewidths=1.2, zorder=3, label="catalytic")
+    ax.set_xlim(0, 1.02)
+    ax.set_ylim(0, 1.02)
+    ax.set_xticks([0, 0.5, 1.0])
+    ax.set_yticks([0, 0.5, 1.0])
+    ax.set_xlabel("reproducibility ρ (domain)")
+    ax.set_ylabel("coherence (directional cleanliness)")
+    ax.set_title("coherence rises with ρ", fontsize=styles.FS_LABEL)
+    ax.text(0.99, 0.02, "guides provisional (uncalibrated)", transform=ax.transAxes,
+            ha="right", va="bottom", fontsize=styles.FS_ANNOT, color="#9e9e9e")
 
 
 def build(paths: Paths) -> list[Path]:
     styles.apply_style()
-    df = load_s7_figure(paths, "F3_domain_serotype_rho_heatmap").copy()
-    df["rho_domain"] = pd.to_numeric(df["rho_domain"], errors="coerce")
+    heat = load_s7_figure(paths, "F3_domain_serotype_rho_heatmap")
+    scat = load_s7_figure(paths, "F8_coherence_vs_rho")
+    serotypes = [s for s in SEROTYPE_ORDER if s in set(heat["serotype"])]
+    serotypes += sorted(set(heat["serotype"].astype(str)) - set(serotypes))
 
-    df["chain"] = df["chain"].astype(str)
-    df["domain"] = df["domain"].astype(str)
-    serotypes = [s for s in SEROTYPE_ORDER if s in set(df["serotype"])]
-    serotypes += sorted(set(df["serotype"].astype(str)) - set(serotypes))
-
-    # Row identity is (chain, domain): the S5 matrix is keyed on
-    # (serotype, chain, domain), so a domain label can recur across chains and
-    # must not be collapsed. (serotype, chain, domain) is unique, so the pivot
-    # never actually aggregates — each cell is a single ρ.
-    mat = df.pivot_table(index=["chain", "domain"], columns="serotype",
-                         values="rho_domain", aggfunc="mean")
-    mat = mat.reindex(columns=serotypes)
-    # order rows by mean rho (descending → most reproducible on top)
-    mat = mat.loc[mat.mean(axis=1).sort_values(ascending=False).index]
-    regions = list(mat.index)  # list of (chain, domain) tuples
-
-    n_rows, n_cols = mat.shape
-    fig, ax = plt.subplots(
-        figsize=(ONEHALF_COL, 0.32 * max(1, n_rows) + 1.1)
-    )
-    cmap = plt.get_cmap(styles.SEQ_CMAP).with_extremes(bad="#f0f0f0")
-    im = ax.imshow(mat.to_numpy(dtype=float), aspect="auto", cmap=cmap,
-                   vmin=0, vmax=1)
-
-    ax.set_xticks(range(n_cols))
-    ax.set_xticklabels(mat.columns, rotation=0)
-    ax.set_yticks(range(n_rows))
-    ylabels = [
-        (f"* {dom} ({chain})" if dom in CATALYTIC_DOMAINS else f"{dom} ({chain})")
-        for (chain, dom) in regions
-    ]
-    ax.set_yticklabels(ylabels)
-    for tick, (_chain, dom) in zip(ax.get_yticklabels(), regions, strict=True):
-        if dom in CATALYTIC_DOMAINS:
-            tick.set_color(styles.CATALYTIC_ACCENT)
-            tick.set_fontweight("bold")
-
-    # hairline grid + per-cell annotations
-    ax.set_xticks(np.arange(-0.5, n_cols, 1), minor=True)
-    ax.set_yticks(np.arange(-0.5, n_rows, 1), minor=True)
-    ax.grid(which="minor", color="white", linewidth=0.8)
-    ax.tick_params(which="minor", length=0)
-    values = mat.to_numpy(dtype=float)
-    for i in range(n_rows):
-        for j in range(n_cols):
-            v = values[i, j]
-            if not np.isnan(v):
-                ax.text(j, i, f"{v:.2f}", ha="center", va="center",
-                        fontsize=styles.FS_ANNOT,
-                        color="white" if v < 0.62 else "black")
-
-    ax.set_title("Domain-scale reproducibility (ρ) across serotypes")
-    cbar = fig.colorbar(im, ax=ax, fraction=0.035, pad=0.02)
-    cbar.set_label("ρ (domain)", fontsize=styles.FS_TICK)
+    fig, (axa, axb) = plt.subplots(
+        1, 2, figsize=(DOUBLE_COL, 2.9),
+        gridspec_kw={"width_ratios": [1.25, 1.0], "wspace": 0.32})
+    im, norm, cmap = _panel_heatmap(axa, heat, serotypes)
+    panel_letter(axa, "A")
+    cbar = fig.colorbar(im, ax=axa, fraction=0.045, pad=0.03)
+    cbar.set_label("ρ", fontsize=styles.FS_TICK)
+    cbar.set_ticks([0, 0.5, 1.0])
     cbar.outline.set_linewidth(0.4)
-    ax.text(0.0, 1.02, "* catalytic machinery", transform=ax.transAxes,
-            fontsize=styles.FS_ANNOT, color=styles.CATALYTIC_ACCENT)
-    fig.tight_layout()
-    return save_figure(fig, paths, "figure3_domain_serotype_heatmap")
+
+    _panel_scatter(axb, scat, serotypes)
+    axb.legend(loc="lower left", bbox_to_anchor=(0.0, 0.0), fontsize=styles.FS_ANNOT,
+               ncol=1)
+    panel_letter(axb, "B")
+
+    fig.suptitle("Catalytic domains are the most reproducible and directionally coherent",
+                 x=0.5, y=1.02)
+    return save_figure(fig, paths, "figure3_catalytic_core")
 
 
 if __name__ == "__main__":

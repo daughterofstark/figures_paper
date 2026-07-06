@@ -1,25 +1,29 @@
-"""Supplementary Figure S2 — Conservation versus dynamic importance.
+"""Supplementary Figure S2 — Signed dynamic effects along the NS2B–NS3 sequence.
 
-Scatter of cross-serotype conservation (x) against signed effect β (y), one point
-per signed (serotype, residue) mechanism. Point colour encodes domain, point size
-encodes per-position reproducibility ρ, catalytic residues are ringed, and a
-deterministic LOWESS trend is overlaid. Only the strongest outliers are labelled.
-It answers: *are evolutionarily conserved residues dynamically important?*
-
-Inputs (existing outputs, joined on ``canon_label``):
-``outputs_s5/position_conservation.parquet`` (frac_reproducible, rho_residue_median,
-is_catalytic_triad) and ``outputs_s4/significance_screen.parquet`` (beta_signed).
-No quantities are recomputed; the LOWESS curve is a visual trend only.
+Biological message : the significant signed effects of Main Figure 4, placed on the
+    sequence axis, cluster at the catalytic residues rather than spreading uniformly.
+Why this figure exists : it is the positional (per-residue) companion to the Figure 4
+    volcano — same effects, arranged along the sequence for structural readers.
+Generated from : outputs_s4/significance_screen.parquet.
+Placement : SUPPLEMENTARY (positional backup to Main Figure 4).
 """
 from __future__ import annotations
 
+from pathlib import Path
+
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
 import styles
-from figure_config import ONEHALF_COL, Paths
-from utils import is_catalytic, load_table, lowess, save_figure
+from figure_config import DOUBLE_COL, Paths
+from utils import (
+    chain_bands,
+    is_catalytic,
+    load_table,
+    objective_labels,
+    parse_canon_label,
+    save_figure,
+)
 
 try:
     from adjustText import adjust_text
@@ -31,67 +35,67 @@ except Exception:  # pragma: no cover
 
 def build(paths: Paths) -> list[Path]:
     styles.apply_style()
-    cons = load_table(paths, "s5", "position_conservation")[
-        ["canon_label", "frac_reproducible", "rho_residue_median", "is_catalytic_triad"]
-    ].copy()
-    sig = load_table(paths, "s4", "significance_screen").copy()
-    sig = sig[sig["is_signed"].astype(bool)]
-    df = sig.merge(cons, on="canon_label", how="inner")
-    df["frac_reproducible"] = pd.to_numeric(df["frac_reproducible"], errors="coerce")
+    df = load_table(paths, "s4", "significance_screen").copy()
+    df = df[df["is_signed"].astype(bool)].copy()
     df["beta_signed"] = pd.to_numeric(df["beta_signed"], errors="coerce")
-    df["rho_residue_median"] = pd.to_numeric(df["rho_residue_median"], errors="coerce")
-    df = df.dropna(subset=["frac_reproducible", "beta_signed"])
+    df = df.dropna(subset=["beta_signed"]).reset_index(drop=True)
+    df["chain"] = df["chain"].astype(str)
+    df["_resid"] = df["canon_label"].map(lambda s: parse_canon_label(s)[1])
 
-    fig, ax = plt.subplots(figsize=(ONEHALF_COL, ONEHALF_COL * 0.82))
+    fig, ax = plt.subplots(figsize=(DOUBLE_COL, 3.2))
     if df.empty:
         ax.text(0.5, 0.5, "no signed mechanisms", ha="center", va="center",
-                transform=ax.transAxes, color=styles.OKABE_ITO["grey"])
+                transform=ax.transAxes, color=styles.NONSIG_COLOR)
         ax.set_axis_off()
         return save_figure(fig, paths, "Supplementary_Figure_S2")
 
-    ax.axhline(0, color=styles.OKABE_ITO["grey"], lw=0.6, zorder=1)
+    order = (df[["chain", "_resid", "canon_label"]].drop_duplicates()
+             .sort_values(["chain", "_resid"]).reset_index(drop=True))
+    xpos = {lab: i for i, lab in enumerate(order["canon_label"])}
+    df["_x"] = df["canon_label"].map(xpos)
 
-    domains = list(dict.fromkeys(df["domain"].astype(str)))
-    palette = list(styles.OKABE_ITO.values())
-    dom_color = {d: palette[i % len(palette)] for i, d in enumerate(domains)}
-    sizes = 12 + 60 * df["rho_residue_median"].fillna(0)
+    for i, (chain, s, e) in enumerate(chain_bands(list(order["chain"]))):
+        ax.axvspan(s - 0.5, e - 0.5, color=("#f4f4f4" if i % 2 == 0 else "#eaeef3"),
+                   zorder=0, lw=0)
+        ax.text((s + e - 1) / 2, 1.01, chain, transform=ax.get_xaxis_transform(),
+                ha="center", va="bottom", fontsize=styles.FS_LABEL, fontweight="bold")
 
-    # small deterministic x jitter so overlapping conservation values separate
-    xj = df["frac_reproducible"] + (df.groupby("frac_reproducible").cumcount()
-                                    - 0.0) * 0.002
-    for d in domains:
-        m = df["domain"].astype(str) == d
-        ax.scatter(xj[m], df["beta_signed"][m], s=sizes[m],
-                   c=[dom_color[d]], alpha=0.8, edgecolors="white",
-                   linewidths=0.3, label=d, zorder=2)
-    cat = is_catalytic(df["domain"]) | df["is_catalytic_triad"].astype(bool)
+    ax.axhline(0, color=styles.OKABE_ITO["black"], lw=0.7, zorder=1)
+    sig = df["significant_fdr"].astype(bool).to_numpy()
+    # colour by FDR significance (identical semantics to Figure 4); sign shown by y
+    for label, mask, color in [("not significant", ~sig, styles.NONSIG_COLOR),
+                               ("FDR-significant", sig, styles.SIG_COLOR)]:
+        d = df[mask]
+        ax.vlines(d["_x"], 0, d["beta_signed"], color=color, lw=0.6, alpha=0.6,
+                  zorder=2)
+        ax.scatter(d["_x"], d["beta_signed"], s=(28 if label.startswith("FDR") else 12),
+                   c=color, alpha=0.9, edgecolors="white", linewidths=0.3, zorder=3,
+                   label=label)
+    cat = is_catalytic(df["domain"])
     if cat.any():
-        ax.scatter(xj[cat], df["beta_signed"][cat], s=70, facecolors="none",
-                   edgecolors=styles.OKABE_ITO["black"], linewidths=1.0, zorder=3)
+        ax.scatter(df["_x"][cat], df["beta_signed"][cat], s=64, facecolors="none",
+                   edgecolors=styles.CATALYTIC_ACCENT, linewidths=1.1, zorder=4,
+                   label="catalytic")
 
-    trend = lowess(df["frac_reproducible"].to_numpy(), df["beta_signed"].to_numpy())
-    if trend is not None:
-        ax.plot(trend[0], trend[1], color=styles.OKABE_ITO["black"], lw=1.5,
-                ls=(0, (5, 2)), zorder=4, label="LOWESS trend")
-
-    # annotate the strongest |β| outliers
-    strongest = df.reindex(df["beta_signed"].abs().sort_values(ascending=False).index)
-    texts = []
-    for _, r in strongest.head(6).iterrows():
-        texts.append(ax.text(r["frac_reproducible"], r["beta_signed"],
-                             f"{r['serotype']} {r['canon_label']}",
-                             fontsize=styles.FS_ANNOT))
+    idx = objective_labels(df, score="beta_signed", catalytic=cat,
+                           significant=df["significant_fdr"].astype(bool))
+    texts = [ax.text(df.loc[i, "_x"], df.loc[i, "beta_signed"],
+                     f"{df.loc[i, 'serotype']} {df.loc[i, 'canon_label']}",
+                     fontsize=styles.FS_ANNOT) for i in idx]
     if _HAVE_ADJUST and texts:
-        adjust_text(texts, ax=ax, iter_lim=200,
-                    arrowprops=dict(arrowstyle="-", lw=0.4,
-                                    color=styles.OKABE_ITO["grey"]))
+        adjust_text(texts, ax=ax, iter_lim=250,
+                    arrowprops=dict(arrowstyle="-", lw=0.4, color="#bdbdbd"))
 
-    ax.set_xlabel("cross-serotype conservation (fraction reproducible)")
+    ax.set_xlim(-0.6, len(order) - 0.4)
+    ax.set_xlabel("canonical residue position (ordered by chain, number)")
     ax.set_ylabel("signed effect β (energy, a.u.)")
-    ax.set_title("Conservation vs dynamic importance")
-    ax.margins(x=0.08, y=0.12)
-    ax.legend(loc="center left", bbox_to_anchor=(1.01, 0.5),
-              fontsize=styles.FS_ANNOT, title="domain")
+    if len(order) <= 30:
+        ax.set_xticks(range(len(order)))
+        ax.set_xticklabels(order["canon_label"], rotation=90, fontsize=styles.FS_ANNOT)
+    ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.62), ncol=3,
+              fontsize=styles.FS_ANNOT)
+    ax.set_title("Signed dynamic effects along the NS2B–NS3 sequence", pad=16, y=1.08)
+    fig.subplots_adjust(top=0.82, bottom=0.34)
     return save_figure(fig, paths, "Supplementary_Figure_S2")
 
 

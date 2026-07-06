@@ -240,19 +240,25 @@ def _t5() -> pd.DataFrame:
 def _significance_screen() -> pd.DataFrame:
     rows = []
     for s in SEROTYPES:
-        for canon, chain, dom in RESIDUES:
+        si = _sero_idx(s)
+        for ri, (canon, chain, dom) in enumerate(RESIDUES):
             signed = dom in _CATALYTIC or chain == "NS2B"
-            b = 0.3 - 0.05 * _sero_idx(s)
+            # per-residue variation so effects are not coincident within a serotype
+            b = 0.30 - 0.05 * si + 0.05 * np.sin(1.1 * ri + 0.7 * si)
+            pbh = (0.003 + 0.05 * abs(np.sin(0.6 * ri + 0.9 * si))
+                   if dom in _CATALYTIC else 0.30)
             rows.append(dict(serotype=s, canon_label=canon, chain=chain, domain=dom,
                              gated_scale_level="residue", tier=_TIER,
                              direction=("increase" if signed else "mixed"),
-                             is_signed=signed, beta_signed=(round(b, 3) if signed else None),
+                             is_signed=signed,
+                             beta_signed=(round(b, 3) if signed else None),
                              beta_se=0.05,
                              beta_ci_lower=(round(b - 0.1, 3) if signed else None),
                              beta_ci_upper=(round(b + 0.1, 3) if signed else None),
-                             ci_excludes_zero=signed, z_score=(b / 0.05 if signed else 0.0),
-                             p_value=(0.001 if dom in _CATALYTIC else 0.2),
-                             p_value_bh=(0.004 if dom in _CATALYTIC else 0.3),
+                             ci_excludes_zero=signed,
+                             z_score=(round(b / 0.05, 3) if signed else 0.0),
+                             p_value=(round(pbh * 0.8, 4) if dom in _CATALYTIC else 0.2),
+                             p_value_bh=round(pbh, 4),
                              significant_raw=dom in _CATALYTIC,
                              significant_fdr=dom in _CATALYTIC))
     return pd.DataFrame(rows)
@@ -260,9 +266,11 @@ def _significance_screen() -> pd.DataFrame:
 
 def _position_conservation() -> pd.DataFrame:
     rows = []
-    for canon, chain, dom in RESIDUES:
+    for ri, (canon, chain, dom) in enumerate(RESIDUES):
         cat = dom in _CATALYTIC
-        n = 4 if cat else 2
+        # catalytic residues are highly (but not always perfectly) conserved;
+        # vary between 3 and 4 so they spread rather than stacking at one x.
+        n = (4 if ri % 2 == 0 else 3) if cat else 2
         rows.append(dict(canon_label=canon, chain=chain, domain=dom,
                          n_serotypes_total=4, n_serotypes_present=4,
                          serotypes_present="DENV1;DENV2;DENV3;DENV4",
@@ -270,6 +278,7 @@ def _position_conservation() -> pd.DataFrame:
                          n_serotypes_signed_reproducible=(n if cat else 1),
                          frac_reproducible=round(n / 4, 3),
                          conservation_class=("reproducible_all" if n == 4
+                                             else "reproducible_majority" if n == 3
                                              else "reproducible_some"),
                          is_serotype_divergent=(n < 4), is_catalytic_triad=cat,
                          rho_residue_min=0.6, rho_residue_median=0.8,

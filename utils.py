@@ -9,6 +9,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from matplotlib.figure import Figure
 
@@ -88,7 +89,6 @@ def lowess(
     it does not create or claim any new statistic about the data. Returns
     ``(xs, ys)`` or ``None`` when there are too few finite points.
     """
-    import numpy as np
 
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
@@ -165,6 +165,36 @@ def order_categorical(values: pd.Series, order: tuple[str, ...]) -> list[str]:
     ordered = [v for v in order if v in present]
     extras = sorted(present - set(order))
     return ordered + extras
+
+
+def objective_labels(
+    df: pd.DataFrame,
+    *,
+    score: str,
+    catalytic: "pd.Series | None" = None,
+    significant: "pd.Series | None" = None,
+    top_frac: float = 0.10,
+    max_labels: int = 8,
+) -> pd.Index:
+    """The manuscript's single labelling rule (used identically in every figure).
+
+    Label an observation iff it is **catalytic** OR it is **FDR-significant and its
+    ``|score|`` ranks in the top decile**. The union is then capped at
+    ``max_labels`` by ``|score|`` to avoid overlap. Returns the index of rows to
+    label — no manual, per-figure choices anywhere.
+    """
+
+    s = pd.to_numeric(df[score], errors="coerce").abs()
+    keep = pd.Series(False, index=df.index)
+    if catalytic is not None:
+        keep |= catalytic.reindex(df.index).fillna(False).astype(bool)
+    if significant is not None:
+        thr = s.quantile(1.0 - top_frac) if s.notna().any() else np.inf
+        keep |= significant.reindex(df.index).fillna(False).astype(bool) & (s >= thr)
+    chosen = df.index[keep]
+    if len(chosen) > max_labels:
+        chosen = s.loc[chosen].sort_values(ascending=False).head(max_labels).index
+    return chosen
 
 
 # --------------------------------------------------------------------------

@@ -1,146 +1,76 @@
 # paper_figures
 
-Publication-quality figures and manuscript tables for the STRIDE dengue
-downstream analysis — built **entirely from the pipeline's existing outputs**.
+Publication-quality figure suite for the STRIDE dengue NS2B–NS3 reproducibility
+analysis. This project is **presentation-only**: it reads the frozen pipeline's
+parquet outputs (`outputs/`, `outputs_s1a/ … outputs_s7/`) and renders figures and
+tables. It never recomputes statistics, alters thresholds, or touches raw STRIDE data.
 
-This is a **presentation-only** project. It is deliberately separate from the
-`stride-dengue-analysis` framework (S0–S7), which remains the authoritative,
-reproducible computational pipeline. `paper_figures` consumes the tables that
-pipeline already wrote and redesigns them for manuscript submission.
+## The manuscript at a glance (6 main + 2 supplementary)
 
-> It never reads raw STRIDE outputs, never reruns S0–S7, never recomputes a
-> statistic, and never performs new inference. Every number shown is read verbatim
-> from a pipeline output table.
+The suite is designed as one coherent visual narrative: *where* reproducible dynamics
+live → *at what scale* they resolve → *which module* carries them → *what the signed
+effects are* → *how they behave across serotypes* → *what limits them*.
 
----
-
-## Required inputs
-
-A completed STRIDE downstream run — i.e. a directory (the *outputs root*) that
-contains:
-
-```
-<root>/
-  outputs_s2/   outputs_s3/   outputs_s4/
-  outputs_s5/   outputs_s6/   outputs_s7/
-```
-
-The project reads primarily from `outputs_s7/` (the S7 reporting layer's
-prepared per-figure tables `F1…F8_*.parquet` and manuscript tables
-`T1…T5_*.parquet`), and enriches two figures from upstream tables that carry extra
-columns:
-
-| Figure | Also reads |
-| --- | --- |
-| Figure 4 (volcano) | `outputs_s4/significance_screen.parquet` (β + BH-adjusted p) |
-| Figure 5 (conservation) | `outputs_s5/position_conservation.parquet` (per-class + catalytic flags) |
-
-Run the pipeline through S7 first (see the framework's README). Then point this
-project at the outputs root (see **Regenerate** below).
-
-## Installation
-
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-Dependencies: `matplotlib`, `pandas`, `numpy`, `pyarrow` (parquet), `scipy`, and
-`adjustText` (non-overlapping labels; the figures degrade gracefully without it).
-`seaborn` is intentionally not used.
-
-## Regenerate all figures and tables
-
-```bash
-python build_all.py --root /path/to/outputs-root
-# or, if the analysis repo sits next to this project, just:
-python build_all.py
-# or set the environment variable:
-STRIDE_OUTPUTS_ROOT=/path/to/outputs-root python build_all.py
-```
-
-Every artifact is written to `output/`. Individual figures can be built alone,
-e.g. `python figure4.py`.
-
-## Generated outputs
-
-For **every figure**: `output/figureN_<name>.{svg,pdf,png}` — vector SVG + PDF for
-typesetting and a 600 dpi PNG for quick viewing. The five **supplementary**
-figures follow the same format as `output/Supplementary_Figure_S{1..5}.{svg,pdf,png}`.
-
-For **every table**: `output/tableN_<name>.{tex,html,md}` — booktabs LaTeX, HTML,
-and Markdown.
-
-## Figure ↔ manuscript-panel correspondence
-
-Each figure redesigns the identically-numbered S7 figure (F1–F8); each table
-corresponds to the S7 manuscript table (T1–T5).
-
-| File | Redesigns | Shows | Redesign |
-| --- | --- | --- | --- |
-| `figure1_reproducibility_landscape` | F1 | per-residue ρ along the sequence | serotype-faceted small multiples + rolling mean + catalytic highlight (was a spaghetti plot) |
-| `figure2_resolution_census` | F2 | gated loci per spatial scale, per serotype | improved stacked bars (scale-keyed sequential colour, in-bar counts) |
-| `figure3_domain_serotype_heatmap` | F3 | ρ over domain × serotype | heatmap ordered by mean ρ, catalytic rows flagged, annotated cells |
-| `figure4_signed_effect_volcano` | F4 | signed effect vs significance | **volcano** (β vs −log10 BH-p), FDR-accented, catalytic labelled (was an unreadable forest of CIs) |
-| `figure5_cross_serotype_conservation` | F5 | conservation of reproducible positions | ranked dot plot + per-class summary bar (was unreadable) |
-| `figure6_variance_composition` | F6 | τ² vs σ̄² per domain | serotype-faceted, domains grouped catalytic-first |
-| `figure7_rho_vs_scale_catalytic` | F7 | ρ across spatial scale, catalytic regions | serotype-faceted trajectories + bold mean, de-cluttered |
-| `figure8_coherence_vs_rho` | F8 | coherence vs ρ at domain scale | labelled catalytic domains, provisional quadrant guides |
-| `table1_per_serotype_summary` | T1 | per-serotype summary | booktabs / HTML / Markdown |
-| `table2_domain_rho_signed_effect` | T2 | domain ρ + signed effect | " |
-| `table3_catalytic_cross_serotype` | T3 | catalytic cross-serotype | " |
-| `table4_top_shared_signed_positions` | T4 | top shared signed positions | " |
-| `table5_variance_component_budget` | T5 | variance-component budget | " |
-
-### Supplementary figures (S1–S5)
-
-New supplementary figures that only *visualize* existing outputs (Figures 1–8 are
-unchanged). Filenames: `output/Supplementary_Figure_S{1..5}.{svg,pdf,png}`.
-
-| File | Shows | Built from (existing outputs) |
+| Figure | One-sentence biological message | Built from |
 | --- | --- | --- |
-| `supplementary_figure1` (S1) | structural domain map of NS2B–NS3 with per-position ρ overlaid as lollipops; chains shaded, domains blocked, catalytic ringed | `outputs_s5/position_conservation` (chain, domain, `rho_residue_median`, `is_catalytic_triad`; position parsed from `canon_label`) |
-| `supplementary_figure2` (S2) | conservation vs signed effect scatter (colour = domain, size = ρ), catalytic ringed, deterministic LOWESS trend | `outputs_s5/position_conservation` + `outputs_s4/significance_screen`, joined on `canon_label` |
-| `supplementary_figure3` (S3) | ranked domain summary: median/mean ρ bars + coherence and τ²-fraction dots; catalytic flagged | `outputs_s7/T2_domain_rho_signed_effect` + `outputs_s7/T5_variance_component_budget` (aggregated per (chain, domain)) |
-| `supplementary_figure4` (S4) | Manhattan/lollipop of signed β along the sequence; sign-coloured, size = FDR, top-10 ± labelled | `outputs_s4/significance_screen` |
-| `supplementary_figure5` (S5) | 4×4 cross-serotype similarity of ρ profiles (Pearson r) with hierarchical clustering + dendrogram | `outputs_s7/F1_reproducibility_landscape` (pivoted to positions × serotypes) |
+| **Fig 1** — reproducibility landscape | Reproducible dynamics localise to the catalytic core of NS2B–NS3. | `s5/position_conservation` |
+| **Fig 2** — spatial resolution | Reproducibility emerges at the domain scale. | `s7/F7` (residue→SS→motif→domain) + `s7/F2` |
+| **Fig 3** — catalytic core | Catalytic domains are the most reproducible and directionally coherent. | `s7/F3` + `s7/F8` |
+| **Fig 4** — signed-effect volcano | Significant signed effects concentrate in catalytic regions. | `s4/significance_screen` |
+| **Fig 5** — cross-serotype (headline) | A conserved reproducible core, shared across DENV1–4, is dynamically important. | `s5/position_conservation` + `s7/F1` + `s4/significance_screen` |
+| **Fig 6** — variance decomposition | Reproducibility is limited by between-replicate variance (τ²), not sampling. | `s7/F6` |
+| **Supp S1** — per-serotype landscape | The Fig 1 landscape is consistent across serotypes (per-serotype detail). | `s7/F1` |
+| **Supp S2** — signed-β Manhattan | The significant effects, placed on the sequence axis, cluster at catalytic residues. | `s4/significance_screen` |
 
-Supplementary figures are strictly presentation: S1–S4 use only pre-existing
-quantities and deterministic transformations (min/max spans, group aggregation);
-the LOWESS curve (S2) and the pairwise correlation + clustering (S5) are
-visualization aids that introduce no new claimed statistics, per the brief. All
-degrade gracefully on the single-chain synthetic example and render fully on the
-real multi-chain (NS2B–NS3) outputs.
+Each module's docstring records its biological message, rationale, source tables, and
+Main-vs-Supplementary justification for future maintenance.
 
-## Design conventions
+## Global visual system
 
-- **Colour-blind-safe** Okabe–Ito qualitative palette; perceptually-uniform
-  `viridis`/`cividis` for continuous fields.
-- **Consistent typography** and a single type scale across every panel;
-  no top/right spines, no grid clutter.
-- **Panel lettering** (A, B, …) on multi-panel figures.
-- **Vector-first** output (SVG/PDF); text kept as text (`svg.fonttype = none`,
-  `pdf.fonttype = 42`) so labels stay editable and selectable.
-- **Deterministic**: fixed SVG hash-salt and stripped timestamps mean rebuilding
-  yields byte-identical SVG, PDF, and PNG.
-- **Uncalibrated honesty**: any ρ*/coherence guide lines are drawn only as
-  provisional references and annotated as such — the figures make no calibrated
-  pass/fail claim, mirroring the pipeline.
+**One colour = one meaning** (see `styles.py`): catalytic = vermillion (reserved);
+serotype identity = blue/sky/green/purple; reproducibility ρ = viridis; conservation =
+blue ramp; correlation = cividis; FDR significance = darkness (ink vs light grey);
+variance τ² = orange, σ̄² = neutral grey. Colours are never reused for unrelated
+concepts.
 
-## What this project must not do
+**One label rule** (`utils.objective_labels`): label an observation iff it is catalytic
+OR (FDR-significant AND its |score| is in the top decile), capped at 8 by |score| and
+de-overlapped with adjustText. Used identically in Figures 4, 5C and Supp S2.
 
-Never edit the S0–S7 framework, its CLIs, tests, or outputs. Never recompute a
-statistic or run a new hypothesis test. Improve presentation only.
+**Typography / lettering**: a single rcParams style (`styles.apply_style`) fixes font
+family, sizes, tick sizing and panel-letter placement (`utils.panel_letter`) across
+every figure. Declarative, data-justified titles throughout.
 
 ## Layout
 
 ```
 paper_figures/
-  README.md          figure_config.py   styles.py   utils.py
+  README.md          CHANGELOG.md       figure_config.py   styles.py   utils.py
   build_all.py       tables.py          conftest.py
-  figure1.py … figure8.py
-  supplementary_figure1.py … supplementary_figure5.py
+  figure1.py … figure6.py               # 6 main figures
+  supplementary_figure1.py, supplementary_figure2.py
   requirements.txt   requirements-dev.txt
-  tests/             # regression tests (incl. real-data multi-chain fixture)
+  tests/             # regression tests + real-like multi-chain fixture
   output/            # generated artifacts (git-ignored)
 ```
+
+## Build
+
+```
+python build_all.py                       # uses ./outputs* or $STRIDE_OUTPUTS_ROOT
+python build_all.py --root /path/to/outs --output-dir output
+python figure5.py                         # any module builds standalone
+```
+
+For **every figure**: `output/figureN_<name>.{svg,pdf,png}` (main) and
+`output/Supplementary_Figure_S{1,2}.{svg,pdf,png}` (supplementary) — vector SVG + PDF
+for typesetting and 600 dpi PNG for viewing. Tables T1–T5 export as `.tex/.html/.md`.
+
+## Reproducibility
+
+Deterministic and byte-reproducible: metadata/timestamps are stripped on save,
+adjustText runs with a fixed iteration cap, and clustering (Fig 5B) is deterministic.
+Two builds of the full suite are identical (0/39 files differ). The suite builds
+cleanly under `PYTHONWARNINGS=error` on both the multi-chain real-like outputs and the
+single-chain synthetic example (figures degrade gracefully when a chain/domain is
+absent).

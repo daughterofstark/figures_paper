@@ -29,15 +29,32 @@ OKABE_ITO = {
     "grey": "#999999",
 }
 
-#: Stable serotype → colour map (DENV1–4), used everywhere serotypes appear.
+# --------------------------------------------------------------------------
+# SEMANTIC COLOUR SYSTEM  —  one colour = one meaning, used identically in every
+# figure. Do not reuse a colour for an unrelated concept.
+#
+#   catalytic machinery ....... vermillion  (rings / accents ONLY)
+#   serotype identity ......... blue / sky / green / purple  (DENV1..4)
+#   reproducibility ρ (cont.).. viridis sequential
+#   cross-serotype conservation cividis / blue sequential
+#   FDR significance .......... darkness: significant = ink, else light grey
+#   variance τ² (limiting) .... orange ;  σ̄² (sampling) = neutral grey
+#   correlation (S-matrix) .... cividis diverging-through-neutral
+# --------------------------------------------------------------------------
+
+#: Catalytic machinery — reserved; never used for anything else.
+CATALYTIC_ACCENT = OKABE_ITO["vermillion"]
+
+#: Serotype identity (DENV1–4). Deliberately excludes orange/vermillion so the
+#: catalytic and variance semantics stay unambiguous.
 SEROTYPE_COLORS = {
     "DENV1": OKABE_ITO["blue"],
-    "DENV2": OKABE_ITO["orange"],
+    "DENV2": OKABE_ITO["sky"],
     "DENV3": OKABE_ITO["green"],
     "DENV4": OKABE_ITO["reddish_purple"],
 }
 
-#: Conservation-class → colour (ordinal, dark = more conserved).
+#: Cross-serotype conservation class (ordinal, dark = more conserved).
 CONSERVATION_COLORS = {
     "reproducible_all": "#08519c",
     "reproducible_majority": "#3182bd",
@@ -45,22 +62,21 @@ CONSERVATION_COLORS = {
     "reproducible_none": "#deebf7",
 }
 
-#: Two-tone split for the τ² (replicate) vs σ̄² (sampling) variance budget.
+#: Variance components. τ² (between-replicate) is the reproducibility-limiting
+#: term and gets the salient warm colour; σ̄² (sampling) is neutral.
 VARIANCE_COLORS = {
-    "tau2": OKABE_ITO["vermillion"],  # between-replicate (reproducibility-limiting)
-    "sigma2": OKABE_ITO["sky"],  # within-replicate sampling
+    "tau2": OKABE_ITO["orange"],
+    "sigma2": "#BDBDBD",
 }
 
-#: Significance / coherence accents.
-SIG_COLOR = OKABE_ITO["vermillion"]
-NONSIG_COLOR = OKABE_ITO["grey"]
-COHERENT_COLOR = OKABE_ITO["blue"]
-MIXED_COLOR = OKABE_ITO["orange"]
-CATALYTIC_ACCENT = OKABE_ITO["vermillion"]
+#: FDR significance encoded by darkness (no hue clash with catalytic/variance).
+SIG_COLOR = "#222222"
+NONSIG_COLOR = "#BBBBBB"
 
-#: Perceptually-uniform sequential maps (colour-blind friendly).
+#: Perceptually-uniform sequential / correlation maps (colour-blind friendly).
 SEQ_CMAP = "viridis"
 SEQ_CMAP_ALT = "cividis"
+CORR_CMAP = "cividis"
 
 # --------------------------------------------------------------------------
 # Type scale (points) — consistent across every panel

@@ -1,105 +1,89 @@
-"""Supplementary Figure S1 — Structural domain map of NS2B–NS3.
+"""Supplementary Figure S1 — Per-serotype residue-level reproducibility landscapes.
 
-A schematic of the canonical NS2B–NS3 sequence: residues are ordered along the
-canonical axis, chains are shaded separately, every annotated domain is drawn as a
-labelled block spanning the residues assigned to it, and per-position
-reproducibility (ρ) is overlaid as a colour-coded lollipop. Catalytic-triad
-residues are ringed. It answers, at a glance, *where along the protein the
-reproducible regions sit*.
-
-Every element is derived from existing canonical annotations
-(``outputs_s5/position_conservation.parquet``): chain, domain, catalytic flag, the
-median ρ per position, and the residue number parsed from ``canon_label``. Domain
-spans are the min–max canonical residue of each (chain, domain) — a deterministic
-aggregation of existing annotations, not manual coordinates.
+Biological message : the reproducibility landscape summarised in Main Figure 1 is
+    consistent across serotypes — each serotype independently shows elevated ρ at the
+    catalytic residues.
+Why this figure exists : it is the per-serotype detail behind Main Figure 1 (which
+    shows the across-serotype median in structural context). Different message: here
+    the emphasis is per-serotype reproducibility rather than structural localisation.
+Generated from : outputs_s7/F1_reproducibility_landscape.parquet.
+Placement : SUPPLEMENTARY (granular backup to Main Figure 1).
 """
 from __future__ import annotations
+
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib.colors import Normalize
-from matplotlib.patches import Rectangle
 
 import styles
-from figure_config import CATALYTIC_DOMAINS, DOUBLE_COL, Paths
-from utils import chain_bands, load_table, panel_letter, parse_canon_label, save_figure
+from figure_config import DOUBLE_COL, PROVISIONAL_RHO_STAR, SEROTYPE_ORDER, Paths
+from utils import is_catalytic, load_s7_figure, panel_letter, residue_order, save_figure
+
+
+def _rolling(y: np.ndarray, window: int = 9) -> np.ndarray:
+    if len(y) < window:
+        return y
+    return np.convolve(y, np.ones(window) / window, mode="same")
 
 
 def build(paths: Paths) -> list[Path]:
     styles.apply_style()
-    df = load_table(paths, "s5", "position_conservation").copy()
-    df["chain"] = df["chain"].astype(str)
-    df["domain"] = df["domain"].astype(str)
-    df["rho_residue_median"] = pd.to_numeric(df["rho_residue_median"], errors="coerce")
-    df["_resid"] = df["canon_label"].map(lambda s: parse_canon_label(s)[1])
-    df = df.sort_values(["chain", "_resid"]).reset_index(drop=True)
-    df["_x"] = np.arange(len(df))
+    df = load_s7_figure(paths, "F1_reproducibility_landscape").copy()
+    df["rho_residue"] = pd.to_numeric(df["rho_residue"], errors="coerce")
+    serotypes = [s for s in SEROTYPE_ORDER if s in set(df["serotype"])]
+    serotypes += sorted(set(df["serotype"].astype(str)) - set(serotypes))
+    n = max(1, len(serotypes))
 
-    fig = plt.figure(figsize=(DOUBLE_COL, 2.8))
-    gs = fig.add_gridspec(2, 1, height_ratios=[3.0, 1.0], hspace=0.08)
-    ax = fig.add_subplot(gs[0])
-    axd = fig.add_subplot(gs[1], sharex=ax)
+    fig, axes = plt.subplots(n, 1, figsize=(DOUBLE_COL, 1.0 * n + 0.6), sharex=True,
+                             squeeze=False)
+    axes = axes[:, 0]
+    order = residue_order(df["canon_label"])
+    xpos = {lab: i for i, lab in enumerate(order)}
 
-    # chain background bands
-    bands = chain_bands(list(df["chain"]))
-    band_shade = {c: shade for c, shade in zip(
-        dict.fromkeys(df["chain"]), ["#f2f2f2", "#e6eef5", "#f5efe6", "#eef5ee"])}
-    for chain, s, e in bands:
-        for a in (ax, axd):
-            a.axvspan(s - 0.5, e - 0.5, color=band_shade.get(chain, "#f2f2f2"),
-                      zorder=0, lw=0)
-        ax.text((s + e - 1) / 2, 1.06, chain, ha="center", va="bottom",
-                fontsize=styles.FS_LABEL, fontweight="bold",
-                color=styles.OKABE_ITO["black"])
+    for i, sero in enumerate(serotypes):
+        ax = axes[i]
+        sub = df[df["serotype"] == sero].copy()
+        sub["x"] = sub["canon_label"].map(xpos)
+        sub = sub.sort_values("x")
+        x = sub["x"].to_numpy()
+        y = sub["rho_residue"].to_numpy()
+        color = styles.serotype_color(sero)
+        ax.axhline(PROVISIONAL_RHO_STAR, color="#d9d9d9", lw=0.6, ls=(0, (4, 3)),
+                   zorder=1)
+        ax.plot(x, y, color=color, lw=0.8, alpha=0.5, marker="o", ms=2.5,
+                mfc=color, mec="none", zorder=2)
+        if len(x) >= 9:
+            ax.plot(x, _rolling(y), color=color, lw=1.6, zorder=3)
+        cat = sub[is_catalytic(sub["domain"])]
+        if not cat.empty:
+            ax.scatter(cat["x"], cat["rho_residue"], s=26, facecolors="none",
+                       edgecolors=styles.CATALYTIC_ACCENT, linewidths=1.1, zorder=4)
+        ax.set_ylim(0, 1.02)
+        ax.set_yticks([0, 0.5, 1.0])
+        ax.set_ylabel(f"{sero}\nρ", rotation=0, ha="right", va="center",
+                      fontsize=styles.FS_TICK)
+        ax.margins(x=0.01)
+        if i == 0:
+            panel_letter(ax, "A")
 
-    # ρ lollipops
-    norm = Normalize(0, 1)
-    cmap = plt.get_cmap(styles.SEQ_CMAP)
-    rho = df["rho_residue_median"].to_numpy()
-    ax.vlines(df["_x"], 0, rho, color=styles.OKABE_ITO["grey"], lw=0.5, zorder=2)
-    ax.scatter(df["_x"], rho, c=rho, cmap=cmap, norm=norm, s=16, zorder=3,
-               edgecolors="white", linewidths=0.3)
-    cat = df[df.get("is_catalytic_triad", pd.Series(False, index=df.index)).astype(bool)]
-    if not cat.empty:
-        ax.scatter(cat["_x"], cat["rho_residue_median"], s=52, marker="o",
-                   facecolors="none", edgecolors=styles.CATALYTIC_ACCENT,
-                   linewidths=1.2, zorder=4, label="catalytic triad")
-        ax.legend(loc="lower right", bbox_to_anchor=(1.0, 0.0))
-    ax.set_ylim(0, 1.12)
-    ax.set_ylabel("ρ (median across serotypes)")
-    ax.tick_params(labelbottom=False)
-    ax.set_title("Structural domain map of NS2B–NS3 with per-position reproducibility")
-    panel_letter(ax, "A")
+    axes[-1].set_xlabel("canonical residue position (ordered by chain, number)")
+    if len(order) <= 30:
+        axes[-1].set_xticks(range(len(order)))
+        axes[-1].set_xticklabels(order, rotation=90, fontsize=styles.FS_ANNOT)
 
-    # domain ribbon
-    for (chain, dom), g in df.groupby(["chain", "domain"], sort=False):
-        x0, x1 = g["_x"].min(), g["_x"].max()
-        is_cat = dom in CATALYTIC_DOMAINS
-        axd.add_patch(Rectangle(
-            (x0 - 0.5, 0.15), (x1 - x0) + 1.0, 0.7,
-            facecolor=(styles.CATALYTIC_ACCENT if is_cat else styles.OKABE_ITO["sky"]),
-            alpha=0.85 if is_cat else 0.55,
-            edgecolor=styles.OKABE_ITO["black"], linewidth=0.4))
-        axd.text((x0 + x1) / 2, 0.5, dom, ha="center", va="center",
-                 fontsize=styles.FS_ANNOT,
-                 color="white" if is_cat else styles.OKABE_ITO["black"],
-                 rotation=0 if (x1 - x0) >= 2 else 90)
-    axd.set_ylim(0, 1)
-    axd.set_yticks([])
-    axd.set_ylabel("domains", rotation=0, ha="right", va="center",
-                   fontsize=styles.FS_TICK)
-    axd.set_xlabel("canonical residue position (ordered by chain, number)")
-
-    # sparse x tick labels when few positions
-    if len(df) <= 30:
-        axd.set_xticks(df["_x"])
-        axd.set_xticklabels(df["canon_label"], rotation=90, fontsize=styles.FS_ANNOT)
-
-    sm = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
-    cbar = fig.colorbar(sm, ax=[ax, axd], fraction=0.02, pad=0.01)
-    cbar.set_label("ρ", fontsize=styles.FS_TICK)
-    cbar.outline.set_linewidth(0.4)
+    handles = [
+        plt.Line2D([], [], marker="o", ls="none", mfc="none",
+                   mec=styles.CATALYTIC_ACCENT, ms=6, mew=1.1, label="catalytic residue"),
+        plt.Line2D([], [], color="#d9d9d9", lw=0.8, ls=(0, (4, 3)),
+                   label=f"provisional ρ* = {PROVISIONAL_RHO_STAR}"),
+    ]
+    fig.legend(handles=handles, loc="upper right", bbox_to_anchor=(0.995, 1.0), ncol=2,
+               fontsize=styles.FS_ANNOT)
+    fig.suptitle("Per-serotype residue-level reproducibility landscapes", x=0.5,
+                 y=1.005)
+    fig.tight_layout()
     return save_figure(fig, paths, "Supplementary_Figure_S1")
 
 

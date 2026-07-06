@@ -55,12 +55,6 @@ def test_figure3_builds_and_keeps_both_chains(realistic_paths):
     assert (regions["domain"].value_counts() > 1).any()  # a domain spans 2 chains
 
 
-def test_figure8_builds_on_duplicate_domain(realistic_paths):
-    import figure8
-
-    assert len(figure8.build(realistic_paths)) == 3
-
-
 def test_full_build_all_on_realistic_outputs(realistic_paths):
     """End-to-end: every figure + supplementary + table builds with no warning."""
     import build_all
@@ -70,17 +64,17 @@ def test_full_build_all_on_realistic_outputs(realistic_paths):
         results = build_all.build_all(realistic_paths)
 
     total = sum(len(v) for v in results.values())
-    # 8 main + 5 supplementary figures ×3 formats, + 5 tables ×3 formats
-    assert total == 13 * 3 + 5 * 3
+    # 6 main + 2 supplementary figures ×3 formats, + 5 tables ×3 formats
+    assert total == 8 * 3 + 5 * 3
     out = realistic_paths.output
     assert (out / "figure6_variance_composition.svg").is_file()
     assert (out / "table5_variance_component_budget.tex").is_file()
-    for i in range(1, 6):
+    for i in range(1, 3):
         for ext in ("svg", "pdf", "png"):
             assert (out / f"Supplementary_Figure_S{i}.{ext}").is_file()
 
 
-@pytest.mark.parametrize("i", [1, 2, 3, 4, 5])
+@pytest.mark.parametrize("i", [1, 2])
 def test_supplementary_figures_build_on_realistic_outputs(realistic_paths, i):
     """Each supplementary figure builds on the multi-chain real-like outputs."""
     import importlib
