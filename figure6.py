@@ -21,21 +21,48 @@ from utils import load_s7_figure, panel_letter, save_figure
 _LETTERS = "ABCDEFGH"
 
 
-def _domain_order(domains: list[str]) -> list[str]:
-    catalytic = [d for d in CATALYTIC_DOMAINS if d in domains]
-    others = sorted(d for d in domains if d not in CATALYTIC_DOMAINS)
-    return catalytic + others
+def _region_order(df: pd.DataFrame) -> list[tuple[str, str]]:
+    """Ordered unique (chain, domain) regions: catalytic domains first.
+
+    A domain is only well-defined within its chain — the S4 variance budget is
+    keyed on (serotype, chain, domain), so the same domain label can appear on
+    more than one chain (e.g. NS2B and NS3). ``(chain, domain)`` is therefore the
+    region identity and is unique within a serotype.
+    """
+    regions = list(
+        dict.fromkeys(
+            zip(df["chain"].astype(str), df["domain"].astype(str), strict=True)
+        )
+    )
+
+    def key(cd: tuple[str, str]) -> tuple[int, str, str]:
+        chain, dom = cd
+        rank = (
+            CATALYTIC_DOMAINS.index(dom)
+            if dom in CATALYTIC_DOMAINS
+            else len(CATALYTIC_DOMAINS)
+        )
+        return (rank, chain, dom)
+
+    return sorted(regions, key=key)
+
+
+def _region_label(chain: str, domain: str) -> str:
+    star = "* " if domain in CATALYTIC_DOMAINS else ""
+    return f"{star}{domain} ({chain})"
 
 
 def build(paths: Paths) -> list[Path]:
     styles.apply_style()
     df = load_s7_figure(paths, "F6_variance_composition").copy()
+    df["chain"] = df["chain"].astype(str)
+    df["domain"] = df["domain"].astype(str)
     df["frac_tau2"] = pd.to_numeric(df["frac_tau2"], errors="coerce").fillna(0)
     df["frac_sigma2"] = pd.to_numeric(df["frac_sigma2"], errors="coerce").fillna(0)
 
     serotypes = [s for s in SEROTYPE_ORDER if s in set(df["serotype"])]
     serotypes += sorted(set(df["serotype"].astype(str)) - set(serotypes))
-    domains = _domain_order(sorted(set(df["domain"].astype(str))))
+    regions = _region_order(df)  # list of (chain, domain) tuples
     n = max(1, len(serotypes))
     ncol = 2 if n > 1 else 1
     nrow = int(np.ceil(n / ncol))
@@ -48,8 +75,14 @@ def build(paths: Paths) -> list[Path]:
 
     for k, sero in enumerate(serotypes):
         ax = flat[k]
-        sub = df[df["serotype"] == sero].set_index("domain").reindex(domains)
-        y = np.arange(len(domains))
+        # region identity is (chain, domain) — unique within a serotype, so this
+        # reindex is safe even when a domain name recurs across chains.
+        sub = (
+            df[df["serotype"] == sero]
+            .set_index(["chain", "domain"])
+            .reindex(regions)
+        )
+        y = np.arange(len(regions))
         tau = sub["frac_tau2"].to_numpy()
         sig = sub["frac_sigma2"].to_numpy()
         ax.barh(y, tau, color=styles.VARIANCE_COLORS["tau2"], edgecolor="white",
@@ -58,12 +91,10 @@ def build(paths: Paths) -> list[Path]:
                 edgecolor="white", linewidth=0.4,
                 label=r"$\bar{\sigma}^2$ (within-replicate)")
         ax.set_yticks(y)
-        ylabels = [
-            (f"★ {d}" if d in CATALYTIC_DOMAINS else d) for d in domains
-        ]
+        ylabels = [_region_label(chain, dom) for (chain, dom) in regions]
         ax.set_yticklabels(ylabels, fontsize=styles.FS_ANNOT)
-        for tick, d in zip(ax.get_yticklabels(), domains, strict=True):
-            if d in CATALYTIC_DOMAINS:
+        for tick, (_chain, dom) in zip(ax.get_yticklabels(), regions, strict=True):
+            if dom in CATALYTIC_DOMAINS:
                 tick.set_color(styles.CATALYTIC_ACCENT)
         ax.invert_yaxis()
         ax.set_xlim(0, 1)

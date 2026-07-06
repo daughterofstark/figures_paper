@@ -66,15 +66,18 @@ def build(paths: Paths) -> list[Path]:
                    facecolors="none", edgecolors=styles.CATALYTIC_ACCENT,
                    linewidths=1.2, zorder=3, label="catalytic domain")
 
-    # label catalytic domains (one label per unique domain, at its centroid)
+    # label catalytic domains — one label per (chain, domain) region, at its
+    # centroid. A domain can recur across chains, so group on both.
     texts = []
-    for dom, g in cat.groupby("domain"):
+    for (chain, dom), g in cat.groupby(["chain", "domain"]):
         texts.append(ax.text(g["rho_domain"].mean(), g["coherence_domain"].mean(),
-                             str(dom), fontsize=styles.FS_ANNOT,
+                             f"{dom} ({chain})", fontsize=styles.FS_ANNOT,
                              color=styles.CATALYTIC_ACCENT))
     if _HAVE_ADJUST and texts:
-        adjust_text(texts, ax=ax, arrowprops=dict(arrowstyle="-", lw=0.4,
-                    color=styles.OKABE_ITO["grey"]))
+        # fixed iter_lim → deterministic (avoids adjustText's wall-clock stop).
+        adjust_text(texts, ax=ax, iter_lim=200,
+                    arrowprops=dict(arrowstyle="-", lw=0.4,
+                                    color=styles.OKABE_ITO["grey"]))
 
     ax.set_xlim(0, 1.02)
     ax.set_ylim(0, 1.02)

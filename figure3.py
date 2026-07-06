@@ -23,21 +23,27 @@ def build(paths: Paths) -> list[Path]:
     df = load_s7_figure(paths, "F3_domain_serotype_rho_heatmap").copy()
     df["rho_domain"] = pd.to_numeric(df["rho_domain"], errors="coerce")
 
+    df["chain"] = df["chain"].astype(str)
+    df["domain"] = df["domain"].astype(str)
     serotypes = [s for s in SEROTYPE_ORDER if s in set(df["serotype"])]
     serotypes += sorted(set(df["serotype"].astype(str)) - set(serotypes))
 
-    mat = df.pivot_table(index="domain", columns="serotype", values="rho_domain",
-                         aggfunc="mean")
+    # Row identity is (chain, domain): the S5 matrix is keyed on
+    # (serotype, chain, domain), so a domain label can recur across chains and
+    # must not be collapsed. (serotype, chain, domain) is unique, so the pivot
+    # never actually aggregates — each cell is a single ρ.
+    mat = df.pivot_table(index=["chain", "domain"], columns="serotype",
+                         values="rho_domain", aggfunc="mean")
     mat = mat.reindex(columns=serotypes)
     # order rows by mean rho (descending → most reproducible on top)
     mat = mat.loc[mat.mean(axis=1).sort_values(ascending=False).index]
+    regions = list(mat.index)  # list of (chain, domain) tuples
 
     n_rows, n_cols = mat.shape
     fig, ax = plt.subplots(
         figsize=(ONEHALF_COL, 0.32 * max(1, n_rows) + 1.1)
     )
-    cmap = plt.get_cmap(styles.SEQ_CMAP).copy()
-    cmap.set_bad("#f0f0f0")
+    cmap = plt.get_cmap(styles.SEQ_CMAP).with_extremes(bad="#f0f0f0")
     im = ax.imshow(mat.to_numpy(dtype=float), aspect="auto", cmap=cmap,
                    vmin=0, vmax=1)
 
@@ -45,11 +51,12 @@ def build(paths: Paths) -> list[Path]:
     ax.set_xticklabels(mat.columns, rotation=0)
     ax.set_yticks(range(n_rows))
     ylabels = [
-        (f"★ {d}" if d in CATALYTIC_DOMAINS else d) for d in mat.index
+        (f"* {dom} ({chain})" if dom in CATALYTIC_DOMAINS else f"{dom} ({chain})")
+        for (chain, dom) in regions
     ]
     ax.set_yticklabels(ylabels)
-    for tick, d in zip(ax.get_yticklabels(), mat.index, strict=True):
-        if d in CATALYTIC_DOMAINS:
+    for tick, (_chain, dom) in zip(ax.get_yticklabels(), regions, strict=True):
+        if dom in CATALYTIC_DOMAINS:
             tick.set_color(styles.CATALYTIC_ACCENT)
             tick.set_fontweight("bold")
 
@@ -71,7 +78,7 @@ def build(paths: Paths) -> list[Path]:
     cbar = fig.colorbar(im, ax=ax, fraction=0.035, pad=0.02)
     cbar.set_label("ρ (domain)", fontsize=styles.FS_TICK)
     cbar.outline.set_linewidth(0.4)
-    ax.text(0.0, 1.02, "★ catalytic machinery", transform=ax.transAxes,
+    ax.text(0.0, 1.02, "* catalytic machinery", transform=ax.transAxes,
             fontsize=styles.FS_ANNOT, color=styles.CATALYTIC_ACCENT)
     fig.tight_layout()
     return save_figure(fig, paths, "figure3_domain_serotype_heatmap")

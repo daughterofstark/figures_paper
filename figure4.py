@@ -73,8 +73,12 @@ def build(paths: Paths) -> list[Path]:
                              f"{r['serotype']} {r['canon_label']}",
                              fontsize=styles.FS_ANNOT))
     if _HAVE_ADJUST and texts:
-        adjust_text(texts, ax=ax, arrowprops=dict(arrowstyle="-", lw=0.4,
-                    color=styles.OKABE_ITO["grey"]))
+        # adjustText defaults to a wall-clock stop (time_lim=1s), which makes the
+        # result machine-speed-dependent. A fixed iter_lim makes it deterministic
+        # (its internal RNG is already fixed).
+        adjust_text(texts, ax=ax, iter_lim=200,
+                    arrowprops=dict(arrowstyle="-", lw=0.4,
+                                    color=styles.OKABE_ITO["grey"]))
 
     ax.set_xlabel("signed effect β (energy, a.u.)")
     ax.set_ylabel(r"$-\log_{10}$ (BH-adjusted $p$)")
