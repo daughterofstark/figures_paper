@@ -1,9 +1,8 @@
 """Figure 5 — Cross-serotype reproducibility is heterogeneous.
 
-Biological message : reproducibility conservation varies across positions; catalytic
-    triad residues occupy different conservation classes; each serotype has many
-    reproducible positions; positions reproducible in more serotypes tend to have
-    higher median residue-level rho.
+Biological message : reproducibility conservation varies across positions; each
+    serotype has many reproducible positions; positions reproducible in more
+    serotypes tend to have higher median residue-level rho.
 Why this figure exists : it answers how reproducible features are conserved across
     DENV1-4 without treating positions as independent biological replicates.
 Generated from : outputs_s5/position_conservation.parquet (conservation per position),
@@ -44,16 +43,6 @@ def _panel_conservation(ax, cons: pd.DataFrame) -> None:
     for xi, c in zip(x, counts.to_numpy(), strict=True):
         ax.text(xi, c + max(counts.max() * 0.02, 1), str(int(c)), ha="center",
                 va="bottom", fontsize=styles.FS_ANNOT)
-    cat = d[d.get("is_catalytic_triad", pd.Series(False, index=d.index)).astype(bool)]
-    offsets = {1: -0.13, 2: 0.0, 3: 0.13, 4: 0.0, 0: 0.0}
-    for _, row in cat.iterrows():
-        n = int(row["n_serotypes_reproducible"])
-        y0 = max(2.0, counts.loc[n] * 0.10)
-        ax.scatter(n + offsets.get(n, 0.0), y0, s=62, facecolors="none",
-                   edgecolors=styles.CATALYTIC_ACCENT, linewidths=1.2, zorder=3)
-        ax.text(n + offsets.get(n, 0.0), y0 + max(counts.max() * 0.035, 2),
-                row["canon_label"], ha="center", va="bottom",
-                fontsize=styles.FS_ANNOT, color=styles.CATALYTIC_ACCENT)
     ax.set_xticks(x)
     ax.set_xticklabels(["0", "1", "2", "3", "4"])
     ax.set_xlabel("serotypes with residue ρ ≥ provisional ρ*")
@@ -93,8 +82,7 @@ def _panel_serotype_counts(ax, land: pd.DataFrame) -> None:
 
 
 def _panel_rho_by_conservation(ax, cons: pd.DataFrame) -> None:
-    df = cons[["canon_label", "n_serotypes_reproducible", "rho_residue_median",
-               "is_catalytic_triad"]].copy()
+    df = cons[["n_serotypes_reproducible", "rho_residue_median"]].copy()
     df["n_serotypes_reproducible"] = pd.to_numeric(
         df["n_serotypes_reproducible"], errors="coerce")
     df["rho_residue_median"] = pd.to_numeric(df["rho_residue_median"], errors="coerce")
@@ -126,23 +114,14 @@ def _panel_rho_by_conservation(ax, cons: pd.DataFrame) -> None:
         patch.set_linewidth(0.6)
     offsets = ((np.arange(len(df)) % 9) - 4) * 0.018
     xj = df["n_serotypes_reproducible"].to_numpy(float) + offsets
-    cat = df["is_catalytic_triad"].astype(bool).to_numpy()
-    ax.scatter(xj[~cat], df["rho_residue_median"].to_numpy()[~cat], s=9,
-               c="#9e9e9e", alpha=0.34, edgecolors="none", zorder=2)
-    ax.scatter(xj[cat], df["rho_residue_median"].to_numpy()[cat], s=52,
-               facecolors="none", edgecolors=styles.CATALYTIC_ACCENT,
-               linewidths=1.1, zorder=4, label="catalytic triad")
-    for _, row in df[df["is_catalytic_triad"].astype(bool)].iterrows():
-        ax.text(row["n_serotypes_reproducible"] + 0.08, row["rho_residue_median"],
-                row["canon_label"], ha="left", va="center",
-                fontsize=styles.FS_ANNOT, color=styles.CATALYTIC_ACCENT)
+    ax.scatter(xj, df["rho_residue_median"], s=9, c="#9e9e9e", alpha=0.28,
+               edgecolors="none", zorder=2)
     ax.set_xlim(-0.55, 4.55)
     ax.set_ylim(0, 1.0)
     ax.set_xticks(xs)
     ax.set_xlabel("serotypes with residue ρ ≥ provisional ρ*")
     ax.set_ylabel("median residue-level ρ")
     ax.set_title("more conserved positions have higher median ρ", fontsize=styles.FS_LABEL)
-    ax.legend(loc="upper left", fontsize=styles.FS_ANNOT)
 
 
 def build(paths: Paths) -> list[Path]:
