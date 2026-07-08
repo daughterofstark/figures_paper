@@ -24,6 +24,23 @@ import styles
 from figure_config import CATALYTIC_DOMAINS, DOUBLE_COL, Paths
 from utils import chain_bands, load_table, panel_letter, parse_canon_label, save_figure
 
+_DOMAIN_LABELS = {
+    "Catalytic Triad": "triad",
+    "Oxyanion Loop": "oxyanion",
+    "Gly45 Turn": "Gly45",
+    "B2b-C2 Hairpin": "B2b-C2",
+    "120s Loop": "120s",
+    "C-Terminal Tail": "C-tail",
+}
+_DOMAIN_LABEL_OFFSETS = {
+    "Gly45 Turn": (0.0, 0.94),
+    "Catalytic Triad": (0.0, 0.06),
+    "B2b-C2 Hairpin": (-2.0, 0.74),
+    "120s Loop": (2.0, 0.94),
+    "Oxyanion Loop": (0.0, 0.06),
+    "C-Terminal Tail": (0.0, 0.78),
+}
+
 
 def build(paths: Paths) -> list[Path]:
     styles.apply_style()
@@ -78,9 +95,10 @@ def build(paths: Paths) -> list[Path]:
         if dom != "unassigned":
             label_rows.append((chain, dom, (x0 + x1) / 2, is_cat))
     for i, (_chain, dom, xc, is_cat) in enumerate(label_rows):
-        ytxt = 0.94 if i % 2 == 0 else 0.06
-        axd.plot([xc, xc], [0.5, ytxt], color="#777777", lw=0.35, zorder=3)
-        axd.text(xc, ytxt, dom, ha="center", va="bottom" if ytxt > 0.5 else "top",
+        dx, ytxt = _DOMAIN_LABEL_OFFSETS.get(dom, (0.0, (0.94, 0.06, 0.78)[i % 3]))
+        axd.plot([xc, xc + dx], [0.5, ytxt], color="#777777", lw=0.35, zorder=3)
+        axd.text(xc + dx, ytxt, _DOMAIN_LABELS.get(dom, dom), ha="center",
+                 va="bottom" if ytxt > 0.5 else "top",
                  fontsize=styles.FS_ANNOT,
                  color=styles.CATALYTIC_ACCENT if is_cat else styles.OKABE_ITO["black"],
                  fontweight="bold" if is_cat else "normal", clip_on=False)

@@ -58,8 +58,9 @@ def build(paths: Paths) -> list[Path]:
             ax.plot(x, _rolling(y), color=color, lw=1.6, zorder=3)
         cat = sub[is_catalytic(sub["domain"])]
         if not cat.empty:
-            ax.scatter(cat["x"], cat["rho_residue"], s=26, facecolors="none",
-                       edgecolors=styles.CATALYTIC_ACCENT, linewidths=1.1, zorder=4)
+            ax.scatter(cat["x"], cat["rho_residue"], s=22, facecolors="none",
+                       edgecolors=styles.CATALYTIC_ACCENT, linewidths=0.8,
+                       alpha=0.72, zorder=4)
         ax.set_ylim(0, 1.02)
         ax.set_yticks([0, 0.5, 1.0])
         ax.set_ylabel(f"{sero}\nρ", rotation=0, ha="right", va="center",
@@ -75,7 +76,7 @@ def build(paths: Paths) -> list[Path]:
 
     handles = [
         plt.Line2D([], [], marker="o", ls="none", mfc="none",
-                   mec=styles.CATALYTIC_ACCENT, ms=6, mew=1.1, label="catalytic residue"),
+                   mec=styles.CATALYTIC_ACCENT, ms=5, mew=0.8, label="catalytic residue"),
         plt.Line2D([], [], color="#d9d9d9", lw=0.8, ls=(0, (4, 3)),
                    label=f"provisional ρ* = {PROVISIONAL_RHO_STAR}"),
     ]

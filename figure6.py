@@ -42,8 +42,7 @@ def _region_order(df: pd.DataFrame) -> list[tuple[str, str]]:
 
 
 def _region_label(chain: str, domain: str) -> str:
-    star = "* " if domain in CATALYTIC_DOMAINS else ""
-    return f"{star}{domain} ({chain})"
+    return f"{domain} ({chain})"
 
 
 def build(paths: Paths) -> list[Path]:

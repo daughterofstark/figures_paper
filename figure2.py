@@ -38,12 +38,15 @@ _KEEP_SCALES = ("residue", "secondary_structure", "motif", "domain")
 def _panel_scale(ax, df: pd.DataFrame, serotypes: list[str]) -> None:
     keep_idx = [SCALE_ORDER.index(s) for s in _KEEP_SCALES]
     df = df[df["scale_index"].isin(keep_idx)]
+    ax.axvspan(0.85, 3.15, color="#f2f2f2", zorder=0, lw=0)
+    ax.text(2.0, 0.98, "SS / motif / domain collapse to the same plateau",
+            ha="center", va="top", fontsize=styles.FS_ANNOT, color="#777777")
     for sero in serotypes:
         sub = df[df["serotype"] == sero]
         color = styles.serotype_color(sero)
         for _, g in sub.groupby("canon_label"):
             g = g.sort_values("scale_index")
-            ax.plot(g["scale_index"], g["rho"], color=color, lw=0.6, alpha=0.28,
+            ax.plot(g["scale_index"], g["rho"], color=color, lw=0.55, alpha=0.18,
                     zorder=2)
         mean_traj = sub.groupby("scale_index")["rho"].mean()
         ax.plot(mean_traj.index, mean_traj.values, color=color, lw=2.0, zorder=3,
@@ -54,7 +57,7 @@ def _panel_scale(ax, df: pd.DataFrame, serotypes: list[str]) -> None:
     ax.set_yticks([0, 0.5, 1.0])
     ax.set_ylabel("reproducibility ρ")
     ax.set_xlabel("spatial scale (fine → coarse)")
-    ax.set_title("ρ plateaus after residue aggregation", fontsize=styles.FS_LABEL, loc="right")
+    ax.set_title("ρ jumps once residues are aggregated", fontsize=styles.FS_LABEL, loc="right")
 
 
 def _panel_census(ax, df: pd.DataFrame, serotypes: list[str]) -> None:

@@ -17,7 +17,7 @@ effects are* → *how they behave across serotypes* → *what limits them*.
 | **Fig 2** — spatial resolution | Catalytic-region ρ plateaus after residue aggregation, while gates remain mostly residue/SS. | `s7/F7` (residue→SS→motif→domain) + `s7/F2` |
 | **Fig 3** — domain/coherence audit | Catalytic domains are directionally coherent but are not the highest-ρ regions. | `s7/F3` + `s7/F8` |
 | **Fig 4** — signed-effect volcano | FDR-significant signed effects are widespread across NS2B–NS3, with catalytic examples highlighted. | `s4/significance_screen` |
-| **Fig 5** — cross-serotype audit | Cross-serotype reproducibility is heterogeneous; whole-profile serotype correlations are weak. | `s5/position_conservation` + `s7/F1` + `s4/significance_screen` |
+| **Fig 5** — cross-serotype audit | Cross-serotype reproducibility is heterogeneous; positions conserved in more serotypes have higher median ρ. | `s5/position_conservation` + `s7/F1` |
 | **Fig 6** — variance decomposition | Reproducibility is limited by between-replicate variance (τ²), not sampling. | `s7/F6` |
 | **Supp S1** — per-serotype landscape | Per-serotype residue-level ρ landscapes are heterogeneous, with catalytic residues as landmarks. | `s7/F1` |
 | **Supp S2** — signed-β Manhattan | Signed effects are distributed along the sequence, complementing the Fig 4 volcano. | `s4/significance_screen` |
@@ -33,9 +33,10 @@ blue ramp; correlation = cividis; FDR significance = darkness (ink vs light grey
 variance τ² = orange, σ̄² = neutral grey. Colours are never reused for unrelated
 concepts.
 
-**One label rule** (`utils.objective_labels`): label an observation iff it is catalytic
-OR (FDR-significant AND its |score| is in the top decile), capped at 4 by |score| and
-de-overlapped with adjustText. Used identically in Figures 4, 5C and Supp S2.
+**One label rule** (`utils.objective_labels`): for signed-effect plots, label an
+observation only when it is FDR-significant and its |score| is in the top decile, capped
+at 4 by |score| and de-overlapped with adjustText. Used in Figure 4 and Supplementary
+Figure S2.
 
 **Typography / lettering**: a single rcParams style (`styles.apply_style`) fixes font
 family, sizes, tick sizing and panel-letter placement (`utils.panel_letter`) across

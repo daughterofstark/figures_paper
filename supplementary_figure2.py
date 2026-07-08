@@ -73,12 +73,14 @@ def build(paths: Paths) -> list[Path]:
                    c=color, alpha=0.9, edgecolors="white", linewidths=0.3, zorder=3,
                    label=label)
     cat = is_catalytic(df["domain"])
-    if cat.any():
-        ax.scatter(df["_x"][cat], df["beta_signed"][cat], s=64, facecolors="none",
-                   edgecolors=styles.CATALYTIC_ACCENT, linewidths=1.1, zorder=4,
-                   label="catalytic")
+    cat_sig = cat & df["significant_fdr"].astype(bool)
+    if cat_sig.any():
+        ax.scatter(df["_x"][cat_sig], df["beta_signed"][cat_sig], s=44, facecolors="none",
+                   edgecolors=styles.CATALYTIC_ACCENT, linewidths=0.75, alpha=0.6,
+                   zorder=4,
+                   label="catalytic + FDR")
 
-    idx = objective_labels(df, score="beta_signed", catalytic=cat,
+    idx = objective_labels(df, score="beta_signed", catalytic=None,
                            significant=df["significant_fdr"].astype(bool))
     texts = [ax.text(df.loc[i, "_x"], df.loc[i, "beta_signed"],
                      f"{df.loc[i, 'serotype']} {df.loc[i, 'canon_label']}",

@@ -1,202 +1,224 @@
 # STRIDE Figure Suite Review
 
-This review was performed against the real frozen outputs in
-`/Users/medhasharma/Downloads/forcodexstride/strideouts`. No STRIDE statistics,
-thresholds, parquet files, CSV files, or files under `strideouts` were modified.
+Review target: `paper_figures` only. Frozen STRIDE outputs in
+`/Users/medhasharma/Downloads/forcodexstride/strideouts` were read but not modified. This
+pass changed presentation, layout, labels, emphasis, and documentation only.
 
-## 1. Figure-by-Figure Review
+## Narrative Audit
+
+The main suite now follows a defensible sequence:
+
+1. Figure 1 asks where residue-level reproducibility lies along NS2B-NS3.
+2. Figure 2 asks at what spatial scale catalytic-region reproducibility saturates.
+3. Figure 3 asks how catalytic domains differ from the rest of the protein.
+4. Figure 4 asks where statistically robust signed energetic effects occur.
+5. Figure 5 asks how reproducible features are conserved across serotypes.
+6. Figure 6 asks what limits reproducibility.
+
+The story is intentionally more restrained than an idealized catalytic-core narrative.
+The data support heterogeneity, catalytic coherence, broad signed effects, cross-serotype
+conservation structure, and tau2-dominated limits. They do not support claims that
+catalytic regions are the highest-rho regions or that significant effects concentrate
+there.
+
+## Figure-by-Figure Review
 
 ### Figure 1 — Residue-level reproducibility is distributed across NS2B-NS3
 
-Strengths: strong opening orientation; residue-level rho is shown directly; catalytic
-triad residues are visible without being overclaimed.
+Biological question: Where are reproducible dynamics located?
 
-Weaknesses: the previous title claimed catalytic localization, but catalytic-triad
-median rho is lower than the non-catalytic distribution. The old domain ribbon also
-looked like one continuous catalytic block.
+Strengths: Opens with the real sequence-wide rho landscape; chain bands orient the reader;
+catalytic triad residues are visible but no longer overclaimed.
 
-Changes made: retitled the figure; changed the domain track to neutral blocks; kept
-catalytic residues as rings/ticks; moved domain labels outside the blocks with leader
-lines.
+Weaknesses: A pure landscape remains partly descriptive. Domain labels are necessarily
+compressed because several named NS3 domains are short or adjacent.
 
-Remaining limitations: the domain track is still compact at double-column width and
-uses broad framework domain labels that include "unassigned" spans.
+Changes made: Shortened domain-track labels, staggered leader lines, retained neutral
+domain blocks, and preserved catalytic triad markers as landmarks rather than as a
+continuous catalytic-region block.
+
+Remaining weaknesses: The figure answers "where" honestly, but the answer is distributed
+rather than narratively punchy. The broad "unassigned" domain span remains biologically
+unsatisfying.
+
+Publication readiness: 7.5/10.
 
 ### Figure 2 — Catalytic-region rho saturates above the residue scale
 
-Strengths: the saturation between residue and higher levels is now visually obvious.
-Panel B makes the actual gating distribution visible.
+Biological question: At what spatial scale does reproducibility emerge?
 
-Weaknesses: the previous title and subtitle claimed domain-scale emergence, but the
-census shows gates remain mostly residue or secondary-structure, with only small chain
-counts and no domain-gated class in this table.
+Strengths: The plateau is now visually obvious. A shaded SS/motif/domain plateau region
+makes clear that these labels collapse to the same aggregated signal in this hierarchy.
+Panel B correctly shows that gates remain mostly residue or secondary-structure.
 
-Changes made: retitled the figure and both panel subtitles to distinguish trajectory
-saturation from gated-resolution counts.
+Weaknesses: The figure needs caption discipline because SS/motif/domain are structurally
+present but not independently informative here.
 
-Remaining limitations: secondary-structure and motif levels are structurally present but
-biologically empty in this dataset, so the plateau should be described carefully in the
-caption.
+Changes made: Added a plateau band and explanatory inline annotation; softened individual
+trajectories; retitled Panel A around the residue-to-aggregate jump.
+
+Remaining weaknesses: The figure is strong, but the scale labels could still be misread
+without a caption noting empty SS/motif biology.
+
+Publication readiness: 8.5/10.
 
 ### Figure 3 — Catalytic domains are coherent but not the highest-rho regions
 
-Strengths: this is now the most scientifically honest main-domain figure. The heatmap
-shows that broad unassigned/Gly45 regions have higher rho, while the scatter preserves
-the real catalytic coherence signal.
+Biological question: How do catalytic regions differ from the remainder of the protein?
 
-Weaknesses: the old title was unsupported: Catalytic Triad is the lowest mean-rho row
-and Oxyanion Loop is mid-ranked.
+Strengths: Much more coherent conceptually. Panel A establishes that catalytic domains are
+not top-ranked by rho; Panel B now uses grey background points and orange catalytic points
+so the reader sees the actual distinction: coherence, not rho.
 
-Changes made: retitled the figure; changed panel titles; preserved catalytic emphasis
-only for coherence/functional reference.
+Weaknesses: This remains conceptually subtle because the result is mixed. "Unassigned"
+and Gly45 regions dominate rho, while catalytic domains stand out mainly in coherence.
 
-Remaining limitations: "unassigned" regions dominate the heatmap and are biologically
-less satisfying than named structural modules.
+Changes made: Reframed Panel B as catalytic-vs-other rather than a second serotype-coded
+scatter; reduced competing colours; labelled catalytic domain groups directly; shortened
+the Panel B title.
+
+Remaining weaknesses: Because the domain heatmap and coherence scatter use different
+geometries, they still require the reader to integrate two encodings.
+
+Publication readiness: 8/10.
 
 ### Figure 4 — Significant signed effects are widespread across NS2B-NS3
 
-Strengths: the volcano remains an efficient summary of signed effect size and FDR
-status. Catalytic positions are visible without claiming exclusivity.
+Biological question: Where do statistically robust energetic effects occur?
 
-Weaknesses: the old title claimed concentration in catalytic regions, but significant
-effects are widespread: most FDR-significant signed rows are outside catalytic domains.
+Strengths: The visual hierarchy now matches the title. FDR-significant points dominate in
+black; non-significant points recede; catalytic highlighting is contextual rather than
+overpowering.
 
-Changes made: retitled the figure; reduced the global label cap from 8 to 4 to avoid
-label clutter.
+Weaknesses: A volcano plot is efficient but abstract; positional context is left to the
+supplementary figure.
 
-Remaining limitations: catalytic rings remain visually dense because many signed rows
-fall within catalytic-domain annotations.
+Changes made: Restricted orange outlines to catalytic rows that are also FDR-significant;
+reduced outline size/alpha; changed labels to the strongest FDR-significant effects only.
+
+Remaining weaknesses: Dense regions on the positive-effect side still contain many points,
+but this density is the data, not a plotting artifact.
+
+Publication readiness: 8/10.
 
 ### Figure 5 — Cross-serotype reproducibility is heterogeneous across positions
 
-Strengths: now honest and readable. Panel A summarizes all positions without unreadable
-y-axis labels; Panel B is kept as a constraint showing weak whole-profile correlations;
-Panel C shows signed effects across conservation classes without implying a strong trend.
+Biological question: How conserved are reproducible features across serotypes?
 
-Weaknesses: the old headline overclaimed a conserved dynamically important core. The
-observed conservation-effect association is weak, and serotype profile correlations are
-near zero or slightly negative off-diagonal.
+Strengths: The figure now stays on one question. Panel A gives counts by number of
+serotypes; Panel B honestly shows weak profile correlations; Panel C shows that positions
+reproducible in more serotypes have higher median residue-level rho.
 
-Changes made: replaced Panel A's 248 labeled rows with conservation-class counts and
-catalytic-triad markers; retitled Panel B; replaced LOWESS with class medians; bounded
-deterministic jitter to [0, 1]; reduced label clutter.
+Weaknesses: Panel B is a qualifying result rather than a headline result. It is useful
+because it prevents overclaiming, but it weakens the emotional arc of the figure.
 
-Remaining limitations: Panel B deserves inclusion only as negative/qualifying evidence,
-not as a headline similarity result. Panel C is descriptive and should not be framed as
-a statistical test.
+Changes made: Replaced the old signed-effect Panel C with a conservation-class rho
+summary. Removed the S4 signed-effect dependency from Figure 5. Kept catalytic triad
+markers as landmarks in Panels A and C.
+
+Remaining weaknesses: The figure is now honest and readable, but less dramatic. If space
+is tight, Panel B could move to supplementary material.
+
+Publication readiness: 8/10.
 
 ### Figure 6 — Reproducibility is limited by between-replicate variance
 
-Strengths: the core claim is supported: tau2 dominates the variance fraction in most
-regions, with median frac_tau2 about 0.93. The panel is clean and interpretable.
+Biological question: What fundamentally limits reproducibility?
 
-Weaknesses: repeated y-axis labels consume space, and the 100% stacked bars double-encode
-one degree of freedom because frac_tau2 + frac_sigma2 = 1.
+Strengths: The cleanest mechanistic figure. Tau2 dominance is immediately visible across
+serotypes and regions.
 
-Changes made: no structural code change was required; the title remains supported.
+Weaknesses: Four small multiples repeat y-axis labels and show a 100% stacked bar, which
+double-encodes one degree of freedom.
 
-Remaining limitations: a single mean frac_tau2 dot/bar panel would be more compact, but
-the current decomposition is clearer for readers.
+Changes made: Removed star prefixes from catalytic y-axis labels and kept catalytic
+emphasis to tick colour only.
+
+Remaining weaknesses: A single mean frac_tau2 panel would use less ink, but the current
+facets preserve per-serotype transparency.
+
+Publication readiness: 8.5/10.
 
 ### Supplementary Figure S1 — Per-serotype residue-level rho landscapes are heterogeneous
 
-Strengths: useful backup for Figure 1; per-serotype traces show real heterogeneity and
-avoid cross-serotype aggregation hiding.
+Strengths: Useful backup for Figure 1; shows the raw per-serotype texture that the main
+median landscape compresses.
 
-Weaknesses: the old description implied catalytic peaks in every serotype, which is not
-supported by the traces.
+Weaknesses: Still visually busy by design, because it displays all per-serotype residue
+profiles.
 
-Changes made: retitled and reframed catalytic residues as landmarks.
+Changes made: Reduced catalytic-ring weight/alpha and kept the title descriptive.
 
-Remaining limitations: the rolling mean is a visual aid only and should be described as
-such if mentioned.
+Remaining weaknesses: Best treated as a supplemental audit, not a main narrative figure.
+
+Publication readiness: 7/10.
 
 ### Supplementary Figure S2 — Signed dynamic effects are distributed along NS2B-NS3
 
-Strengths: useful positional companion to Figure 4; shows that signed effects occur in
-both chains and across NS3 regions.
+Strengths: Now complements Figure 4 without contradicting it. It shows positional spread
+while Figure 4 shows significance and magnitude.
 
-Weaknesses: the old message claimed clustering at catalytic residues, but the significant
-effects are broadly distributed.
+Weaknesses: The NS3 signed-effect field is dense; some overlap is unavoidable at this
+width.
 
-Changes made: retitled and reduced labels via the shared label rule.
+Changes made: Restricted catalytic outlines to FDR-significant catalytic rows and removed
+catalytic status from the label-selection rule.
 
-Remaining limitations: dense catalytic rings in the NS3 region can still obscure nearby
-points at small print size.
+Remaining weaknesses: Still more crowded than an ideal supplement; a faceted chain/domain
+version could be cleaner but would be a larger redesign.
 
-## 2. Scientific Audit of Titles
+Publication readiness: 7/10.
 
-- Figure 1, "Residue-level reproducibility is distributed across NS2B-NS3": fully
-  supported. Top residue-level median-rho positions are spread across NS2B and NS3, and
-  catalytic-triad residues are not the maxima.
-- Figure 2, "Catalytic-region rho saturates above the residue scale": fully supported.
-  F7 trajectories rise from residue and then plateau at SS/motif/domain for this
-  hierarchy.
-- Figure 3, "Catalytic domains are coherent but not the highest-rho regions": fully
-  supported. Catalytic domains have moderate rho but high coherence relative to many
-  non-catalytic regions.
-- Figure 4, "Significant signed effects are widespread across NS2B-NS3": fully supported.
-  FDR-significant signed effects occur across NS2B unassigned, NS3 unassigned, Gly45 Turn,
-  Oxyanion Loop, C-Terminal Tail, and Catalytic Triad.
-- Figure 5, "Cross-serotype reproducibility is heterogeneous across positions": fully
-  supported. Position counts span 0-4 reproducing serotypes and catalytic triad residues
-  occupy different classes.
-- Figure 6, "Reproducibility is limited by between-replicate variance": fully supported.
-  tau2 is the dominant variance fraction in most regions and overall.
-- Supplementary Figure S1, "Per-serotype residue-level rho landscapes are heterogeneous":
-  fully supported by the per-serotype traces.
-- Supplementary Figure S2, "Signed dynamic effects are distributed along NS2B-NS3": fully
-  supported by the Manhattan/lollipop distribution.
+## Reviewer-Style Comments
 
-## 3. Nature Communications Reviewer Critique
+The revised suite is substantially more credible. The authors have stopped forcing a
+catalytic-localization story onto data that are plainly heterogeneous. This is essential:
+in the previous versions, Figures 1, 3, 4 and 5 each risked immediate reviewer rejection
+because the title made a stronger claim than the plotted data.
 
-The revised suite is materially more honest than the previous render. The strongest
-improvement is the removal of catalytic-core overclaiming: several original titles would
-have been challenged immediately because the plotted data contradicted them. The current
-figures now distinguish reproducibility, coherence, signed significance, and conservation
-instead of forcing them into a single catalytic narrative.
+The strongest main-text figures are Figure 2 and Figure 6. They answer clear questions,
+their visual encodings are simple, and their conclusions are directly visible. Figure 3 is
+also improved because it now communicates a mixed but interesting result: catalytic domains
+are not the most reproducible by rho, but they are relatively coherent in signed direction.
 
-The main weakness is that the biological story is less crisp than the original figure
-sequence wanted it to be. Figure 5 no longer provides a high-impact "conserved dynamic
-core" headline; it provides a sober cross-serotype heterogeneity audit. That is the right
-scientific decision, but the manuscript text will need to be rewritten around it. Figure 3
-also shows that catalytic domains are not the most reproducible by rho, so any abstract or
-Results language saying otherwise should be removed.
+The remaining strategic weakness is that the biological narrative is not a single clean
+arc toward a conserved catalytic core. Instead, the honest story is: reproducibility is
+distributed; scale aggregation matters; catalytic regions differ more by coherence than by
+rho; robust signed effects are broad; conservation is heterogeneous but associated with
+higher median rho; replicate disagreement limits reproducibility. That is publishable, but
+the manuscript must embrace this complexity.
 
-For a Nature Communications submission, I would ask for stronger caption discipline:
-state that rho* is provisional, that residue-scale claims are exploratory at K=3, and that
-SS/motif labels are not biologically populated in this dataset. I would also ask the
-authors to justify the inclusion of Figure 5B as a negative result or move it to the
-supplement if the manuscript cannot use it interpretively.
+For a Nature/Science-style review, I would still ask for explicit caption caveats:
+rho-star is provisional, residue-level claims are exploratory at K=3, SS/motif levels are
+not independently biologically annotated in this hierarchy, and serotype-level comparisons
+are descriptive with n=4 biological systems.
 
-## 4. Remaining Work
+## Future Work
 
-- Rewrite manuscript captions and Results text to match the revised, weaker but supported
-  claims.
-- Consider simplifying Figure 6 to a single tau2-fraction summary if journal space is
-  tight.
-- Check all figures at final journal column sizes after typesetting.
-- Decide whether Figure 5B belongs in the main figure as a qualifying panel or should move
-  to supplementary material.
-- If structural interpretation is central, replace "unassigned" domain labels upstream in
-  a future analysis stage; do not patch this in plotting code.
+- Rewrite manuscript Results text to match the revised figure sequence.
+- Consider moving Figure 5B to supplementary if the main narrative needs a tighter visual
+  arc.
+- Consider a future upstream annotation pass to reduce the dominance of "unassigned"
+  structural regions. This should be a new analysis/annotation step, not a plotting patch.
+- At final typesetting, check all panels at actual journal column widths and confirm label
+  size remains >= 6 pt.
+- If the manuscript needs a stronger biological hook, develop it around coherence and
+  replicate-variance limits rather than unsupported catalytic rho peaks.
 
-## 5. Overall Assessment
+## Overall Assessment
 
-Strongest to weakest:
+Current strongest-to-weakest ranking:
 
-1. Figure 6
-2. Figure 3
-3. Figure 2
-4. Figure 4
-5. Supplementary Figure S1
+1. Figure 2
+2. Figure 6
+3. Figure 5
+4. Figure 3
+5. Figure 4
 6. Figure 1
-7. Supplementary Figure S2
-8. Figure 5
+7. Supplementary Figure S1
+8. Supplementary Figure S2
 
-The complete figure suite is closer to publication quality but is not yet fully suitable
-for a high-impact submission as a polished narrative package. It is scientifically honest
-and technically clean, but the central cross-serotype/catalytic story is weaker than the
-previous titles claimed. Submission readiness now depends less on plotting mechanics and
-more on rewriting the manuscript argument around heterogeneity, coherence, and variance
-limits rather than catalytic localization.
+Overall publication readiness: 8/10 for a figure suite, assuming captions and manuscript
+claims are rewritten to match. The figures are now scientifically honest, readable, and
+mostly publication-quality. The main remaining barrier is narrative framing, not plotting
+mechanics.

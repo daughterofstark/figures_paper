@@ -50,6 +50,7 @@ def build(paths: Paths) -> list[Path]:
     x = df["beta_signed"].to_numpy()
     sig = df["significant_fdr"].astype(bool).to_numpy()
     cat = is_catalytic(df["domain"])
+    cat_sig = cat.to_numpy() & sig
 
     ax.axvline(0, color="#c8c8c8", lw=0.6, zorder=1)
     ax.axhline(-np.log10(0.05), color="#c8c8c8", lw=0.6, ls=(0, (4, 3)), zorder=1)
@@ -60,14 +61,15 @@ def build(paths: Paths) -> list[Path]:
                edgecolors="none", zorder=2, label="not significant")
     ax.scatter(x[sig], y[sig], s=17, c=styles.SIG_COLOR, alpha=0.9,
                edgecolors="none", zorder=3, label="FDR-significant")
-    if cat.any():
-        ax.scatter(x[cat.to_numpy()], y[cat.to_numpy()], s=42, facecolors="none",
-                   edgecolors=styles.CATALYTIC_ACCENT, linewidths=1.1, zorder=4,
-                   label="catalytic")
+    if cat_sig.any():
+        ax.scatter(x[cat_sig], y[cat_sig], s=34, facecolors="none",
+                   edgecolors=styles.CATALYTIC_ACCENT, linewidths=0.75, alpha=0.55,
+                   zorder=4,
+                   label="catalytic + FDR")
 
-    # single global label rule: catalytic OR (FDR-significant & top-decile |β|)
+    # Label the strongest significant effects only; catalytic status is shown by outline.
     df_lab = df.assign(_y=y.to_numpy())
-    idx = objective_labels(df_lab, score="beta_signed", catalytic=cat,
+    idx = objective_labels(df_lab, score="beta_signed", catalytic=None,
                            significant=df_lab["significant_fdr"].astype(bool))
     texts = [ax.text(r["beta_signed"], r["_y"], f"{r['serotype']} {r['canon_label']}",
                      fontsize=styles.FS_ANNOT) for _, r in df_lab.loc[idx].iterrows()]

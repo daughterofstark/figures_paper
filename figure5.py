@@ -2,14 +2,15 @@
 
 Biological message : reproducibility conservation varies across positions; catalytic
     triad residues occupy different conservation classes; whole-profile serotype
-    correlations are weak; signed effects occur across the conservation spectrum.
-Why this figure exists : it is the paper's headline — it is the only figure that links
-    reproducibility to evolutionary/functional importance across serotypes.
+    correlations are weak; positions reproducible in more serotypes tend to have
+    higher median residue-level rho.
+Why this figure exists : it answers how reproducible features are conserved across
+    DENV1-4 without treating positions as independent biological replicates.
 Generated from : outputs_s5/position_conservation.parquet (conservation per position),
     outputs_s7/F1_reproducibility_landscape.parquet (per-serotype ρ profiles → 4×4
-    similarity), and outputs_s4/significance_screen.parquet (signed effects).
-Placement : MAIN (headline). Merges the former conservation, serotype-matrix and
-    conservation-vs-effect figures.
+    similarity).
+Placement : MAIN. Cross-serotype conservation audit; signed-effect detail belongs in
+    Figure 4 and Supplementary Figure S2.
 """
 from __future__ import annotations
 
@@ -22,20 +23,11 @@ import pandas as pd
 import styles
 from figure_config import DOUBLE_COL, SEROTYPE_ORDER, Paths
 from utils import (
-    is_catalytic,
     load_s7_figure,
     load_table,
-    objective_labels,
     panel_letter,
     save_figure,
 )
-
-try:
-    from adjustText import adjust_text
-
-    _HAVE_ADJUST = True
-except Exception:  # pragma: no cover
-    _HAVE_ADJUST = False
 
 
 def _panel_conservation(ax, cons: pd.DataFrame) -> None:
@@ -136,56 +128,63 @@ def _panel_matrix(fig, cell, land: pd.DataFrame) -> None:
     return axd if axd is not None else ax
 
 
-def _panel_cons_vs_effect(ax, cons: pd.DataFrame, sig: pd.DataFrame) -> None:
-    c = cons[["canon_label", "frac_reproducible", "rho_residue_median",
-              "is_catalytic_triad"]].copy()
-    s = sig[sig["is_signed"].astype(bool)].copy()
-    df = s.merge(c, on="canon_label", how="inner")
-    df["frac_reproducible"] = pd.to_numeric(df["frac_reproducible"], errors="coerce")
-    df["beta_signed"] = pd.to_numeric(df["beta_signed"], errors="coerce")
-    df = df.dropna(subset=["frac_reproducible", "beta_signed"]).reset_index(drop=True)
+def _panel_rho_by_conservation(ax, cons: pd.DataFrame) -> None:
+    df = cons[["canon_label", "n_serotypes_reproducible", "rho_residue_median",
+               "is_catalytic_triad"]].copy()
+    df["n_serotypes_reproducible"] = pd.to_numeric(
+        df["n_serotypes_reproducible"], errors="coerce")
+    df["rho_residue_median"] = pd.to_numeric(df["rho_residue_median"], errors="coerce")
+    df = df.dropna(subset=["n_serotypes_reproducible", "rho_residue_median"])
+    df["n_serotypes_reproducible"] = df["n_serotypes_reproducible"].astype(int)
     if df.empty:
-        ax.text(0.5, 0.5, "no signed mechanisms", ha="center", va="center",
+        ax.text(0.5, 0.5, "no conservation rows", ha="center", va="center",
                 transform=ax.transAxes, color=styles.NONSIG_COLOR)
         return
-    ax.axhline(0, color="#c8c8c8", lw=0.6, zorder=1)
-    cat = is_catalytic(df["domain"]) | df["is_catalytic_triad"].astype(bool)
-    within = df.groupby("frac_reproducible").cumcount()
-    sizes = df.groupby("frac_reproducible")["frac_reproducible"].transform("size")
-    offsets = (within - (sizes - 1) / 2.0) * 0.004
-    xj = (df["frac_reproducible"] + offsets).clip(0.0, 1.0)
-    ax.scatter(xj[~cat], df["beta_signed"][~cat], s=16, c=styles.NONSIG_COLOR,
-               alpha=0.8, edgecolors="white", linewidths=0.3, zorder=2,
-               label="non-catalytic")
-    ax.scatter(xj[cat], df["beta_signed"][cat], s=26, c=styles.CATALYTIC_ACCENT,
-               alpha=0.9, edgecolors="white", linewidths=0.3, zorder=3,
-               label="catalytic")
-    med = df.groupby("frac_reproducible")["beta_signed"].median().sort_index()
-    ax.plot(med.index, med.values, color=styles.OKABE_ITO["black"], lw=1.2,
-            marker="o", ms=3.0, zorder=4, label="median")
-    idx = objective_labels(df, score="beta_signed", catalytic=cat,
-                           significant=df["significant_fdr"].astype(bool)
-                           if "significant_fdr" in df else None)
-    df["_xj"] = xj
-    texts = [ax.text(df.loc[i, "_xj"], df.loc[i, "beta_signed"],
-                     f"{df.loc[i, 'serotype']} {df.loc[i, 'canon_label']}",
-                     fontsize=styles.FS_ANNOT) for i in idx]
-    if _HAVE_ADJUST and texts:
-        adjust_text(texts, ax=ax, iter_lim=200,
-                    arrowprops=dict(arrowstyle="-", lw=0.4, color="#bdbdbd"))
-    ax.set_xlim(-0.04, 1.04)
-    ax.set_xlabel("cross-serotype conservation (fraction reproducible)")
-    ax.set_ylabel("signed effect β")
-    ax.margins(x=0.06, y=0.12)
-    ax.set_title("signed effects span conservation classes", fontsize=styles.FS_LABEL)
-    ax.legend(loc="upper left", fontsize=styles.FS_ANNOT, ncol=1)
+    xs = np.arange(5)
+    grouped = [df.loc[df["n_serotypes_reproducible"] == n, "rho_residue_median"]
+               for n in xs]
+    bp = ax.boxplot(grouped, positions=xs, widths=0.55, patch_artist=True,
+                    showfliers=False, medianprops={"color": styles.OKABE_ITO["black"],
+                                                   "linewidth": 1.0},
+                    whiskerprops={"color": "#777777", "linewidth": 0.7},
+                    capprops={"color": "#777777", "linewidth": 0.7})
+    colors = [
+        styles.CONSERVATION_COLORS["reproducible_none"],
+        styles.CONSERVATION_COLORS["reproducible_some"],
+        styles.CONSERVATION_COLORS["reproducible_some"],
+        styles.CONSERVATION_COLORS["reproducible_majority"],
+        styles.CONSERVATION_COLORS["reproducible_all"],
+    ]
+    for patch, color in zip(bp["boxes"], colors, strict=True):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.62)
+        patch.set_edgecolor("#777777")
+        patch.set_linewidth(0.6)
+    offsets = ((np.arange(len(df)) % 9) - 4) * 0.018
+    xj = df["n_serotypes_reproducible"].to_numpy(float) + offsets
+    cat = df["is_catalytic_triad"].astype(bool).to_numpy()
+    ax.scatter(xj[~cat], df["rho_residue_median"].to_numpy()[~cat], s=9,
+               c="#9e9e9e", alpha=0.34, edgecolors="none", zorder=2)
+    ax.scatter(xj[cat], df["rho_residue_median"].to_numpy()[cat], s=52,
+               facecolors="none", edgecolors=styles.CATALYTIC_ACCENT,
+               linewidths=1.1, zorder=4, label="catalytic triad")
+    for _, row in df[df["is_catalytic_triad"].astype(bool)].iterrows():
+        ax.text(row["n_serotypes_reproducible"] + 0.08, row["rho_residue_median"],
+                row["canon_label"], ha="left", va="center",
+                fontsize=styles.FS_ANNOT, color=styles.CATALYTIC_ACCENT)
+    ax.set_xlim(-0.55, 4.55)
+    ax.set_ylim(0, 1.0)
+    ax.set_xticks(xs)
+    ax.set_xlabel("serotypes with residue ρ ≥ provisional ρ*")
+    ax.set_ylabel("median residue-level ρ")
+    ax.set_title("more conserved positions have higher median ρ", fontsize=styles.FS_LABEL)
+    ax.legend(loc="upper left", fontsize=styles.FS_ANNOT)
 
 
 def build(paths: Paths) -> list[Path]:
     styles.apply_style()
     cons = load_table(paths, "s5", "position_conservation")
     land = load_s7_figure(paths, "F1_reproducibility_landscape")
-    sig = load_table(paths, "s4", "significance_screen")
 
     fig = plt.figure(figsize=(DOUBLE_COL, 5.0))
     gs = fig.add_gridspec(2, 2, height_ratios=[1.05, 1.0], width_ratios=[1.35, 1.0],
@@ -198,7 +197,7 @@ def build(paths: Paths) -> list[Path]:
     panel_letter(top_b, "B")
 
     axc = fig.add_subplot(gs[1, :])
-    _panel_cons_vs_effect(axc, cons, sig)
+    _panel_rho_by_conservation(axc, cons)
     panel_letter(axc, "C")
 
     fig.suptitle("Cross-serotype reproducibility is heterogeneous across positions",

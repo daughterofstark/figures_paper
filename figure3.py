@@ -77,23 +77,29 @@ def _panel_scatter(ax, df: pd.DataFrame, serotypes: list[str]):
     ax.axvline(PROVISIONAL_RHO_STAR, color="#d9d9d9", lw=0.6, ls=(0, (4, 3)), zorder=1)
     ax.axhline(PROVISIONAL_COHERENCE_THRESHOLD, color="#d9d9d9", lw=0.6,
                ls=(0, (4, 3)), zorder=1)
-    for sero in serotypes:
-        d = df[df["serotype"] == sero]
-        ax.scatter(d["rho_domain"], d["coherence_domain"], s=22,
-                   c=[styles.serotype_color(sero)], alpha=0.85, edgecolors="white",
-                   linewidths=0.3, label=sero, zorder=2)
-    cat = df[is_catalytic(df["domain"])]
+    cat_mask = is_catalytic(df["domain"])
+    non = df[~cat_mask]
+    ax.scatter(non["rho_domain"], non["coherence_domain"], s=22,
+               c="#bdbdbd", alpha=0.62, edgecolors="white", linewidths=0.3,
+               label="other domains", zorder=2)
+    cat = df[cat_mask]
     if not cat.empty:
-        ax.scatter(cat["rho_domain"], cat["coherence_domain"], s=54,
-                   facecolors="none", edgecolors=styles.CATALYTIC_ACCENT,
-                   linewidths=1.2, zorder=3, label="catalytic")
+        ax.scatter(cat["rho_domain"], cat["coherence_domain"], s=50,
+                   c=styles.CATALYTIC_ACCENT, alpha=0.88, edgecolors="white",
+                   linewidths=0.5, zorder=3, label="catalytic domains")
+        for dom, g in cat.groupby("domain", sort=False):
+            x = pd.to_numeric(g["rho_domain"], errors="coerce").median()
+            y = pd.to_numeric(g["coherence_domain"], errors="coerce").median()
+            ax.text(x, y + 0.045, dom.replace("Catalytic ", "").replace(" Loop", ""),
+                    ha="center", va="bottom", fontsize=styles.FS_ANNOT,
+                    color=styles.CATALYTIC_ACCENT)
     ax.set_xlim(0, 1.02)
     ax.set_ylim(0, 1.02)
     ax.set_xticks([0, 0.5, 1.0])
     ax.set_yticks([0, 0.5, 1.0])
     ax.set_xlabel("reproducibility ρ (domain)")
     ax.set_ylabel("coherence (directional cleanliness)")
-    ax.set_title("catalytic domains are directionally coherent", fontsize=styles.FS_LABEL)
+    ax.set_title("coherence distinguishes catalytic domains", fontsize=styles.FS_LABEL)
     ax.text(0.99, 0.02, "guides provisional (uncalibrated)", transform=ax.transAxes,
             ha="right", va="bottom", fontsize=styles.FS_ANNOT, color="#9e9e9e")
 
@@ -118,7 +124,7 @@ def build(paths: Paths) -> list[Path]:
     _panel_scatter(axb, scat, serotypes)
     axb.legend(loc="lower left", bbox_to_anchor=(0.0, 0.0), fontsize=styles.FS_ANNOT,
                ncol=1)
-    panel_letter(axb, "B")
+    panel_letter(axb, "B", dx=-0.06)
 
     fig.suptitle("Catalytic domains are coherent but not the highest-ρ regions",
                  x=0.5, y=1.02)
