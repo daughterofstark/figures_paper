@@ -1,7 +1,8 @@
 """Supplementary Figure S2 — Signed dynamic effects along the NS2B–NS3 sequence.
 
 Biological message : the significant signed effects of Main Figure 4, placed on the
-    sequence axis, cluster at the catalytic residues rather than spreading uniformly.
+    sequence axis, are distributed across NS2B and NS3; catalytic residues are
+    highlighted as functional reference points.
 Why this figure exists : it is the positional (per-residue) companion to the Figure 4
     volcano — same effects, arranged along the sequence for structural readers.
 Generated from : outputs_s4/significance_screen.parquet.
@@ -94,7 +95,7 @@ def build(paths: Paths) -> list[Path]:
         ax.set_xticklabels(order["canon_label"], rotation=90, fontsize=styles.FS_ANNOT)
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.62), ncol=3,
               fontsize=styles.FS_ANNOT)
-    ax.set_title("Signed dynamic effects along the NS2B–NS3 sequence", pad=16, y=1.08)
+    ax.set_title("Signed dynamic effects are distributed along NS2B–NS3", pad=16, y=1.08)
     fig.subplots_adjust(top=0.82, bottom=0.34)
     return save_figure(fig, paths, "Supplementary_Figure_S2")
 

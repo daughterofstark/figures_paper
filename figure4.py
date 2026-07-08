@@ -1,7 +1,8 @@
-"""Figure 4 — Significant signed effects concentrate in catalytic regions.
+"""Figure 4 — Significant signed effects are widespread across NS2B-NS3.
 
 Biological message : only a minority of signed dynamic effects survive FDR control,
-    and those that do are enriched in the catalytic machinery.
+    and they occur across multiple regions; catalytic positions are highlighted as
+    functional reference points rather than claimed as the dominant cluster.
 Why this figure exists : it summarises effect magnitude and significance together
     (replacing an unreadable forest of hundreds of CIs) and shows the functional
     localisation of the significant effects.
@@ -37,7 +38,7 @@ def build(paths: Paths) -> list[Path]:
     df["p_value_bh"] = pd.to_numeric(df["p_value_bh"], errors="coerce")
     df = df.dropna(subset=["beta_signed", "p_value_bh"]).reset_index(drop=True)
 
-    fig, ax = plt.subplots(figsize=(ONEHALF_COL, ONEHALF_COL * 0.74))
+    fig, ax = plt.subplots(figsize=(ONEHALF_COL, ONEHALF_COL * 0.80))
     if df.empty:
         ax.text(0.5, 0.5, "no signed mechanisms", ha="center", va="center",
                 transform=ax.transAxes, color=styles.NONSIG_COLOR)
@@ -78,7 +79,7 @@ def build(paths: Paths) -> list[Path]:
     ax.set_ylabel(r"$-\log_{10}$ (BH-adjusted $p$)")
     ax.margins(x=0.12, y=0.12)
     ax.legend(loc="upper left", bbox_to_anchor=(0.0, 1.0), fontsize=styles.FS_ANNOT)
-    fig.suptitle("Significant signed effects concentrate in catalytic regions",
+    fig.suptitle("Significant signed effects are widespread across NS2B–NS3",
                  x=0.5, y=1.0)
     return save_figure(fig, paths, "figure4_signed_effect_volcano")
 

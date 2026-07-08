@@ -13,14 +13,14 @@ effects are* → *how they behave across serotypes* → *what limits them*.
 
 | Figure | One-sentence biological message | Built from |
 | --- | --- | --- |
-| **Fig 1** — reproducibility landscape | Reproducible dynamics localise to the catalytic core of NS2B–NS3. | `s5/position_conservation` |
-| **Fig 2** — spatial resolution | Reproducibility emerges at the domain scale. | `s7/F7` (residue→SS→motif→domain) + `s7/F2` |
-| **Fig 3** — catalytic core | Catalytic domains are the most reproducible and directionally coherent. | `s7/F3` + `s7/F8` |
-| **Fig 4** — signed-effect volcano | Significant signed effects concentrate in catalytic regions. | `s4/significance_screen` |
-| **Fig 5** — cross-serotype (headline) | A conserved reproducible core, shared across DENV1–4, is dynamically important. | `s5/position_conservation` + `s7/F1` + `s4/significance_screen` |
+| **Fig 1** — reproducibility landscape | Residue-level reproducibility is heterogeneous and distributed across NS2B–NS3. | `s5/position_conservation` |
+| **Fig 2** — spatial resolution | Catalytic-region ρ plateaus after residue aggregation, while gates remain mostly residue/SS. | `s7/F7` (residue→SS→motif→domain) + `s7/F2` |
+| **Fig 3** — domain/coherence audit | Catalytic domains are directionally coherent but are not the highest-ρ regions. | `s7/F3` + `s7/F8` |
+| **Fig 4** — signed-effect volcano | FDR-significant signed effects are widespread across NS2B–NS3, with catalytic examples highlighted. | `s4/significance_screen` |
+| **Fig 5** — cross-serotype audit | Cross-serotype reproducibility is heterogeneous; whole-profile serotype correlations are weak. | `s5/position_conservation` + `s7/F1` + `s4/significance_screen` |
 | **Fig 6** — variance decomposition | Reproducibility is limited by between-replicate variance (τ²), not sampling. | `s7/F6` |
-| **Supp S1** — per-serotype landscape | The Fig 1 landscape is consistent across serotypes (per-serotype detail). | `s7/F1` |
-| **Supp S2** — signed-β Manhattan | The significant effects, placed on the sequence axis, cluster at catalytic residues. | `s4/significance_screen` |
+| **Supp S1** — per-serotype landscape | Per-serotype residue-level ρ landscapes are heterogeneous, with catalytic residues as landmarks. | `s7/F1` |
+| **Supp S2** — signed-β Manhattan | Signed effects are distributed along the sequence, complementing the Fig 4 volcano. | `s4/significance_screen` |
 
 Each module's docstring records its biological message, rationale, source tables, and
 Main-vs-Supplementary justification for future maintenance.
@@ -34,7 +34,7 @@ variance τ² = orange, σ̄² = neutral grey. Colours are never reused for unre
 concepts.
 
 **One label rule** (`utils.objective_labels`): label an observation iff it is catalytic
-OR (FDR-significant AND its |score| is in the top decile), capped at 8 by |score| and
+OR (FDR-significant AND its |score| is in the top decile), capped at 4 by |score| and
 de-overlapped with adjustText. Used identically in Figures 4, 5C and Supp S2.
 
 **Typography / lettering**: a single rcParams style (`styles.apply_style`) fixes font

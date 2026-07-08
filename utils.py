@@ -174,7 +174,7 @@ def objective_labels(
     catalytic: "pd.Series | None" = None,
     significant: "pd.Series | None" = None,
     top_frac: float = 0.10,
-    max_labels: int = 8,
+    max_labels: int = 4,
 ) -> pd.Index:
     """The manuscript's single labelling rule (used identically in every figure).
 

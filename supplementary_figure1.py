@@ -1,8 +1,8 @@
 """Supplementary Figure S1 — Per-serotype residue-level reproducibility landscapes.
 
 Biological message : the reproducibility landscape summarised in Main Figure 1 is
-    consistent across serotypes — each serotype independently shows elevated ρ at the
-    catalytic residues.
+    shown separately for each serotype. Catalytic residues are functional landmarks,
+    but the highest residue-level ρ values are distributed across the sequence.
 Why this figure exists : it is the per-serotype detail behind Main Figure 1 (which
     shows the across-serotype median in structural context). Different message: here
     the emphasis is per-serotype reproducibility rather than structural localisation.
@@ -81,7 +81,7 @@ def build(paths: Paths) -> list[Path]:
     ]
     fig.legend(handles=handles, loc="upper right", bbox_to_anchor=(0.995, 1.0), ncol=2,
                fontsize=styles.FS_ANNOT)
-    fig.suptitle("Per-serotype residue-level reproducibility landscapes", x=0.5,
+    fig.suptitle("Per-serotype residue-level ρ landscapes are heterogeneous", x=0.5,
                  y=1.005)
     fig.tight_layout()
     return save_figure(fig, paths, "Supplementary_Figure_S1")

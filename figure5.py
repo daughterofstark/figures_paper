@@ -1,9 +1,8 @@
-"""Figure 5 — A conserved reproducible core is dynamically important.
+"""Figure 5 — Cross-serotype reproducibility is heterogeneous.
 
-Biological message : a core set of positions reproduces across all four serotypes,
-    the serotypes cluster into a clear similarity structure at the dynamic level, and
-    the most conserved positions carry the largest signed effects — conservation and
-    dynamic importance coincide. This is the manuscript's central cross-serotype claim.
+Biological message : reproducibility conservation varies across positions; catalytic
+    triad residues occupy different conservation classes; whole-profile serotype
+    correlations are weak; signed effects occur across the conservation spectrum.
 Why this figure exists : it is the paper's headline — it is the only figure that links
     reproducibility to evolutionary/functional importance across serotypes.
 Generated from : outputs_s5/position_conservation.parquet (conservation per position),
@@ -21,15 +20,13 @@ import numpy as np
 import pandas as pd
 
 import styles
-from figure_config import CONSERVATION_ORDER, DOUBLE_COL, SEROTYPE_ORDER, Paths
+from figure_config import DOUBLE_COL, SEROTYPE_ORDER, Paths
 from utils import (
     is_catalytic,
     load_s7_figure,
     load_table,
-    lowess,
     objective_labels,
     panel_letter,
-    parse_canon_label,
     save_figure,
 )
 
@@ -45,32 +42,36 @@ def _panel_conservation(ax, cons: pd.DataFrame) -> None:
     d = cons.copy()
     d["n_serotypes_reproducible"] = pd.to_numeric(d["n_serotypes_reproducible"],
                                                   errors="coerce")
-    d["_key"] = d["canon_label"].map(parse_canon_label)
-    d = d.sort_values(["n_serotypes_reproducible", "_key"],
-                      ascending=[True, True]).reset_index(drop=True)
-    y = np.arange(len(d))
-    colors = [styles.CONSERVATION_COLORS.get(c, styles.NONSIG_COLOR)
-              for c in d["conservation_class"]]
-    ax.hlines(y, 0, d["n_serotypes_reproducible"], color="#dcdcdc", lw=0.5, zorder=1)
-    ax.scatter(d["n_serotypes_reproducible"], y, s=22, c=colors, edgecolors="white",
-               linewidths=0.4, zorder=2)
+    counts = (d.groupby("n_serotypes_reproducible", observed=True).size()
+              .reindex(range(5), fill_value=0))
+    colors = [
+        styles.CONSERVATION_COLORS["reproducible_none"],
+        styles.CONSERVATION_COLORS["reproducible_some"],
+        styles.CONSERVATION_COLORS["reproducible_some"],
+        styles.CONSERVATION_COLORS["reproducible_majority"],
+        styles.CONSERVATION_COLORS["reproducible_all"],
+    ]
+    x = np.arange(5)
+    ax.bar(x, counts.to_numpy(), color=colors, edgecolor="white", linewidth=0.5)
+    for xi, c in zip(x, counts.to_numpy(), strict=True):
+        ax.text(xi, c + max(counts.max() * 0.02, 1), str(int(c)), ha="center",
+                va="bottom", fontsize=styles.FS_ANNOT)
     cat = d[d.get("is_catalytic_triad", pd.Series(False, index=d.index)).astype(bool)]
-    if not cat.empty:
-        ax.scatter(cat["n_serotypes_reproducible"], cat.index, s=64,
-                   facecolors="none", edgecolors=styles.CATALYTIC_ACCENT,
-                   linewidths=1.1, zorder=3)
-    ax.set_yticks(y)
-    ax.set_yticklabels(d["canon_label"], fontsize=styles.FS_ANNOT)
-    ax.set_xlabel("serotypes reproducing (n)")
-    ax.set_xlim(-0.2, max(4, float(d["n_serotypes_reproducible"].max() or 4)) + 0.3)
-    ax.set_title("a conserved reproducible core", fontsize=styles.FS_LABEL)
-    handles = [plt.Line2D([], [], marker="o", ls="none", mfc=styles.CONSERVATION_COLORS[c],
-                          mec="white", ms=5, label=c.replace("reproducible_", ""))
-               for c in CONSERVATION_ORDER if c in set(d["conservation_class"])]
-    handles.append(plt.Line2D([], [], marker="o", ls="none", mfc="none",
-                              mec=styles.CATALYTIC_ACCENT, ms=7, mew=1.1,
-                              label="catalytic triad"))
-    ax.legend(handles=handles, loc="lower right", fontsize=styles.FS_ANNOT)
+    offsets = {1: -0.13, 2: 0.0, 3: 0.13, 4: 0.0, 0: 0.0}
+    for _, row in cat.iterrows():
+        n = int(row["n_serotypes_reproducible"])
+        y0 = max(2.0, counts.loc[n] * 0.10)
+        ax.scatter(n + offsets.get(n, 0.0), y0, s=62, facecolors="none",
+                   edgecolors=styles.CATALYTIC_ACCENT, linewidths=1.2, zorder=3)
+        ax.text(n + offsets.get(n, 0.0), y0 + max(counts.max() * 0.035, 2),
+                row["canon_label"], ha="center", va="bottom",
+                fontsize=styles.FS_ANNOT, color=styles.CATALYTIC_ACCENT)
+    ax.set_xticks(x)
+    ax.set_xticklabels(["0", "1", "2", "3", "4"])
+    ax.set_xlabel("serotypes with residue ρ ≥ provisional ρ*")
+    ax.set_ylabel("positions (count)")
+    ax.set_title("conservation classes span 0-4 serotypes", fontsize=styles.FS_LABEL)
+    ax.margins(y=0.15)
 
 
 def _panel_matrix(fig, cell, land: pd.DataFrame) -> None:
@@ -126,7 +127,7 @@ def _panel_matrix(fig, cell, land: pd.DataFrame) -> None:
                         color="white" if v < 0.35 else "black")
     # title on the top-most axis (dendrogram if present) so nothing overlaps
     top_ax = axd if axd is not None else ax
-    top_ax.set_title("serotype similarity (ρ profiles)", fontsize=styles.FS_LABEL,
+    top_ax.set_title("serotype profile correlations are weak", fontsize=styles.FS_LABEL,
                      pad=4)
     cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
     cbar.set_label("Pearson r", fontsize=styles.FS_TICK)
@@ -149,30 +150,34 @@ def _panel_cons_vs_effect(ax, cons: pd.DataFrame, sig: pd.DataFrame) -> None:
         return
     ax.axhline(0, color="#c8c8c8", lw=0.6, zorder=1)
     cat = is_catalytic(df["domain"]) | df["is_catalytic_triad"].astype(bool)
-    xj = df["frac_reproducible"] + df.groupby("frac_reproducible").cumcount() * 0.003
+    within = df.groupby("frac_reproducible").cumcount()
+    sizes = df.groupby("frac_reproducible")["frac_reproducible"].transform("size")
+    offsets = (within - (sizes - 1) / 2.0) * 0.004
+    xj = (df["frac_reproducible"] + offsets).clip(0.0, 1.0)
     ax.scatter(xj[~cat], df["beta_signed"][~cat], s=16, c=styles.NONSIG_COLOR,
                alpha=0.8, edgecolors="white", linewidths=0.3, zorder=2,
                label="non-catalytic")
     ax.scatter(xj[cat], df["beta_signed"][cat], s=26, c=styles.CATALYTIC_ACCENT,
                alpha=0.9, edgecolors="white", linewidths=0.3, zorder=3,
                label="catalytic")
-    tr = lowess(df["frac_reproducible"].to_numpy(), df["beta_signed"].to_numpy())
-    if tr is not None:
-        ax.plot(tr[0], tr[1], color=styles.OKABE_ITO["black"], lw=1.4,
-                ls=(0, (5, 2)), zorder=4, label="trend (visual)")
+    med = df.groupby("frac_reproducible")["beta_signed"].median().sort_index()
+    ax.plot(med.index, med.values, color=styles.OKABE_ITO["black"], lw=1.2,
+            marker="o", ms=3.0, zorder=4, label="median")
     idx = objective_labels(df, score="beta_signed", catalytic=cat,
                            significant=df["significant_fdr"].astype(bool)
                            if "significant_fdr" in df else None)
-    texts = [ax.text(df.loc[i, "frac_reproducible"], df.loc[i, "beta_signed"],
+    df["_xj"] = xj
+    texts = [ax.text(df.loc[i, "_xj"], df.loc[i, "beta_signed"],
                      f"{df.loc[i, 'serotype']} {df.loc[i, 'canon_label']}",
                      fontsize=styles.FS_ANNOT) for i in idx]
     if _HAVE_ADJUST and texts:
         adjust_text(texts, ax=ax, iter_lim=200,
                     arrowprops=dict(arrowstyle="-", lw=0.4, color="#bdbdbd"))
+    ax.set_xlim(-0.04, 1.04)
     ax.set_xlabel("cross-serotype conservation (fraction reproducible)")
     ax.set_ylabel("signed effect β")
     ax.margins(x=0.06, y=0.12)
-    ax.set_title("conserved positions carry the larger effects", fontsize=styles.FS_LABEL)
+    ax.set_title("signed effects span conservation classes", fontsize=styles.FS_LABEL)
     ax.legend(loc="upper left", fontsize=styles.FS_ANNOT, ncol=1)
 
 
@@ -196,9 +201,8 @@ def build(paths: Paths) -> list[Path]:
     _panel_cons_vs_effect(axc, cons, sig)
     panel_letter(axc, "C")
 
-    fig.suptitle(
-        "A conserved reproducible core, shared across DENV1–4, is dynamically important",
-        x=0.5, y=1.0)
+    fig.suptitle("Cross-serotype reproducibility is heterogeneous across positions",
+                 x=0.5, y=1.0)
     return save_figure(fig, paths, "figure5_cross_serotype")
 
 

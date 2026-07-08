@@ -1,8 +1,8 @@
-"""Figure 3 — Catalytic domains are the most reproducible and coherent.
+"""Figure 3 — Catalytic domains are coherent but not the highest-ρ regions.
 
-Biological message : catalytic domains sit at the top of the domain-scale
-    reproducibility ranking in every serotype AND are the most directionally coherent
-    — reproducibility and directional cleanliness coincide at the catalytic core.
+Biological message : domain-scale ρ is highest in broad non-catalytic or unassigned
+    regions, whereas catalytic domains are moderate in ρ but comparatively coherent
+    in signed direction.
 Why this figure exists : it identifies *which structural module* carries the signal,
     combining the cross-serotype ρ landscape with the ρ–coherence relationship so the
     two are read as one result rather than two.
@@ -64,7 +64,7 @@ def _panel_heatmap(ax, df: pd.DataFrame, serotypes: list[str]):
                 ax.text(j, i, f"{vals[i, j]:.2f}", ha="center", va="center",
                         fontsize=styles.FS_ANNOT,
                         color=_text_color(cmap, norm, vals[i, j]))
-    ax.set_title("domain-scale ρ across serotypes", fontsize=styles.FS_LABEL)
+    ax.set_title("domain-scale ρ is heterogeneous", fontsize=styles.FS_LABEL)
     return im, norm, cmap
 
 
@@ -93,7 +93,7 @@ def _panel_scatter(ax, df: pd.DataFrame, serotypes: list[str]):
     ax.set_yticks([0, 0.5, 1.0])
     ax.set_xlabel("reproducibility ρ (domain)")
     ax.set_ylabel("coherence (directional cleanliness)")
-    ax.set_title("coherence rises with ρ", fontsize=styles.FS_LABEL)
+    ax.set_title("catalytic domains are directionally coherent", fontsize=styles.FS_LABEL)
     ax.text(0.99, 0.02, "guides provisional (uncalibrated)", transform=ax.transAxes,
             ha="right", va="bottom", fontsize=styles.FS_ANNOT, color="#9e9e9e")
 
@@ -120,7 +120,7 @@ def build(paths: Paths) -> list[Path]:
                ncol=1)
     panel_letter(axb, "B")
 
-    fig.suptitle("Catalytic domains are the most reproducible and directionally coherent",
+    fig.suptitle("Catalytic domains are coherent but not the highest-ρ regions",
                  x=0.5, y=1.02)
     return save_figure(fig, paths, "figure3_catalytic_core")
 

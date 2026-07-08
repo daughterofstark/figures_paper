@@ -1,8 +1,8 @@
-"""Figure 1 — Reproducible dynamics localize to the catalytic core.
+"""Figure 1 — Residue-level reproducibility is distributed across NS2B-NS3.
 
 Biological message : along the NS2B–NS3 structure, per-position reproducibility (ρ)
-    is highest at the catalytic machinery; reproducible dynamics are not uniform but
-    localize to specific structural modules.
+    is heterogeneous and distributed across both chains. Catalytic-triad residues are
+    highlighted as functional references, but they are not the global ρ maxima.
 Why this figure exists : it is the manuscript's opening orientation figure — it maps
     *where* reproducible dynamics live, in structural context (chain + domain).
 Generated from : outputs_s5/position_conservation.parquet (chain, domain,
@@ -35,8 +35,8 @@ def build(paths: Paths) -> list[Path]:
     df = df.sort_values(["chain", "_resid"]).reset_index(drop=True)
     df["_x"] = np.arange(len(df))
 
-    fig = plt.figure(figsize=(DOUBLE_COL, 2.7))
-    gs = fig.add_gridspec(2, 1, height_ratios=[3.0, 1.0], hspace=0.08)
+    fig = plt.figure(figsize=(DOUBLE_COL, 2.95))
+    gs = fig.add_gridspec(2, 1, height_ratios=[3.2, 1.15], hspace=0.08)
     ax = fig.add_subplot(gs[0])
     axd = fig.add_subplot(gs[1], sharex=ax)
 
@@ -67,18 +67,26 @@ def build(paths: Paths) -> list[Path]:
     ax.tick_params(labelbottom=False)
     panel_letter(ax, "A")
 
+    label_rows = []
     for (chain, dom), g in df.groupby(["chain", "domain"], sort=False):
         x0, x1 = g["_x"].min(), g["_x"].max()
         is_cat = dom in CATALYTIC_DOMAINS
         axd.add_patch(Rectangle(
             (x0 - 0.5, 0.15), (x1 - x0) + 1.0, 0.7,
-            facecolor=(styles.CATALYTIC_ACCENT if is_cat else "#9ecae1"),
-            alpha=0.9 if is_cat else 0.55,
-            edgecolor=styles.OKABE_ITO["black"], linewidth=0.4))
-        axd.text((x0 + x1) / 2, 0.5, dom, ha="center", va="center",
+            facecolor="#c6dbef", alpha=0.55,
+            edgecolor=styles.OKABE_ITO["black"], linewidth=0.35))
+        if dom != "unassigned":
+            label_rows.append((chain, dom, (x0 + x1) / 2, is_cat))
+    for i, (_chain, dom, xc, is_cat) in enumerate(label_rows):
+        ytxt = 0.94 if i % 2 == 0 else 0.06
+        axd.plot([xc, xc], [0.5, ytxt], color="#777777", lw=0.35, zorder=3)
+        axd.text(xc, ytxt, dom, ha="center", va="bottom" if ytxt > 0.5 else "top",
                  fontsize=styles.FS_ANNOT,
-                 color="white" if is_cat else styles.OKABE_ITO["black"],
-                 rotation=0 if (x1 - x0) >= 2 else 90)
+                 color=styles.CATALYTIC_ACCENT if is_cat else styles.OKABE_ITO["black"],
+                 fontweight="bold" if is_cat else "normal", clip_on=False)
+    if not cat.empty:
+        axd.vlines(cat["_x"], 0.1, 0.9, color=styles.CATALYTIC_ACCENT, lw=1.0,
+                   zorder=4)
     axd.set_ylim(0, 1)
     axd.set_yticks([])
     axd.set_ylabel("domains", rotation=0, ha="right", va="center",
@@ -94,7 +102,7 @@ def build(paths: Paths) -> list[Path]:
     cbar.set_label("ρ", fontsize=styles.FS_TICK)
     cbar.set_ticks([0, 0.5, 1.0])
     cbar.outline.set_linewidth(0.4)
-    fig.suptitle("Reproducible dynamics localize to the catalytic core of NS2B–NS3",
+    fig.suptitle("Residue-level reproducibility is distributed across NS2B–NS3",
                  x=0.5, y=1.02)
     return save_figure(fig, paths, "figure1_reproducibility_landscape")
 

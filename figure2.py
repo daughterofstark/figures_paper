@@ -1,8 +1,9 @@
-"""Figure 2 — Reproducibility emerges at the domain scale.
+"""Figure 2 — Catalytic-region ρ saturates above residue scale.
 
-Biological message : per-residue effects are largely irreproducible, but coarsening
-    to secondary-structure → motif → domain recovers reproducibility, which is
-    therefore a domain-scale property; almost all licensing occurs at the domain scale.
+Biological message : catalytic-region trajectories gain ρ when aggregated above
+    residue scale, then plateau because secondary-structure, motif and domain labels
+    collapse to the same regions in this hierarchy. Gated loci remain mostly residue
+    or secondary-structure, not domain-scale.
 Why this figure exists : it establishes the spatial scale at which the analysis is
     interpretable, motivating the domain-scale focus of the rest of the paper.
 Generated from : outputs_s7/F7_rho_vs_scale_catalytic.parquet (ρ across scales) and
@@ -53,7 +54,7 @@ def _panel_scale(ax, df: pd.DataFrame, serotypes: list[str]) -> None:
     ax.set_yticks([0, 0.5, 1.0])
     ax.set_ylabel("reproducibility ρ")
     ax.set_xlabel("spatial scale (fine → coarse)")
-    ax.set_title("ρ saturates by the domain scale", fontsize=styles.FS_LABEL, loc="right")
+    ax.set_title("ρ plateaus after residue aggregation", fontsize=styles.FS_LABEL, loc="right")
 
 
 def _panel_census(ax, df: pd.DataFrame, serotypes: list[str]) -> None:
@@ -75,7 +76,7 @@ def _panel_census(ax, df: pd.DataFrame, serotypes: list[str]) -> None:
     ax.set_xticks(x)
     ax.set_xticklabels(serotypes, rotation=0)
     ax.set_ylabel("gated loci (count)")
-    ax.set_title("loci gate at the domain scale", fontsize=styles.FS_LABEL, loc="right")
+    ax.set_title("gates remain mostly residue or SS", fontsize=styles.FS_LABEL, loc="right")
     ax.margins(y=0.08)
     ax.legend(title="gated scale", loc="upper center", bbox_to_anchor=(0.5, -0.16),
               ncol=min(3, len(level_names)), fontsize=styles.FS_ANNOT)
@@ -101,7 +102,7 @@ def build(paths: Paths) -> list[Path]:
     _panel_census(axb, census, serotypes)
     panel_letter(axb, "B")
 
-    fig.suptitle("Reproducibility emerges at the domain scale", x=0.5, y=1.02)
+    fig.suptitle("Catalytic-region ρ saturates above the residue scale", x=0.5, y=1.02)
     return save_figure(fig, paths, "figure2_spatial_resolution")
 
 
