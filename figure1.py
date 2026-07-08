@@ -25,20 +25,19 @@ from figure_config import CATALYTIC_DOMAINS, DOUBLE_COL, Paths
 from utils import chain_bands, load_table, panel_letter, parse_canon_label, save_figure
 
 _DOMAIN_LABELS = {
-    "Catalytic Triad": "triad",
-    "Oxyanion Loop": "oxyanion",
-    "Gly45 Turn": "Gly45",
-    "B2b-C2 Hairpin": "B2b-C2",
-    "120s Loop": "120s",
-    "C-Terminal Tail": "C-tail",
+    "Gly45 Turn": "1",
+    "B2b-C2 Hairpin": "2",
+    "120s Loop": "3",
+    "Oxyanion Loop": "4",
+    "C-Terminal Tail": "5",
 }
-_DOMAIN_LABEL_OFFSETS = {
-    "Gly45 Turn": (0.0, 0.94),
-    "Catalytic Triad": (0.0, 0.06),
-    "B2b-C2 Hairpin": (-2.0, 0.74),
-    "120s Loop": (2.0, 0.94),
-    "Oxyanion Loop": (0.0, 0.06),
-    "C-Terminal Tail": (0.0, 0.78),
+_DOMAIN_LEGEND = (
+    "1 Gly45 turn   2 B2b-C2 hairpin   3 120s loop   "
+    "4 oxyanion loop   5 C-tail   | orange ticks: catalytic triad residues"
+)
+_DOMAIN_CODE_Y = {
+    "B2b-C2 Hairpin": 0.35,
+    "120s Loop": 0.65,
 }
 
 
@@ -84,32 +83,29 @@ def build(paths: Paths) -> list[Path]:
     ax.tick_params(labelbottom=False)
     panel_letter(ax, "A")
 
-    label_rows = []
     for (chain, dom), g in df.groupby(["chain", "domain"], sort=False):
         x0, x1 = g["_x"].min(), g["_x"].max()
-        is_cat = dom in CATALYTIC_DOMAINS
         axd.add_patch(Rectangle(
             (x0 - 0.5, 0.15), (x1 - x0) + 1.0, 0.7,
             facecolor="#c6dbef", alpha=0.55,
             edgecolor=styles.OKABE_ITO["black"], linewidth=0.35))
-        if dom != "unassigned":
-            label_rows.append((chain, dom, (x0 + x1) / 2, is_cat))
-    for i, (_chain, dom, xc, is_cat) in enumerate(label_rows):
-        dx, ytxt = _DOMAIN_LABEL_OFFSETS.get(dom, (0.0, (0.94, 0.06, 0.78)[i % 3]))
-        axd.plot([xc, xc + dx], [0.5, ytxt], color="#777777", lw=0.35, zorder=3)
-        axd.text(xc + dx, ytxt, _DOMAIN_LABELS.get(dom, dom), ha="center",
-                 va="bottom" if ytxt > 0.5 else "top",
-                 fontsize=styles.FS_ANNOT,
-                 color=styles.CATALYTIC_ACCENT if is_cat else styles.OKABE_ITO["black"],
-                 fontweight="bold" if is_cat else "normal", clip_on=False)
+        code = _DOMAIN_LABELS.get(dom)
+        if code is not None:
+            axd.text((x0 + x1) / 2, _DOMAIN_CODE_Y.get(dom, 0.5), code,
+                     ha="center", va="center",
+                     fontsize=styles.FS_LABEL, fontweight="bold",
+                     color=styles.OKABE_ITO["black"])
     if not cat.empty:
         axd.vlines(cat["_x"], 0.1, 0.9, color=styles.CATALYTIC_ACCENT, lw=1.0,
                    zorder=4)
+    axd.text(0.5, -0.34, _DOMAIN_LEGEND, transform=axd.transAxes,
+             ha="center", va="top", fontsize=styles.FS_ANNOT,
+             color=styles.OKABE_ITO["black"], clip_on=False)
     axd.set_ylim(0, 1)
     axd.set_yticks([])
     axd.set_ylabel("domains", rotation=0, ha="right", va="center",
                    fontsize=styles.FS_TICK)
-    axd.set_xlabel("canonical residue position (ordered by chain, number)")
+    axd.set_xlabel("canonical residue position (ordered by chain, number)", labelpad=18)
     panel_letter(axd, "B")
     if len(df) <= 30:
         axd.set_xticks(df["_x"])

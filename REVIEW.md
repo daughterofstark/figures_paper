@@ -21,6 +21,19 @@ conservation structure, and tau2-dominated limits. They do not support claims th
 catalytic regions are the highest-rho regions or that significant effects concentrate
 there.
 
+## Visual Delta From Previous Commit
+
+- Figure 1: lower architecture track changed from text/leader-line labels to numbered
+  domain blocks with a compact legend; catalytic triad is shown only as three orange
+  residue ticks.
+- Figure 2: added a shaded plateau band and inline plateau annotation.
+- Figure 3: Panel B changed from serotype-coloured scatter to catalytic-vs-other domain
+  contrast.
+- Figure 4 and Supplementary Figure S2: orange outlines now mark only catalytic rows that
+  are also FDR-significant, reducing catalytic visual dominance.
+- Figure 5: removed the weak correlation-matrix panel and replaced it with stacked
+  reproducible-position counts by serotype and chain.
+
 ## Figure-by-Figure Review
 
 ### Figure 1 — Residue-level reproducibility is distributed across NS2B-NS3
@@ -106,18 +119,19 @@ Publication readiness: 8/10.
 Biological question: How conserved are reproducible features across serotypes?
 
 Strengths: The figure now stays on one question. Panel A gives counts by number of
-serotypes; Panel B honestly shows weak profile correlations; Panel C shows that positions
-reproducible in more serotypes have higher median residue-level rho.
+serotypes; Panel B shows per-serotype reproducible-position counts split by chain; Panel C
+shows that positions reproducible in more serotypes have higher median residue-level rho.
 
-Weaknesses: Panel B is a qualifying result rather than a headline result. It is useful
-because it prevents overclaiming, but it weakens the emotional arc of the figure.
+Weaknesses: Panel B is descriptive rather than mechanistic. It is more useful than the
+previous weak correlation matrix, but it still mainly functions as cross-serotype context.
 
 Changes made: Replaced the old signed-effect Panel C with a conservation-class rho
-summary. Removed the S4 signed-effect dependency from Figure 5. Kept catalytic triad
-markers as landmarks in Panels A and C.
+summary. Replaced the correlation matrix with reproducible-position counts by serotype and
+chain. Removed the S4 signed-effect dependency from Figure 5. Kept catalytic triad markers
+as landmarks in Panels A and C.
 
 Remaining weaknesses: The figure is now honest and readable, but less dramatic. If space
-is tight, Panel B could move to supplementary material.
+is tight, Panel B could still move to supplementary material.
 
 Publication readiness: 8/10.
 
@@ -197,7 +211,7 @@ are descriptive with n=4 biological systems.
 
 - Rewrite manuscript Results text to match the revised figure sequence.
 - Consider moving Figure 5B to supplementary if the main narrative needs a tighter visual
-  arc.
+  arc focused only on conservation classes.
 - Consider a future upstream annotation pass to reduce the dominance of "unassigned"
   structural regions. This should be a new analysis/annotation step, not a plotting patch.
 - At final typesetting, check all panels at actual journal column widths and confirm label

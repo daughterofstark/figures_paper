@@ -1,8 +1,8 @@
 """Figure 5 — Cross-serotype reproducibility is heterogeneous.
 
 Biological message : reproducibility conservation varies across positions; catalytic
-    triad residues occupy different conservation classes; whole-profile serotype
-    correlations are weak; positions reproducible in more serotypes tend to have
+    triad residues occupy different conservation classes; each serotype has many
+    reproducible positions; positions reproducible in more serotypes tend to have
     higher median residue-level rho.
 Why this figure exists : it answers how reproducible features are conserved across
     DENV1-4 without treating positions as independent biological replicates.
@@ -22,12 +22,8 @@ import pandas as pd
 
 import styles
 from figure_config import DOUBLE_COL, SEROTYPE_ORDER, Paths
-from utils import (
-    load_s7_figure,
-    load_table,
-    panel_letter,
-    save_figure,
-)
+from figure_config import PROVISIONAL_RHO_STAR
+from utils import load_s7_figure, load_table, panel_letter, save_figure
 
 
 def _panel_conservation(ax, cons: pd.DataFrame) -> None:
@@ -66,66 +62,34 @@ def _panel_conservation(ax, cons: pd.DataFrame) -> None:
     ax.margins(y=0.15)
 
 
-def _panel_matrix(fig, cell, land: pd.DataFrame) -> None:
+def _panel_serotype_counts(ax, land: pd.DataFrame) -> None:
     land = land.copy()
     land["rho_residue"] = pd.to_numeric(land["rho_residue"], errors="coerce")
-    mat = land.pivot_table(index="canon_label", columns="serotype",
-                           values="rho_residue", aggfunc="mean")
-    serotypes = [s for s in SEROTYPE_ORDER if s in mat.columns]
-    serotypes += [s for s in mat.columns if s not in serotypes]
-    mat = mat[serotypes]
-    corr = mat.corr(method="pearson", min_periods=2)
-    order = list(corr.columns)
-    corr_vals = corr.to_numpy()
-
-    axd = None
-    if len(order) >= 3 and np.isfinite(corr_vals).all():
-        dist = 1.0 - corr_vals
-        np.fill_diagonal(dist, 0.0)
-        dist = (dist + dist.T) / 2.0
-        if float(np.nanmax(dist)) >= 1e-9:
-            try:
-                from scipy.cluster.hierarchy import dendrogram, linkage
-                from scipy.spatial.distance import squareform
-
-                z = linkage(squareform(dist, checks=False), method="average")
-                sub = cell.subgridspec(2, 1, height_ratios=[1, 4], hspace=0.05)
-                axd = fig.add_subplot(sub[0])
-                dd = dendrogram(z, no_labels=True, color_threshold=0,
-                                above_threshold_color="#9e9e9e", ax=axd)
-                axd.set_axis_off()
-                order = [corr.columns[i] for i in dd["leaves"]]
-                ax = fig.add_subplot(sub[1])
-            except Exception:
-                ax = fig.add_subplot(cell)
-        else:
-            ax = fig.add_subplot(cell)
-    else:
-        ax = fig.add_subplot(cell)
-
-    cm = corr.loc[order, order]
-    im = ax.imshow(cm.to_numpy(float), cmap=styles.CORR_CMAP, vmin=-1, vmax=1,
-                   aspect="equal")
-    ax.set_xticks(range(len(order)))
-    ax.set_yticks(range(len(order)))
-    ax.set_xticklabels(order, rotation=45, ha="right", fontsize=styles.FS_ANNOT)
-    ax.set_yticklabels(order, fontsize=styles.FS_ANNOT)
-    for i in range(len(order)):
-        for j in range(len(order)):
-            v = cm.to_numpy()[i, j]
-            if np.isfinite(v):
-                ax.text(j, i, f"{v:.2f}", ha="center", va="center",
-                        fontsize=styles.FS_ANNOT,
-                        color="white" if v < 0.35 else "black")
-    # title on the top-most axis (dendrogram if present) so nothing overlaps
-    top_ax = axd if axd is not None else ax
-    top_ax.set_title("serotype profile correlations are weak", fontsize=styles.FS_LABEL,
-                     pad=4)
-    cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-    cbar.set_label("Pearson r", fontsize=styles.FS_TICK)
-    cbar.set_ticks([-1, 0, 1])
-    cbar.outline.set_linewidth(0.4)
-    return axd if axd is not None else ax
+    d = land[land["rho_residue"] >= PROVISIONAL_RHO_STAR].copy()
+    serotypes = [s for s in SEROTYPE_ORDER if s in set(land["serotype"])]
+    serotypes += sorted(set(land["serotype"].astype(str)) - set(serotypes))
+    chains = [c for c in ("NS2B", "NS3") if c in set(land["chain"].astype(str))]
+    chains += sorted(set(land["chain"].astype(str)) - set(chains))
+    x = np.arange(len(serotypes))
+    bottoms = np.zeros(len(serotypes))
+    chain_colors = {"NS2B": "#c6dbef", "NS3": "#6baed6"}
+    for chain in chains:
+        h = np.array([
+            len(d[(d["serotype"] == sero) & (d["chain"].astype(str) == chain)])
+            for sero in serotypes
+        ], dtype=float)
+        ax.bar(x, h, bottom=bottoms, width=0.65, color=chain_colors.get(chain, "#bdbdbd"),
+               edgecolor="white", linewidth=0.5, label=chain)
+        bottoms += h
+    for xi, total in zip(x, bottoms, strict=True):
+        ax.text(xi, total + max(bottoms.max() * 0.02, 1), str(int(total)),
+                ha="center", va="bottom", fontsize=styles.FS_ANNOT)
+    ax.set_xticks(x)
+    ax.set_xticklabels(serotypes)
+    ax.set_ylabel("positions with ρ ≥ ρ*")
+    ax.set_title("reproducible-position counts by serotype", fontsize=styles.FS_LABEL)
+    ax.margins(y=0.14)
+    ax.legend(loc="upper right", fontsize=styles.FS_ANNOT)
 
 
 def _panel_rho_by_conservation(ax, cons: pd.DataFrame) -> None:
@@ -193,8 +157,9 @@ def build(paths: Paths) -> list[Path]:
     _panel_conservation(axa, cons)
     panel_letter(axa, "A")
 
-    top_b = _panel_matrix(fig, gs[0, 1], land)
-    panel_letter(top_b, "B")
+    axb = fig.add_subplot(gs[0, 1])
+    _panel_serotype_counts(axb, land)
+    panel_letter(axb, "B")
 
     axc = fig.add_subplot(gs[1, :])
     _panel_rho_by_conservation(axc, cons)
