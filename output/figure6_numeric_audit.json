@@ -1,0 +1,311 @@
+{
+  "K": 3,
+  "classification_rule": {
+    "balanced": "0.4 < frac_tau2 < 0.6",
+    "replicate_dominated": "frac_tau2 >= 0.6",
+    "sampling_dominated": "frac_tau2 <= 0.4"
+  },
+  "metadata": {
+    "metadata_sha256": "d79502ac53fe7fa2448d54cef3f553a974be379d6efeb4d12f94280961b552af",
+    "metadata_source": "/Users/medhasharma/Downloads/forcodexstride/paper_figures/derived_data/phase3e/configured_group_supports.csv"
+  },
+  "regime_counts": {
+    "balanced": 2,
+    "replicate_dominated": 28,
+    "sampling_dominated": 2
+  },
+  "rows": [
+    {
+      "chain": "NS2B",
+      "configured_group": "unassigned",
+      "dataset": "DENV1",
+      "frac_sigma2": 0.016853,
+      "frac_tau2": 0.983147,
+      "support_size": 50,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "120s Loop",
+      "dataset": "DENV1",
+      "frac_sigma2": 0.638601,
+      "frac_tau2": 0.361399,
+      "support_size": 6,
+      "variance_regime": "sampling_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "B2b-C2 Hairpin",
+      "dataset": "DENV1",
+      "frac_sigma2": 0.151304,
+      "frac_tau2": 0.848696,
+      "support_size": 3,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "C-Terminal Tail",
+      "dataset": "DENV1",
+      "frac_sigma2": 0.084335,
+      "frac_tau2": 0.915665,
+      "support_size": 27,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Catalytic Triad",
+      "dataset": "DENV1",
+      "frac_sigma2": 0.040989,
+      "frac_tau2": 0.959011,
+      "support_size": 3,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Gly45 Turn",
+      "dataset": "DENV1",
+      "frac_sigma2": 0.405603,
+      "frac_tau2": 0.594397,
+      "support_size": 8,
+      "variance_regime": "balanced"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Oxyanion Loop",
+      "dataset": "DENV1",
+      "frac_sigma2": 0.019869,
+      "frac_tau2": 0.980131,
+      "support_size": 8,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "unassigned",
+      "dataset": "DENV1",
+      "frac_sigma2": 0.069168,
+      "frac_tau2": 0.930832,
+      "support_size": 131,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS2B",
+      "configured_group": "unassigned",
+      "dataset": "DENV2",
+      "frac_sigma2": 0.095662,
+      "frac_tau2": 0.904338,
+      "support_size": 62,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "120s Loop",
+      "dataset": "DENV2",
+      "frac_sigma2": 0.169146,
+      "frac_tau2": 0.830854,
+      "support_size": 6,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "B2b-C2 Hairpin",
+      "dataset": "DENV2",
+      "frac_sigma2": 0.066809,
+      "frac_tau2": 0.933191,
+      "support_size": 3,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "C-Terminal Tail",
+      "dataset": "DENV2",
+      "frac_sigma2": 0.005589,
+      "frac_tau2": 0.994411,
+      "support_size": 26,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Catalytic Triad",
+      "dataset": "DENV2",
+      "frac_sigma2": 0.032411,
+      "frac_tau2": 0.967589,
+      "support_size": 3,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Gly45 Turn",
+      "dataset": "DENV2",
+      "frac_sigma2": 0.227063,
+      "frac_tau2": 0.772937,
+      "support_size": 8,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Oxyanion Loop",
+      "dataset": "DENV2",
+      "frac_sigma2": 0.018964,
+      "frac_tau2": 0.981036,
+      "support_size": 8,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "unassigned",
+      "dataset": "DENV2",
+      "frac_sigma2": 0.038556,
+      "frac_tau2": 0.961444,
+      "support_size": 131,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS2B",
+      "configured_group": "unassigned",
+      "dataset": "DENV3",
+      "frac_sigma2": 0.079844,
+      "frac_tau2": 0.920156,
+      "support_size": 60,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "120s Loop",
+      "dataset": "DENV3",
+      "frac_sigma2": 0.065454,
+      "frac_tau2": 0.934546,
+      "support_size": 6,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "B2b-C2 Hairpin",
+      "dataset": "DENV3",
+      "frac_sigma2": 0.194956,
+      "frac_tau2": 0.805044,
+      "support_size": 3,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "C-Terminal Tail",
+      "dataset": "DENV3",
+      "frac_sigma2": 0.052727,
+      "frac_tau2": 0.947273,
+      "support_size": 23,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Catalytic Triad",
+      "dataset": "DENV3",
+      "frac_sigma2": 0.074685,
+      "frac_tau2": 0.925315,
+      "support_size": 3,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Gly45 Turn",
+      "dataset": "DENV3",
+      "frac_sigma2": 0.57511,
+      "frac_tau2": 0.42489,
+      "support_size": 8,
+      "variance_regime": "balanced"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Oxyanion Loop",
+      "dataset": "DENV3",
+      "frac_sigma2": 0.068468,
+      "frac_tau2": 0.931532,
+      "support_size": 8,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "unassigned",
+      "dataset": "DENV3",
+      "frac_sigma2": 0.07564,
+      "frac_tau2": 0.92436,
+      "support_size": 131,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS2B",
+      "configured_group": "unassigned",
+      "dataset": "DENV4",
+      "frac_sigma2": 0.011655,
+      "frac_tau2": 0.988345,
+      "support_size": 31,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "120s Loop",
+      "dataset": "DENV4",
+      "frac_sigma2": 0.108769,
+      "frac_tau2": 0.891231,
+      "support_size": 6,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "B2b-C2 Hairpin",
+      "dataset": "DENV4",
+      "frac_sigma2": 0.642073,
+      "frac_tau2": 0.357927,
+      "support_size": 3,
+      "variance_regime": "sampling_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "C-Terminal Tail",
+      "dataset": "DENV4",
+      "frac_sigma2": 0.028995,
+      "frac_tau2": 0.971005,
+      "support_size": 9,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Catalytic Triad",
+      "dataset": "DENV4",
+      "frac_sigma2": 0.165953,
+      "frac_tau2": 0.834047,
+      "support_size": 3,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Gly45 Turn",
+      "dataset": "DENV4",
+      "frac_sigma2": 0.074923,
+      "frac_tau2": 0.925077,
+      "support_size": 8,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "Oxyanion Loop",
+      "dataset": "DENV4",
+      "frac_sigma2": 0.297419,
+      "frac_tau2": 0.702581,
+      "support_size": 8,
+      "variance_regime": "replicate_dominated"
+    },
+    {
+      "chain": "NS3",
+      "configured_group": "unassigned",
+      "dataset": "DENV4",
+      "frac_sigma2": 0.01466,
+      "frac_tau2": 0.98534,
+      "support_size": 131,
+      "variance_regime": "replicate_dominated"
+    }
+  ],
+  "source": "../strideouts/outputs_s7/F6_variance_composition.parquet",
+  "source_sha256": "3b74ca8d2acb3f3cedf17e95e9c57e0613a6b232a52579f68e7737b0266c4a6d",
+  "weak_identification_at_K3": true,
+  "zero_covariance_approximation": true
+}

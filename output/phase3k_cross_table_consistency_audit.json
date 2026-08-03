@@ -1,0 +1,25 @@
+{
+  "all_where_present_count": 30,
+  "bh_flagged_rows": 152,
+  "distinct_bh_flagged_fits": 145,
+  "distinct_finite_fits": 268,
+  "distinct_raw_interval_exclusion_fits": 174,
+  "distinct_selected_fits": 538,
+  "finite_signed_rows": 302,
+  "metadata_provenance": {
+    "metadata_sha256": "d79502ac53fe7fa2448d54cef3f553a974be379d6efeb4d12f94280961b552af",
+    "metadata_source": "/Users/medhasharma/Downloads/forcodexstride/paper_figures/derived_data/phase3e/configured_group_supports.csv"
+  },
+  "partial_presence_coordinates": 49,
+  "raw_interval_exclusion_rows": 181,
+  "raw_wald_flagged_rows": 181,
+  "selected_item_rows": 924,
+  "strict_all_four_count": 18,
+  "table5_rows": 32,
+  "union_coordinates": 248,
+  "variance_regime_counts": {
+    "balanced": 2,
+    "replicate-dominated": 28,
+    "sampling-dominated": 2
+  }
+}

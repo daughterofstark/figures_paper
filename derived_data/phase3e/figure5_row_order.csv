@@ -1,0 +1,249 @@
+row_index,canonical_coordinate,chain,configured_group_label,n_present,n_crossing
+0,NS2B:-25,NS2B,unassigned,4,4
+1,NS2B:-24,NS2B,unassigned,4,4
+2,NS2B:-23,NS2B,unassigned,4,4
+3,NS2B:-19,NS2B,unassigned,4,4
+4,NS2B:-17,NS2B,unassigned,4,4
+5,NS2B:-9,NS2B,unassigned,4,4
+6,NS3:33,NS3,unassigned,4,4
+7,NS3:34,NS3,unassigned,4,4
+8,NS3:43,NS3,Gly45 Turn,4,4
+9,NS3:47,NS3,Gly45 Turn,4,4
+10,NS3:72,NS3,unassigned,4,4
+11,NS3:84,NS3,unassigned,4,4
+12,NS3:85,NS3,unassigned,4,4
+13,NS3:94,NS3,unassigned,4,4
+14,NS3:106,NS3,unassigned,4,4
+15,NS3:121,NS3,120s Loop,4,4
+16,NS3:130,NS3,unassigned,4,4
+17,NS3:131,NS3,unassigned,4,4
+18,NS2B:-29,NS2B,unassigned,4,3
+19,NS2B:-27,NS2B,unassigned,4,3
+20,NS2B:-22,NS2B,unassigned,4,3
+21,NS2B:-18,NS2B,unassigned,4,3
+22,NS2B:-15,NS2B,unassigned,4,3
+23,NS2B:-14,NS2B,unassigned,4,3
+24,NS2B:-12,NS2B,unassigned,4,3
+25,NS2B:-11,NS2B,unassigned,4,3
+26,NS2B:-10,NS2B,unassigned,4,3
+27,NS2B:-2,NS2B,unassigned,4,3
+28,NS3:3,NS3,unassigned,4,3
+29,NS3:6,NS3,unassigned,4,3
+30,NS3:7,NS3,unassigned,4,3
+31,NS3:10,NS3,unassigned,4,3
+32,NS3:13,NS3,unassigned,4,3
+33,NS3:16,NS3,unassigned,4,3
+34,NS3:18,NS3,unassigned,4,3
+35,NS3:19,NS3,unassigned,4,3
+36,NS3:30,NS3,unassigned,4,3
+37,NS3:32,NS3,unassigned,4,3
+38,NS3:38,NS3,unassigned,4,3
+39,NS3:40,NS3,unassigned,4,3
+40,NS3:42,NS3,unassigned,4,3
+41,NS3:50,NS3,Gly45 Turn,4,3
+42,NS3:51,NS3,Catalytic Triad,4,3
+43,NS3:56,NS3,unassigned,4,3
+44,NS3:62,NS3,unassigned,4,3
+45,NS3:64,NS3,unassigned,4,3
+46,NS3:68,NS3,unassigned,4,3
+47,NS3:71,NS3,unassigned,4,3
+48,NS3:73,NS3,unassigned,4,3
+49,NS3:76,NS3,unassigned,4,3
+50,NS3:78,NS3,unassigned,4,3
+51,NS3:81,NS3,unassigned,4,3
+52,NS3:86,NS3,unassigned,4,3
+53,NS3:87,NS3,unassigned,4,3
+54,NS3:95,NS3,unassigned,4,3
+55,NS3:96,NS3,unassigned,4,3
+56,NS3:97,NS3,unassigned,4,3
+57,NS3:101,NS3,unassigned,4,3
+58,NS3:107,NS3,unassigned,4,3
+59,NS3:109,NS3,unassigned,4,3
+60,NS3:111,NS3,unassigned,4,3
+61,NS3:112,NS3,unassigned,4,3
+62,NS3:113,NS3,unassigned,4,3
+63,NS3:118,NS3,120s Loop,4,3
+64,NS3:119,NS3,120s Loop,4,3
+65,NS3:127,NS3,unassigned,4,3
+66,NS3:128,NS3,unassigned,4,3
+67,NS3:129,NS3,unassigned,4,3
+68,NS3:132,NS3,unassigned,4,3
+69,NS3:136,NS3,unassigned,4,3
+70,NS3:139,NS3,unassigned,4,3
+71,NS3:140,NS3,unassigned,4,3
+72,NS3:143,NS3,unassigned,4,3
+73,NS3:157,NS3,Oxyanion Loop,4,3
+74,NS3:160,NS3,C-Terminal Tail,4,3
+75,NS3:163,NS3,C-Terminal Tail,4,3
+76,NS3:164,NS3,C-Terminal Tail,4,3
+77,NS2B:-30,NS2B,unassigned,4,2
+78,NS2B:-28,NS2B,unassigned,4,2
+79,NS2B:-21,NS2B,unassigned,4,2
+80,NS2B:-20,NS2B,unassigned,4,2
+81,NS2B:-16,NS2B,unassigned,4,2
+82,NS2B:-13,NS2B,unassigned,4,2
+83,NS2B:-8,NS2B,unassigned,4,2
+84,NS2B:-7,NS2B,unassigned,4,2
+85,NS2B:-4,NS2B,unassigned,4,2
+86,NS2B:-1,NS2B,unassigned,4,2
+87,NS2B:0,NS2B,unassigned,4,2
+88,NS3:1,NS3,unassigned,4,2
+89,NS3:2,NS3,unassigned,4,2
+90,NS3:5,NS3,unassigned,4,2
+91,NS3:8,NS3,unassigned,4,2
+92,NS3:11,NS3,unassigned,4,2
+93,NS3:12,NS3,unassigned,4,2
+94,NS3:14,NS3,unassigned,4,2
+95,NS3:20,NS3,unassigned,4,2
+96,NS3:23,NS3,unassigned,4,2
+97,NS3:24,NS3,unassigned,4,2
+98,NS3:25,NS3,unassigned,4,2
+99,NS3:28,NS3,unassigned,4,2
+100,NS3:29,NS3,unassigned,4,2
+101,NS3:31,NS3,unassigned,4,2
+102,NS3:36,NS3,unassigned,4,2
+103,NS3:37,NS3,unassigned,4,2
+104,NS3:39,NS3,unassigned,4,2
+105,NS3:41,NS3,unassigned,4,2
+106,NS3:44,NS3,Gly45 Turn,4,2
+107,NS3:45,NS3,Gly45 Turn,4,2
+108,NS3:48,NS3,Gly45 Turn,4,2
+109,NS3:52,NS3,unassigned,4,2
+110,NS3:63,NS3,unassigned,4,2
+111,NS3:69,NS3,unassigned,4,2
+112,NS3:70,NS3,unassigned,4,2
+113,NS3:74,NS3,unassigned,4,2
+114,NS3:77,NS3,unassigned,4,2
+115,NS3:79,NS3,unassigned,4,2
+116,NS3:80,NS3,unassigned,4,2
+117,NS3:83,NS3,unassigned,4,2
+118,NS3:88,NS3,unassigned,4,2
+119,NS3:92,NS3,unassigned,4,2
+120,NS3:93,NS3,unassigned,4,2
+121,NS3:98,NS3,unassigned,4,2
+122,NS3:99,NS3,unassigned,4,2
+123,NS3:100,NS3,unassigned,4,2
+124,NS3:102,NS3,unassigned,4,2
+125,NS3:103,NS3,unassigned,4,2
+126,NS3:104,NS3,unassigned,4,2
+127,NS3:105,NS3,unassigned,4,2
+128,NS3:108,NS3,unassigned,4,2
+129,NS3:110,NS3,unassigned,4,2
+130,NS3:114,NS3,unassigned,4,2
+131,NS3:120,NS3,120s Loop,4,2
+132,NS3:122,NS3,120s Loop,4,2
+133,NS3:124,NS3,B2b-C2 Hairpin,4,2
+134,NS3:126,NS3,unassigned,4,2
+135,NS3:134,NS3,unassigned,4,2
+136,NS3:135,NS3,Catalytic Triad,4,2
+137,NS3:137,NS3,unassigned,4,2
+138,NS3:138,NS3,unassigned,4,2
+139,NS3:141,NS3,unassigned,4,2
+140,NS3:142,NS3,unassigned,4,2
+141,NS3:144,NS3,unassigned,4,2
+142,NS3:145,NS3,unassigned,4,2
+143,NS3:146,NS3,unassigned,4,2
+144,NS3:147,NS3,unassigned,4,2
+145,NS3:148,NS3,unassigned,4,2
+146,NS3:149,NS3,unassigned,4,2
+147,NS3:150,NS3,unassigned,4,2
+148,NS3:151,NS3,unassigned,4,2
+149,NS3:152,NS3,Oxyanion Loop,4,2
+150,NS3:154,NS3,Oxyanion Loop,4,2
+151,NS3:155,NS3,Oxyanion Loop,4,2
+152,NS3:156,NS3,Oxyanion Loop,4,2
+153,NS3:158,NS3,Oxyanion Loop,4,2
+154,NS3:161,NS3,C-Terminal Tail,4,2
+155,NS3:162,NS3,C-Terminal Tail,4,2
+156,NS3:165,NS3,C-Terminal Tail,4,2
+157,NS2B:-26,NS2B,unassigned,4,1
+158,NS2B:-5,NS2B,unassigned,4,1
+159,NS2B:-3,NS2B,unassigned,4,1
+160,NS3:9,NS3,unassigned,4,1
+161,NS3:15,NS3,unassigned,4,1
+162,NS3:17,NS3,unassigned,4,1
+163,NS3:21,NS3,unassigned,4,1
+164,NS3:22,NS3,unassigned,4,1
+165,NS3:26,NS3,unassigned,4,1
+166,NS3:27,NS3,unassigned,4,1
+167,NS3:35,NS3,unassigned,4,1
+168,NS3:46,NS3,Gly45 Turn,4,1
+169,NS3:49,NS3,Gly45 Turn,4,1
+170,NS3:54,NS3,unassigned,4,1
+171,NS3:55,NS3,unassigned,4,1
+172,NS3:57,NS3,unassigned,4,1
+173,NS3:58,NS3,unassigned,4,1
+174,NS3:60,NS3,unassigned,4,1
+175,NS3:61,NS3,unassigned,4,1
+176,NS3:65,NS3,unassigned,4,1
+177,NS3:66,NS3,unassigned,4,1
+178,NS3:67,NS3,unassigned,4,1
+179,NS3:75,NS3,Catalytic Triad,4,1
+180,NS3:82,NS3,unassigned,4,1
+181,NS3:89,NS3,unassigned,4,1
+182,NS3:91,NS3,unassigned,4,1
+183,NS3:115,NS3,unassigned,4,1
+184,NS3:116,NS3,B2b-C2 Hairpin,4,1
+185,NS3:117,NS3,120s Loop,4,1
+186,NS3:123,NS3,B2b-C2 Hairpin,4,1
+187,NS3:125,NS3,unassigned,4,1
+188,NS3:133,NS3,unassigned,4,1
+189,NS3:153,NS3,Oxyanion Loop,4,1
+190,NS3:159,NS3,Oxyanion Loop,4,1
+191,NS3:168,NS3,C-Terminal Tail,4,1
+192,NS2B:-6,NS2B,unassigned,4,0
+193,NS3:4,NS3,unassigned,4,0
+194,NS3:53,NS3,unassigned,4,0
+195,NS3:59,NS3,unassigned,4,0
+196,NS3:90,NS3,unassigned,4,0
+197,NS3:166,NS3,C-Terminal Tail,4,0
+198,NS3:167,NS3,C-Terminal Tail,4,0
+199,NS2B:-46,NS2B,unassigned,3,3
+200,NS2B:-45,NS2B,unassigned,3,3
+201,NS3:171,NS3,C-Terminal Tail,3,3
+202,NS3:180,NS3,C-Terminal Tail,3,3
+203,NS2B:-49,NS2B,unassigned,3,2
+204,NS2B:-47,NS2B,unassigned,3,2
+205,NS2B:-44,NS2B,unassigned,3,2
+206,NS2B:-43,NS2B,unassigned,3,2
+207,NS2B:-37,NS2B,unassigned,3,2
+208,NS2B:-36,NS2B,unassigned,3,2
+209,NS2B:-35,NS2B,unassigned,3,2
+210,NS2B:-34,NS2B,unassigned,3,2
+211,NS2B:-32,NS2B,unassigned,3,2
+212,NS3:170,NS3,C-Terminal Tail,3,2
+213,NS3:172,NS3,C-Terminal Tail,3,2
+214,NS3:175,NS3,C-Terminal Tail,3,2
+215,NS3:179,NS3,C-Terminal Tail,3,2
+216,NS3:181,NS3,C-Terminal Tail,3,2
+217,NS2B:-48,NS2B,unassigned,3,1
+218,NS2B:-42,NS2B,unassigned,3,1
+219,NS2B:-40,NS2B,unassigned,3,1
+220,NS2B:-39,NS2B,unassigned,3,1
+221,NS2B:-38,NS2B,unassigned,3,1
+222,NS2B:-33,NS2B,unassigned,3,1
+223,NS2B:-31,NS2B,unassigned,3,1
+224,NS3:169,NS3,C-Terminal Tail,3,1
+225,NS3:173,NS3,C-Terminal Tail,3,1
+226,NS2B:-41,NS2B,unassigned,3,0
+227,NS3:174,NS3,C-Terminal Tail,3,0
+228,NS3:176,NS3,C-Terminal Tail,3,0
+229,NS3:177,NS3,C-Terminal Tail,3,0
+230,NS3:178,NS3,C-Terminal Tail,3,0
+231,NS3:182,NS3,C-Terminal Tail,3,0
+232,NS2B:-59,NS2B,unassigned,2,2
+233,NS2B:-57,NS2B,unassigned,2,2
+234,NS2B:-56,NS2B,unassigned,2,2
+235,NS2B:-55,NS2B,unassigned,2,2
+236,NS2B:-53,NS2B,unassigned,2,2
+237,NS2B:-52,NS2B,unassigned,2,2
+238,NS2B:-58,NS2B,unassigned,2,1
+239,NS2B:-54,NS2B,unassigned,2,1
+240,NS3:184,NS3,C-Terminal Tail,2,1
+241,NS2B:-51,NS2B,unassigned,2,0
+242,NS2B:-50,NS2B,unassigned,2,0
+243,NS3:183,NS3,C-Terminal Tail,2,0
+244,NS3:185,NS3,C-Terminal Tail,2,0
+245,NS2B:-61,NS2B,unassigned,1,1
+246,NS2B:-60,NS2B,unassigned,1,1
+247,NS3:186,NS3,C-Terminal Tail,1,0

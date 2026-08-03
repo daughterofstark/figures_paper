@@ -1,0 +1,14 @@
+**Configured catalytic-group magnitude fits across datasets.**
+
+| dataset | chain | configured group | support size | magnitude rho | fitted magnitude beta |
+| --- | --- | --- | --- | --- | --- |
+| DENV1 | NS3 | Catalytic Triad | 3 | 0.575 | 1.74 |
+| DENV2 | NS3 | Catalytic Triad | 3 | 0.388 | 0.998 |
+| DENV3 | NS3 | Catalytic Triad | 3 | 0.362 | 0.645 |
+| DENV4 | NS3 | Catalytic Triad | 3 | 0.778 | 1.71 |
+| DENV1 | NS3 | Oxyanion Loop | 8 | 0.565 | 3.43 |
+| DENV2 | NS3 | Oxyanion Loop | 8 | 0.641 | 2.68 |
+| DENV3 | NS3 | Oxyanion Loop | 8 | 0.623 | 1.21 |
+| DENV4 | NS3 | Oxyanion Loop | 8 | 0.894 | 2.44 |
+
+*Note.* Rho and beta are support-level magnitude-fit quantities. Exact support size is shown for each dataset/configured-group row; no signed or causal interpretation is attached to fitted magnitude beta.

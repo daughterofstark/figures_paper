@@ -173,10 +173,14 @@ def _f8() -> pd.DataFrame:
 # --------------------------------------------------------------------------
 def _t1() -> pd.DataFrame:
     rows = []
+    item = _f1()
     for s in SEROTYPES:
-        rows.append(dict(serotype=s, n_loci=8, n_gated_residue=6, n_mechanisms=5,
-                         n_signed=4, n_mixed=1, n_signed_significant=3,
-                         frac_mixed=0.2, rho_residue_median=0.8, rho_residue_q1=0.6,
+        sub = item[item["serotype"] == s]
+        n_crossing = int((sub["rho_residue"] >= 0.5).sum())
+        rows.append(dict(serotype=s, n_loci=8, n_gated_residue=n_crossing,
+                         n_mechanisms=5,
+                         n_signed=6, n_mixed=2, n_signed_significant=4,
+                         frac_mixed=0.25, rho_residue_median=0.8, rho_residue_q1=0.6,
                          rho_residue_q3=0.9, rho_residue_min=0.4,
                          rho_residue_max=0.95, rho_star=0.5))
     return pd.DataFrame(rows)
@@ -243,24 +247,53 @@ def _significance_screen() -> pd.DataFrame:
         si = _sero_idx(s)
         for ri, (canon, chain, dom) in enumerate(RESIDUES):
             signed = dom in _CATALYTIC or chain == "NS2B"
+            raw_flag = dom in _CATALYTIC
             # per-residue variation so effects are not coincident within a serotype
             b = 0.30 - 0.05 * si + 0.05 * np.sin(1.1 * ri + 0.7 * si)
             pbh = (0.003 + 0.05 * abs(np.sin(0.6 * ri + 0.9 * si))
                    if dom in _CATALYTIC else 0.30)
+            bh_flag = signed and pbh <= 0.05
+            se = 0.05 if raw_flag else 0.20
+            half_width = 0.10 if raw_flag else 0.40
             rows.append(dict(serotype=s, canon_label=canon, chain=chain, domain=dom,
                              gated_scale_level="residue", tier=_TIER,
                              direction=("increase" if signed else "mixed"),
                              is_signed=signed,
                              beta_signed=(round(b, 3) if signed else None),
-                             beta_se=0.05,
-                             beta_ci_lower=(round(b - 0.1, 3) if signed else None),
-                             beta_ci_upper=(round(b + 0.1, 3) if signed else None),
-                             ci_excludes_zero=signed,
-                             z_score=(round(b / 0.05, 3) if signed else 0.0),
-                             p_value=(round(pbh * 0.8, 4) if dom in _CATALYTIC else 0.2),
-                             p_value_bh=round(pbh, 4),
-                             significant_raw=dom in _CATALYTIC,
-                             significant_fdr=dom in _CATALYTIC))
+                             beta_se=(se if signed else None),
+                             beta_ci_lower=(round(b - half_width, 3) if signed else None),
+                             beta_ci_upper=(round(b + half_width, 3) if signed else None),
+                             ci_excludes_zero=raw_flag,
+                             z_score=(round(b / se, 3) if signed else None),
+                             p_value=(round(pbh * 0.8, 4) if raw_flag
+                                      else 0.2 if signed else None),
+                             p_value_bh=(round(pbh, 4) if signed else None),
+                             significant_raw=raw_flag,
+                             significant_fdr=bh_flag))
+    return pd.DataFrame(rows)
+
+
+def _stride_table() -> pd.DataFrame:
+    """Selected-support identities required by the consolidated S2 renderer."""
+
+    screen = _significance_screen()
+    rows = []
+    for row in screen.itertuples(index=False):
+        rows.append(
+            dict(
+                serotype=row.serotype,
+                canon_label=row.canon_label,
+                scale_level="residue",
+                is_gated_scale=True,
+                mech_region_id=f"fixture/{row.chain}/{row.canon_label}",
+                mech_n_loci=1,
+                mech_coherence=1.0 if row.is_signed else 0.0,
+                gate_rho_star=0.5,
+                gate_coherence_threshold=0.6,
+                mech_beta_signed=row.beta_signed,
+                mech_beta_se=row.beta_se,
+            )
+        )
     return pd.DataFrame(rows)
 
 
@@ -314,6 +347,9 @@ def write_realistic_outputs(root: Path) -> Path:
     s4 = root / "outputs_s4"
     s4.mkdir(parents=True, exist_ok=True)
     _significance_screen().to_parquet(s4 / "significance_screen.parquet", index=False)
+    s0 = root / "outputs"
+    s0.mkdir(parents=True, exist_ok=True)
+    _stride_table().to_parquet(s0 / "stride_table.parquet", index=False)
     s5 = root / "outputs_s5"
     s5.mkdir(parents=True, exist_ok=True)
     _position_conservation().to_parquet(s5 / "position_conservation.parquet", index=False)

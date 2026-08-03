@@ -1,0 +1,33 @@
+{
+  "no_interpolation": true,
+  "no_smoothing": true,
+  "profiles": {
+    "DENV1": {
+      "count": 236.0,
+      "max": 0.931291,
+      "median": 0.5153605,
+      "min": 0.027882
+    },
+    "DENV2": {
+      "count": 247.0,
+      "max": 0.936479,
+      "median": 0.535456,
+      "min": 0.045254
+    },
+    "DENV3": {
+      "count": 242.0,
+      "max": 0.918317,
+      "median": 0.557931,
+      "min": 0.01447
+    },
+    "DENV4": {
+      "count": 199.0,
+      "max": 0.916175,
+      "median": 0.528394,
+      "min": 0.015095
+    }
+  },
+  "provisional_reference": 0.5,
+  "source": "../strideouts/outputs_s7/F1_reproducibility_landscape.parquet",
+  "source_sha256": "08d5852ed86c2d671f52851920643d87a0a3471e515888d92489765a125e731e"
+}

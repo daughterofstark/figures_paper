@@ -1,0 +1,33 @@
+dataset,configured_group,support_size,fitted_between_run_component,propagated_within_run_component,between_run_fraction,within_run_fraction,operational_variance_regime
+DENV1,120s Loop (NS3),6,0.059386,0.104937,0.361399,0.638601,sampling-dominated
+DENV1,B2b-C2 Hairpin (NS3),3,0.593688,0.105841,0.848696,0.151304,replicate-dominated
+DENV1,C-Terminal Tail (NS3),27,1.494297,0.137628,0.915665,0.084335,replicate-dominated
+DENV1,Catalytic Triad (NS3),3,1.820815,0.077824,0.959011,0.040989,replicate-dominated
+DENV1,Gly45 Turn (NS3),8,0.235875,0.160956,0.594397,0.405603,balanced
+DENV1,Oxyanion Loop (NS3),8,7.476587,0.151566,0.980131,0.019869,replicate-dominated
+DENV1,unassigned (NS2B),50,12.881535,0.220817,0.983147,0.016853,replicate-dominated
+DENV1,unassigned (NS3),131,1.803191,0.133991,0.930832,0.069168,replicate-dominated
+DENV2,120s Loop (NS3),6,0.573692,0.116793,0.830854,0.169146,replicate-dominated
+DENV2,B2b-C2 Hairpin (NS3),3,0.895851,0.064136,0.933191,0.066809,replicate-dominated
+DENV2,C-Terminal Tail (NS3),26,19.78251,0.111191,0.994411,0.005589,replicate-dominated
+DENV2,Catalytic Triad (NS3),3,1.108097,0.037118,0.967589,0.032411,replicate-dominated
+DENV2,Gly45 Turn (NS3),8,0.137196,0.040304,0.772937,0.227063,replicate-dominated
+DENV2,Oxyanion Loop (NS3),8,3.497014,0.067601,0.981036,0.018964,replicate-dominated
+DENV2,unassigned (NS2B),62,1.613492,0.170677,0.904338,0.095662,replicate-dominated
+DENV2,unassigned (NS3),131,2.507713,0.100564,0.961444,0.038556,replicate-dominated
+DENV3,120s Loop (NS3),6,2.647328,0.185413,0.934546,0.065454,replicate-dominated
+DENV3,B2b-C2 Hairpin (NS3),3,0.479995,0.11624,0.805044,0.194956,replicate-dominated
+DENV3,C-Terminal Tail (NS3),23,5.277734,0.29377,0.947273,0.052727,replicate-dominated
+DENV3,Catalytic Triad (NS3),3,0.485217,0.039163,0.925315,0.074685,replicate-dominated
+DENV3,Gly45 Turn (NS3),8,0.045093,0.061036,0.42489,0.57511,balanced
+DENV3,Oxyanion Loop (NS3),8,0.730667,0.053704,0.931532,0.068468,replicate-dominated
+DENV3,unassigned (NS2B),60,5.749588,0.498902,0.920156,0.079844,replicate-dominated
+DENV3,unassigned (NS3),131,2.404193,0.196735,0.92436,0.07564,replicate-dominated
+DENV4,120s Loop (NS3),6,0.880217,0.107424,0.891231,0.108769,replicate-dominated
+DENV4,B2b-C2 Hairpin (NS3),3,0.106851,0.191676,0.357927,0.642073,sampling-dominated
+DENV4,C-Terminal Tail (NS3),9,4.765313,0.142297,0.971005,0.028995,replicate-dominated
+DENV4,Catalytic Triad (NS3),3,0.646047,0.128546,0.834047,0.165953,replicate-dominated
+DENV4,Gly45 Turn (NS3),8,0.896019,0.072569,0.925077,0.074923,replicate-dominated
+DENV4,Oxyanion Loop (NS3),8,0.551874,0.233621,0.702581,0.297419,replicate-dominated
+DENV4,unassigned (NS2B),31,15.502935,0.182817,0.988345,0.011655,replicate-dominated
+DENV4,unassigned (NS3),131,13.272791,0.197476,0.98534,0.01466,replicate-dominated

@@ -1,0 +1,3 @@
+# Figure 4 caption draft
+
+**Figure 4 | Single-run top-item rankings vary across replicate runs.** (A) For each frozen dataset and run, the item with the largest absolute per-run effect is shown; marker orientation retains the effect sign separately. (B) Within each dataset, Jaccard overlap is shown for all three run pairs at top-N set sizes of 5, 10, and 20. (C) For the union of items ranked in the top 10 by at least one run, cells report rank and sign; blank cells indicate that an item was outside the top 10 in that run. The figure describes ranking variation in the frozen runs. It does not identify a true item or provide an inferential estimate of ranking reliability.

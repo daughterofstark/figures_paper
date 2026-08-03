@@ -1,0 +1,343 @@
+{
+  "alias_provenance": {
+    "labels_changed": {
+      "count": 672379,
+      "fraction": 0.7276829004329004
+    },
+    "selected_membership_changed": {
+      "count": 0,
+      "fraction": 0.0
+    },
+    "selected_rho_changed_gt_1e-12": {
+      "count": 0,
+      "fraction": 0.0
+    },
+    "total_decisions": {
+      "count": 924000,
+      "fraction": 1.0
+    }
+  },
+  "input_sha256": {
+    "figure2_item_first_aggregate.csv": "0e2fbb283ec13d10350de9c809c7300c9b462540e916de55f7cafce1f034aac5",
+    "figure2_observed_first_crossing_sensitivity.csv": "2580f51c6fc9a9a12a99bed61a20f411b3b5efa1fb0d53d054da3cf4a9a5efa5",
+    "figure2_unique_supports.csv": "66ec717fc3d870369c614c78effd20bbbf1f99bc07aa1970132219c141bd3324",
+    "figure2_v9a_alias_provenance.csv": "ce1b4e0697eee66b05006157358982db9f0ae827f6a87b0cab9ff40077ca2111",
+    "figure2_v9a_first_crossing.csv": "db469705399f0424cc80dfdc5e3ccc7b037493a703b2d8850fc1f684ec232c6c",
+    "figure2_v9a_item_first_aggregate.csv": "f286db5001b7469179a7890698a1b3b9a0de73e73f865b5b37a19e20b0e551d4",
+    "figure2_v9a_support_size.csv": "3223ac932563a41d692a6d3ca8eeeb918d68cc5520ca7e03191122a66927b31b",
+    "figure2_v9a_support_size_association.csv": "90a7cd341da2b7d6f7a8d95721c7a5327e58bc9c394c6a98dc23a7eda773cbe5"
+  },
+  "panel_a": {
+    "fraction_y_eq_x": 0.0,
+    "fraction_y_gt_x": 0.9675324675324676,
+    "fraction_y_lt_x": 0.032467532467532464,
+    "median_first_aggregate_rho": 0.9745226962011414,
+    "median_item_rho": 0.5365779286349435,
+    "n": 924
+  },
+  "panel_b": [
+    {
+      "dataset": "DENV1",
+      "fraction_negative": 0.025423728813559324,
+      "fraction_positive": 0.9745762711864406,
+      "median_delta_rho": 0.41035552436275896,
+      "n": 236
+    },
+    {
+      "dataset": "DENV2",
+      "fraction_negative": 0.044534412955465584,
+      "fraction_positive": 0.9554655870445344,
+      "median_delta_rho": 0.3708592822337962,
+      "n": 247
+    },
+    {
+      "dataset": "DENV3",
+      "fraction_negative": 0.008264462809917356,
+      "fraction_positive": 0.9917355371900827,
+      "median_delta_rho": 0.3678085799561253,
+      "n": 242
+    },
+    {
+      "dataset": "DENV4",
+      "fraction_negative": 0.05527638190954774,
+      "fraction_positive": 0.9447236180904522,
+      "median_delta_rho": 0.2874175756875148,
+      "n": 199
+    }
+  ],
+  "panel_c": {
+    "association": [
+      {
+        "dataset": "DENV1",
+        "distribution_q025": 0.3072829300550731,
+        "distribution_q975": 0.3330125298205219,
+        "mc_t95_lower": 0.3216062604116447,
+        "mc_t95_upper": 0.3228210786445052,
+        "mean_spearman": 0.322213669528075,
+        "median": 0.323031759061219,
+        "regime": "frozen_scale_fixed_mean"
+      },
+      {
+        "dataset": "DENV2",
+        "distribution_q025": 0.3018807494400068,
+        "distribution_q975": 0.3291053730995008,
+        "mc_t95_lower": 0.3193423072999659,
+        "mc_t95_upper": 0.3205477231536599,
+        "mean_spearman": 0.3199450152268129,
+        "median": 0.3213189097553816,
+        "regime": "frozen_scale_fixed_mean"
+      },
+      {
+        "dataset": "DENV3",
+        "distribution_q025": 0.2725198265328059,
+        "distribution_q975": 0.3118640002901437,
+        "mc_t95_lower": 0.292595644394326,
+        "mc_t95_upper": 0.2944932410195282,
+        "mean_spearman": 0.2935444427069271,
+        "median": 0.2939508923106736,
+        "regime": "frozen_scale_fixed_mean"
+      },
+      {
+        "dataset": "DENV4",
+        "distribution_q025": 0.2995219098020535,
+        "distribution_q975": 0.339870985447527,
+        "mc_t95_lower": 0.3213002120310203,
+        "mc_t95_upper": 0.3231218584839237,
+        "mean_spearman": 0.322211035257472,
+        "median": 0.3232183929104668,
+        "regime": "frozen_scale_fixed_mean"
+      },
+      {
+        "dataset": "DENV1",
+        "distribution_q025": 0.3135350882996778,
+        "distribution_q975": 0.3421354204888895,
+        "mc_t95_lower": 0.3340998852691879,
+        "mc_t95_upper": 0.3354226510779138,
+        "mean_spearman": 0.3347612681735509,
+        "median": 0.3370817911169522,
+        "regime": "zero_mean"
+      },
+      {
+        "dataset": "DENV2",
+        "distribution_q025": 0.3090126414408799,
+        "distribution_q975": 0.3350124462477199,
+        "mc_t95_lower": 0.3272042636258601,
+        "mc_t95_upper": 0.3285266328277235,
+        "mean_spearman": 0.3278654482267918,
+        "median": 0.330551538718989,
+        "regime": "zero_mean"
+      },
+      {
+        "dataset": "DENV3",
+        "distribution_q025": 0.3086863228387641,
+        "distribution_q975": 0.3380751485612449,
+        "mc_t95_lower": 0.3298229491094343,
+        "mc_t95_upper": 0.3312456308212174,
+        "mean_spearman": 0.3305342899653259,
+        "median": 0.3330584661883491,
+        "regime": "zero_mean"
+      },
+      {
+        "dataset": "DENV4",
+        "distribution_q025": 0.3349883764183699,
+        "distribution_q975": 0.3698062542081258,
+        "mc_t95_lower": 0.3595623519695879,
+        "mc_t95_upper": 0.3612215237395435,
+        "mean_spearman": 0.3603919378545657,
+        "median": 0.3636486809934329,
+        "regime": "zero_mean"
+      }
+    ],
+    "support_size_strata": {
+      "frozen_scale_fixed_mean": [
+        "1",
+        "2-4",
+        "5-8",
+        "9-16",
+        "17-32",
+        "33-64",
+        "129+"
+      ],
+      "zero_mean": [
+        "1",
+        "2-4",
+        "5-8",
+        "9-16",
+        "17-32",
+        "33-64",
+        "129+"
+      ]
+    },
+    "zero_mean_fraction_increased": [
+      {
+        "dataset": "DENV1",
+        "fraction": 0.9999830508474576
+      },
+      {
+        "dataset": "DENV2",
+        "fraction": 1.0
+      },
+      {
+        "dataset": "DENV3",
+        "fraction": 0.9999256198347108
+      },
+      {
+        "dataset": "DENV4",
+        "fraction": 0.9999195979899496
+      }
+    ]
+  },
+  "panel_d": [
+    {
+      "category": "item",
+      "count": 657,
+      "cutoff": 0.4,
+      "denominator": 924,
+      "fraction": 0.711038961038961
+    },
+    {
+      "category": "configured_group",
+      "count": 261,
+      "cutoff": 0.4,
+      "denominator": 924,
+      "fraction": 0.2824675324675324
+    },
+    {
+      "category": "distinct_chain",
+      "count": 6,
+      "cutoff": 0.4,
+      "denominator": 924,
+      "fraction": 0.0064935064935064
+    },
+    {
+      "category": "root",
+      "count": 0,
+      "cutoff": 0.4,
+      "denominator": 924,
+      "fraction": 0.0
+    },
+    {
+      "category": "unresolved",
+      "count": 0,
+      "cutoff": 0.4,
+      "denominator": 924,
+      "fraction": 0.0
+    },
+    {
+      "category": "item",
+      "count": 510,
+      "cutoff": 0.5,
+      "denominator": 924,
+      "fraction": 0.5519480519480519
+    },
+    {
+      "category": "configured_group",
+      "count": 399,
+      "cutoff": 0.5,
+      "denominator": 924,
+      "fraction": 0.4318181818181818
+    },
+    {
+      "category": "distinct_chain",
+      "count": 15,
+      "cutoff": 0.5,
+      "denominator": 924,
+      "fraction": 0.0162337662337662
+    },
+    {
+      "category": "root",
+      "count": 0,
+      "cutoff": 0.5,
+      "denominator": 924,
+      "fraction": 0.0
+    },
+    {
+      "category": "unresolved",
+      "count": 0,
+      "cutoff": 0.5,
+      "denominator": 924,
+      "fraction": 0.0
+    },
+    {
+      "category": "item",
+      "count": 465,
+      "cutoff": 0.5330838393,
+      "denominator": 924,
+      "fraction": 0.5032467532467532
+    },
+    {
+      "category": "configured_group",
+      "count": 436,
+      "cutoff": 0.5330838393,
+      "denominator": 924,
+      "fraction": 0.4718614718614718
+    },
+    {
+      "category": "distinct_chain",
+      "count": 23,
+      "cutoff": 0.5330838393,
+      "denominator": 924,
+      "fraction": 0.0248917748917748
+    },
+    {
+      "category": "root",
+      "count": 0,
+      "cutoff": 0.5330838393,
+      "denominator": 924,
+      "fraction": 0.0
+    },
+    {
+      "category": "unresolved",
+      "count": 0,
+      "cutoff": 0.5330838393,
+      "denominator": 924,
+      "fraction": 0.0
+    },
+    {
+      "category": "item",
+      "count": 375,
+      "cutoff": 0.5999999999999999,
+      "denominator": 924,
+      "fraction": 0.4058441558441558
+    },
+    {
+      "category": "configured_group",
+      "count": 517,
+      "cutoff": 0.5999999999999999,
+      "denominator": 924,
+      "fraction": 0.5595238095238095
+    },
+    {
+      "category": "distinct_chain",
+      "count": 32,
+      "cutoff": 0.5999999999999999,
+      "denominator": 924,
+      "fraction": 0.0346320346320346
+    },
+    {
+      "category": "root",
+      "count": 0,
+      "cutoff": 0.5999999999999999,
+      "denominator": 924,
+      "fraction": 0.0
+    },
+    {
+      "category": "unresolved",
+      "count": 0,
+      "cutoff": 0.5999999999999999,
+      "denominator": 924,
+      "fraction": 0.0
+    }
+  ],
+  "schema_version": "phase3f.figure2.audit.1",
+  "scientific_inputs": [
+    "figure2_item_first_aggregate.csv",
+    "figure2_unique_supports.csv",
+    "figure2_v9a_support_size.csv",
+    "figure2_v9a_support_size_association.csv",
+    "figure2_v9a_item_first_aggregate.csv",
+    "figure2_v9a_first_crossing.csv",
+    "figure2_v9a_alias_provenance.csv",
+    "figure2_observed_first_crossing_sensitivity.csv"
+  ]
+}

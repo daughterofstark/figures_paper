@@ -1,0 +1,17 @@
+{
+  "fit_identity": [
+    "serotype",
+    "mech_region_id"
+  ],
+  "plotting_module": "supplementary_figure2.py",
+  "row_identity": [
+    "serotype",
+    "canon_label"
+  ],
+  "schema_version": "phase3i.supplementary_signed.provenance.1",
+  "sources": {
+    "outputs/stride_table.parquet": "732509f98469cac7c5a5bb723ca78caa58341e47d4f5c1f2f6df3693fb89a213",
+    "outputs_s4/significance_screen.parquet": "1a15af3264bfb9919cfd56d226bdb745450f53ecdbb02fe7967273f5d22a08e1"
+  },
+  "stored_bh_labels_reused_without_recalculation": true
+}

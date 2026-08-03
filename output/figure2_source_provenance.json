@@ -1,0 +1,38 @@
+{
+  "phase3e_manifest_sha256": "2043b2c418c5524964492ee32ea9cfad82393b2b8dd60db7b98f1690a6f89873",
+  "schema_version": "phase3f.figure2.provenance.1",
+  "scientific_inputs": [
+    {
+      "path": "figure2_item_first_aggregate.csv",
+      "sha256": "0e2fbb283ec13d10350de9c809c7300c9b462540e916de55f7cafce1f034aac5"
+    },
+    {
+      "path": "figure2_unique_supports.csv",
+      "sha256": "66ec717fc3d870369c614c78effd20bbbf1f99bc07aa1970132219c141bd3324"
+    },
+    {
+      "path": "figure2_v9a_support_size.csv",
+      "sha256": "3223ac932563a41d692a6d3ca8eeeb918d68cc5520ca7e03191122a66927b31b"
+    },
+    {
+      "path": "figure2_v9a_support_size_association.csv",
+      "sha256": "90a7cd341da2b7d6f7a8d95721c7a5327e58bc9c394c6a98dc23a7eda773cbe5"
+    },
+    {
+      "path": "figure2_v9a_item_first_aggregate.csv",
+      "sha256": "f286db5001b7469179a7890698a1b3b9a0de73e73f865b5b37a19e20b0e551d4"
+    },
+    {
+      "path": "figure2_v9a_first_crossing.csv",
+      "sha256": "db469705399f0424cc80dfdc5e3ccc7b037493a703b2d8850fc1f684ec232c6c"
+    },
+    {
+      "path": "figure2_v9a_alias_provenance.csv",
+      "sha256": "ce1b4e0697eee66b05006157358982db9f0ae827f6a87b0cab9ff40077ca2111"
+    },
+    {
+      "path": "figure2_observed_first_crossing_sensitivity.csv",
+      "sha256": "2580f51c6fc9a9a12a99bed61a20f411b3b5efa1fb0d53d054da3cf4a9a5efa5"
+    }
+  ]
+}

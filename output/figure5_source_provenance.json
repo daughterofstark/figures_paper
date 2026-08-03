@@ -1,0 +1,18 @@
+{
+  "phase3e_manifest_sha256": "2043b2c418c5524964492ee32ea9cfad82393b2b8dd60db7b98f1690a6f89873",
+  "schema_version": "phase3g.figure5.provenance.1",
+  "scientific_inputs": [
+    {
+      "path": "figure5_status_matrix.csv",
+      "sha256": "f34c265ebc3f4113296fe064cf2fa14a051449a7240d501a588508ba5d66d2c5"
+    },
+    {
+      "path": "figure5_coordinate_summary.csv",
+      "sha256": "6e7fd487db737e1bc5bebcfcea6e96b87753365a8334981c67bd365a05a90b97"
+    },
+    {
+      "path": "figure5_row_order.csv",
+      "sha256": "cc098ea1f5299738cfab719d9e6f6b27c94341979bfbb8926faaf39e1aabd43d"
+    }
+  ]
+}

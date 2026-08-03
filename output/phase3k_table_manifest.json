@@ -1,0 +1,50 @@
+{
+  "csv_precision": "pandas deterministic full stored representation",
+  "display_precision": "three significant digits in Markdown/HTML/LaTeX",
+  "operational_coherence_reference": 0.6,
+  "output_csvs": {
+    "supplementary_table2_conditional_signed_bookkeeping.csv": {
+      "rows": 32,
+      "sha256": "0f5a81388500dae429a02bd2ab8dafb9cd1292aa770d481e6bf741ce1a8d9d21"
+    },
+    "table1_per_serotype_summary.csv": {
+      "rows": 4,
+      "sha256": "b67cac4cd4f53aa47fa7e2456fa2afa9c572a64602ba6cfe07d6e94fe0a04846"
+    },
+    "table2_configured_group_summary.csv": {
+      "rows": 32,
+      "sha256": "633ce55dcdf8b82654becfc55ee10ae7ff034ef6e1f574e032153e5d24a7e846"
+    },
+    "table3_configured_catalytic_groups.csv": {
+      "rows": 8,
+      "sha256": "90e086719a6c27e38e0cc9b9720cbfc4b2a049737c69ff7daf07f2400f36b0c5"
+    },
+    "table4_all_four_operational_recurrence.csv": {
+      "rows": 18,
+      "sha256": "23337d597c90dde5707f47d1c02bb964865b12ab660f36018b339eba5b9e7937"
+    },
+    "table5_configured_group_variance_composition.csv": {
+      "rows": 32,
+      "sha256": "db2fff4d99b2780b57a791a2608b2ea4e2d663125714c7824a10162cd0fd3bc9"
+    }
+  },
+  "provisional_rho_reference": 0.5,
+  "purpose": "presentation-only descriptive table repair",
+  "schema_version": "phase3k-v1",
+  "script": {
+    "path": "/Users/medhasharma/Downloads/forcodexstride/paper_figures/tables.py",
+    "sha256": "e623b58bedbb0227b3ac51e3652403b17589411938c3f4322027ab6f646d91ae"
+  },
+  "source_hashes": {
+    "derived_data/phase3e/configured_group_supports.csv": "d79502ac53fe7fa2448d54cef3f553a974be379d6efeb4d12f94280961b552af",
+    "derived_data/phase3e/figure5_coordinate_summary.csv": "6e7fd487db737e1bc5bebcfcea6e96b87753365a8334981c67bd365a05a90b97",
+    "outputs/stride_table.parquet": "732509f98469cac7c5a5bb723ca78caa58341e47d4f5c1f2f6df3693fb89a213",
+    "outputs_s4/significance_screen.parquet": "1a15af3264bfb9919cfd56d226bdb745450f53ecdbb02fe7967273f5d22a08e1",
+    "outputs_s5/position_conservation.parquet": "01508bf2d1a127c9070de639edf5fcb85d41638c2491d730b64d678f460af513",
+    "outputs_s7/F1_reproducibility_landscape.parquet": "08d5852ed86c2d671f52851920643d87a0a3471e515888d92489765a125e731e",
+    "outputs_s7/T1_per_serotype_summary.parquet": "0697386885f6a6f7eb5a5a395530af551a984a493a695a3c44a5e21c86f4c61f",
+    "outputs_s7/T2_domain_rho_signed_effect.parquet": "6a97b0a9a7b0b14194c53a0916c1be76a18f4363458a42dbfdefb87a76285445",
+    "outputs_s7/T3_catalytic_cross_serotype.parquet": "e4bbfd22c848c99d11a4dab5aa4b6b51920529caf72972426837446e48355aa9",
+    "outputs_s7/T5_variance_component_budget.parquet": "ada367b6ff5cf799e44168f00bd067225b3f28accc682b9a76dfd897c5fe4817"
+  }
+}

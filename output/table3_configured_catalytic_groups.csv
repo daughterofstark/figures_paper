@@ -1,0 +1,9 @@
+dataset,chain,configured_group,support_size,magnitude_rho,fitted_magnitude_beta
+DENV1,NS3,Catalytic Triad,3,0.575071,1.735391
+DENV2,NS3,Catalytic Triad,3,0.387816,0.998194
+DENV3,NS3,Catalytic Triad,3,0.361739,0.644889
+DENV4,NS3,Catalytic Triad,3,0.778074,1.708221
+DENV1,NS3,Oxyanion Loop,8,0.564845,3.431357
+DENV2,NS3,Oxyanion Loop,8,0.640791,2.676391
+DENV3,NS3,Oxyanion Loop,8,0.622595,1.206677
+DENV4,NS3,Oxyanion Loop,8,0.893744,2.438947

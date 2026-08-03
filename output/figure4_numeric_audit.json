@@ -1,0 +1,558 @@
+{
+  "deterministic_tie_rule": "canonical_coordinate_ascending",
+  "input_sha256": {
+    "figure4_top1.csv": "33d2eea47f7ca630de7e1ed24656c102fdbcee03d9956953ef28c87aae0832b2",
+    "figure4_top10_heatmap.csv": "a2aa0548bef61dfedddac9b3e92129ec8f46c18abf295680df73c182c7e8b95c",
+    "figure4_topn_jaccard.csv": "84c2e87523562bda9b78e1103e790ac31e1a0a96ae7adbd865cbbd5868617979"
+  },
+  "jaccard_ranges_by_dataset_and_N": {
+    "DENV1|10": {
+      "max": 0.1764705882352941,
+      "median": 0.0526315789473684,
+      "min": 0.0
+    },
+    "DENV1|20": {
+      "max": 0.081081081081081,
+      "median": 0.081081081081081,
+      "min": 0.081081081081081
+    },
+    "DENV1|5": {
+      "max": 0.25,
+      "median": 0.1111111111111111,
+      "min": 0.0
+    },
+    "DENV2|10": {
+      "max": 0.25,
+      "median": 0.0,
+      "min": 0.0
+    },
+    "DENV2|20": {
+      "max": 0.1428571428571428,
+      "median": 0.1111111111111111,
+      "min": 0.0
+    },
+    "DENV2|5": {
+      "max": 0.6666666666666666,
+      "median": 0.0,
+      "min": 0.0
+    },
+    "DENV3|10": {
+      "max": 0.1111111111111111,
+      "median": 0.0526315789473684,
+      "min": 0.0
+    },
+    "DENV3|20": {
+      "max": 0.1111111111111111,
+      "median": 0.1111111111111111,
+      "min": 0.081081081081081
+    },
+    "DENV3|5": {
+      "max": 0.0,
+      "median": 0.0,
+      "min": 0.0
+    },
+    "DENV4|10": {
+      "max": 0.1764705882352941,
+      "median": 0.0526315789473684,
+      "min": 0.0
+    },
+    "DENV4|20": {
+      "max": 0.3333333333333333,
+      "median": 0.1428571428571428,
+      "min": 0.0526315789473684
+    },
+    "DENV4|5": {
+      "max": 0.1111111111111111,
+      "median": 0.0,
+      "min": 0.0
+    }
+  },
+  "jaccard_ranges_global_by_N": {
+    "10": {
+      "max": 0.25,
+      "median": 0.0526315789473684,
+      "min": 0.0
+    },
+    "20": {
+      "max": 0.3333333333333333,
+      "median": 0.09609609609609605,
+      "min": 0.0
+    },
+    "5": {
+      "max": 0.6666666666666666,
+      "median": 0.0,
+      "min": 0.0
+    }
+  },
+  "ranking_basis": "absolute_effect",
+  "repeated_top1_records": [
+    {
+      "canonical_coordinate": "NS2B:-47",
+      "dataset": "DENV1",
+      "run_index": 1
+    },
+    {
+      "canonical_coordinate": "NS2B:-47",
+      "dataset": "DENV1",
+      "run_index": 2
+    }
+  ],
+  "rho_threshold_used": false,
+  "rows_in_exact_ties": 0,
+  "schema_version": "phase3h.figure4.audit.1",
+  "scientific_inputs": [
+    "figure4_top1.csv",
+    "figure4_topn_jaccard.csv",
+    "figure4_top10_heatmap.csv"
+  ],
+  "sign_retained_separately": true,
+  "tie_count": 0,
+  "top10_union_size": {
+    "DENV1": 26,
+    "DENV2": 26,
+    "DENV3": 27,
+    "DENV4": 26
+  },
+  "top1_rows": [
+    {
+      "absolute_effect": 0.4569997878220987,
+      "canonical_coordinate": "NS2B:-47",
+      "dataset": "DENV1",
+      "effect": -0.4569997878220987,
+      "run": "1st_run",
+      "run_index": 1,
+      "sign": -1
+    },
+    {
+      "absolute_effect": 0.290621222060116,
+      "canonical_coordinate": "NS2B:-47",
+      "dataset": "DENV1",
+      "effect": -0.290621222060116,
+      "run": "2nd_run",
+      "run_index": 2,
+      "sign": -1
+    },
+    {
+      "absolute_effect": 0.3458994691299963,
+      "canonical_coordinate": "NS3:162",
+      "dataset": "DENV1",
+      "effect": 0.3458994691299963,
+      "run": "3rd_run",
+      "run_index": 3,
+      "sign": 1
+    },
+    {
+      "absolute_effect": 0.5494807546533049,
+      "canonical_coordinate": "NS2B:-18",
+      "dataset": "DENV2",
+      "effect": 0.5494807546533049,
+      "run": "1st_run",
+      "run_index": 1,
+      "sign": 1
+    },
+    {
+      "absolute_effect": 0.5880971982422379,
+      "canonical_coordinate": "NS3:30",
+      "dataset": "DENV2",
+      "effect": -0.5880971982422379,
+      "run": "2nd_run",
+      "run_index": 2,
+      "sign": -1
+    },
+    {
+      "absolute_effect": 0.5414667277237851,
+      "canonical_coordinate": "NS3:31",
+      "dataset": "DENV2",
+      "effect": -0.5414667277237851,
+      "run": "3rd_run",
+      "run_index": 3,
+      "sign": -1
+    },
+    {
+      "absolute_effect": 0.4663456291421538,
+      "canonical_coordinate": "NS3:15",
+      "dataset": "DENV3",
+      "effect": 0.4663456291421538,
+      "run": "1st_run",
+      "run_index": 1,
+      "sign": 1
+    },
+    {
+      "absolute_effect": 0.4771842619016843,
+      "canonical_coordinate": "NS2B:-14",
+      "dataset": "DENV3",
+      "effect": 0.4771842619016843,
+      "run": "2nd_run",
+      "run_index": 2,
+      "sign": 1
+    },
+    {
+      "absolute_effect": 0.5853874775875754,
+      "canonical_coordinate": "NS2B:-6",
+      "dataset": "DENV3",
+      "effect": 0.5853874775875754,
+      "run": "3rd_run",
+      "run_index": 3,
+      "sign": 1
+    },
+    {
+      "absolute_effect": 0.5766841982866618,
+      "canonical_coordinate": "NS2B:-27",
+      "dataset": "DENV4",
+      "effect": -0.5766841982866618,
+      "run": "1st_run",
+      "run_index": 1,
+      "sign": -1
+    },
+    {
+      "absolute_effect": 0.2845232298504933,
+      "canonical_coordinate": "NS3:33",
+      "dataset": "DENV4",
+      "effect": 0.2845232298504933,
+      "run": "2nd_run",
+      "run_index": 2,
+      "sign": 1
+    },
+    {
+      "absolute_effect": 0.314623785477809,
+      "canonical_coordinate": "NS3:14",
+      "dataset": "DENV4",
+      "effect": 0.314623785477809,
+      "run": "3rd_run",
+      "run_index": 3,
+      "sign": 1
+    }
+  ],
+  "topn_jaccard_rows": [
+    {
+      "N": 5,
+      "dataset": "DENV1",
+      "intersection_count": 2,
+      "jaccard": 0.25,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 8
+    },
+    {
+      "N": 5,
+      "dataset": "DENV1",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 10
+    },
+    {
+      "N": 5,
+      "dataset": "DENV1",
+      "intersection_count": 1,
+      "jaccard": 0.1111111111111111,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 9
+    },
+    {
+      "N": 10,
+      "dataset": "DENV1",
+      "intersection_count": 3,
+      "jaccard": 0.1764705882352941,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 17
+    },
+    {
+      "N": 10,
+      "dataset": "DENV1",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 20
+    },
+    {
+      "N": 10,
+      "dataset": "DENV1",
+      "intersection_count": 1,
+      "jaccard": 0.0526315789473684,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 19
+    },
+    {
+      "N": 20,
+      "dataset": "DENV1",
+      "intersection_count": 3,
+      "jaccard": 0.081081081081081,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 37
+    },
+    {
+      "N": 20,
+      "dataset": "DENV1",
+      "intersection_count": 3,
+      "jaccard": 0.081081081081081,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 37
+    },
+    {
+      "N": 20,
+      "dataset": "DENV1",
+      "intersection_count": 3,
+      "jaccard": 0.081081081081081,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 37
+    },
+    {
+      "N": 5,
+      "dataset": "DENV2",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 10
+    },
+    {
+      "N": 5,
+      "dataset": "DENV2",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 10
+    },
+    {
+      "N": 5,
+      "dataset": "DENV2",
+      "intersection_count": 4,
+      "jaccard": 0.6666666666666666,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 6
+    },
+    {
+      "N": 10,
+      "dataset": "DENV2",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 20
+    },
+    {
+      "N": 10,
+      "dataset": "DENV2",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 20
+    },
+    {
+      "N": 10,
+      "dataset": "DENV2",
+      "intersection_count": 4,
+      "jaccard": 0.25,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 16
+    },
+    {
+      "N": 20,
+      "dataset": "DENV2",
+      "intersection_count": 4,
+      "jaccard": 0.1111111111111111,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 36
+    },
+    {
+      "N": 20,
+      "dataset": "DENV2",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 40
+    },
+    {
+      "N": 20,
+      "dataset": "DENV2",
+      "intersection_count": 5,
+      "jaccard": 0.1428571428571428,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 35
+    },
+    {
+      "N": 5,
+      "dataset": "DENV3",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 10
+    },
+    {
+      "N": 5,
+      "dataset": "DENV3",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 10
+    },
+    {
+      "N": 5,
+      "dataset": "DENV3",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 10
+    },
+    {
+      "N": 10,
+      "dataset": "DENV3",
+      "intersection_count": 2,
+      "jaccard": 0.1111111111111111,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 18
+    },
+    {
+      "N": 10,
+      "dataset": "DENV3",
+      "intersection_count": 1,
+      "jaccard": 0.0526315789473684,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 19
+    },
+    {
+      "N": 10,
+      "dataset": "DENV3",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 20
+    },
+    {
+      "N": 20,
+      "dataset": "DENV3",
+      "intersection_count": 3,
+      "jaccard": 0.081081081081081,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 37
+    },
+    {
+      "N": 20,
+      "dataset": "DENV3",
+      "intersection_count": 4,
+      "jaccard": 0.1111111111111111,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 36
+    },
+    {
+      "N": 20,
+      "dataset": "DENV3",
+      "intersection_count": 4,
+      "jaccard": 0.1111111111111111,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 36
+    },
+    {
+      "N": 5,
+      "dataset": "DENV4",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 10
+    },
+    {
+      "N": 5,
+      "dataset": "DENV4",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 10
+    },
+    {
+      "N": 5,
+      "dataset": "DENV4",
+      "intersection_count": 1,
+      "jaccard": 0.1111111111111111,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 9
+    },
+    {
+      "N": 10,
+      "dataset": "DENV4",
+      "intersection_count": 1,
+      "jaccard": 0.0526315789473684,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 19
+    },
+    {
+      "N": 10,
+      "dataset": "DENV4",
+      "intersection_count": 0,
+      "jaccard": 0.0,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 20
+    },
+    {
+      "N": 10,
+      "dataset": "DENV4",
+      "intersection_count": 3,
+      "jaccard": 0.1764705882352941,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 17
+    },
+    {
+      "N": 20,
+      "dataset": "DENV4",
+      "intersection_count": 5,
+      "jaccard": 0.1428571428571428,
+      "run_a_index": 1,
+      "run_b_index": 2,
+      "union_count": 35
+    },
+    {
+      "N": 20,
+      "dataset": "DENV4",
+      "intersection_count": 2,
+      "jaccard": 0.0526315789473684,
+      "run_a_index": 1,
+      "run_b_index": 3,
+      "union_count": 38
+    },
+    {
+      "N": 20,
+      "dataset": "DENV4",
+      "intersection_count": 10,
+      "jaccard": 0.3333333333333333,
+      "run_a_index": 2,
+      "run_b_index": 3,
+      "union_count": 30
+    }
+  ],
+  "unique_top1_nominations": {
+    "DENV1": 2,
+    "DENV2": 3,
+    "DENV3": 3,
+    "DENV4": 3
+  }
+}

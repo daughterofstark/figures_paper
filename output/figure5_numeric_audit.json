@@ -1,0 +1,96 @@
+{
+  "all_four_by_cutoff": [
+    {
+      "count": 53,
+      "cutoff": 0.4
+    },
+    {
+      "count": 18,
+      "cutoff": 0.5
+    },
+    {
+      "count": 13,
+      "cutoff": 0.5330838393
+    },
+    {
+      "count": 7,
+      "cutoff": 0.6
+    }
+  ],
+  "counts_by_n_crossing_at_0.5": {
+    "0": 18,
+    "1": 49,
+    "2": 100,
+    "3": 63,
+    "4": 18
+  },
+  "counts_by_n_present": {
+    "1": 3,
+    "2": 13,
+    "3": 33,
+    "4": 199
+  },
+  "crossing_all_four_at_0.5": 18,
+  "crossing_count_vectors": [
+    {
+      "counts_for_0_to_4_crossings": [
+        5,
+        26,
+        73,
+        91,
+        53
+      ],
+      "cutoff": 0.4
+    },
+    {
+      "counts_for_0_to_4_crossings": [
+        18,
+        49,
+        100,
+        63,
+        18
+      ],
+      "cutoff": 0.5
+    },
+    {
+      "counts_for_0_to_4_crossings": [
+        26,
+        58,
+        98,
+        53,
+        13
+      ],
+      "cutoff": 0.5330838393
+    },
+    {
+      "counts_for_0_to_4_crossings": [
+        42,
+        84,
+        82,
+        33,
+        7
+      ],
+      "cutoff": 0.6
+    }
+  ],
+  "crossing_everywhere_present_at_0.5": 30,
+  "difference_all_where_present_minus_all_four": 12,
+  "input_sha256": {
+    "figure5_coordinate_summary.csv": "6e7fd487db737e1bc5bebcfcea6e96b87753365a8334981c67bd365a05a90b97",
+    "figure5_row_order.csv": "cc098ea1f5299738cfab719d9e6f6b27c94341979bfbb8926faaf39e1aabd43d",
+    "figure5_status_matrix.csv": "f34c265ebc3f4113296fe064cf2fa14a051449a7240d501a588508ba5d66d2c5"
+  },
+  "partial_presence_coordinates": 49,
+  "schema_version": "phase3g.figure5.audit.1",
+  "scientific_inputs": [
+    "figure5_status_matrix.csv",
+    "figure5_coordinate_summary.csv",
+    "figure5_row_order.csv"
+  ],
+  "status_state_totals_at_0.5": {
+    "ABSENT": 68,
+    "CROSSING": 510,
+    "PRESENT_BELOW": 414
+  },
+  "total_coordinates": 248
+}

@@ -1,0 +1,1 @@
+**Supplementary Figure S1. Per-dataset item-level magnitude stability profiles.** Each point is one frozen item-level rho value. Coordinates absent from a dataset are left as gaps; no interpolation or smoothing is applied. The dashed line is the provisional rho reference of 0.5 and is not a calibrated decision threshold. Open triangles are catalytic-triad orientation landmarks.

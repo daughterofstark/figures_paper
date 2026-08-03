@@ -228,6 +228,7 @@ def export_table(
     *,
     caption: str,
     label: str,
+    note: str | None = None,
 ) -> list[Path]:
     """Export a table as ``.tex`` (booktabs), ``.html`` and ``.md``."""
     written: list[Path] = []
@@ -248,7 +249,15 @@ def export_table(
     ]
     for r in rows:
         tex.append("    " + " & ".join(_escape_latex(c) for c in r) + r" \\")
-    tex += [r"    \bottomrule", r"  \end{tabular}", r"\end{table}", ""]
+    tex += [r"    \bottomrule", r"  \end{tabular}"]
+    if note:
+        tex += [
+            r"  \par\smallskip",
+            r"  \begin{minipage}{0.98\linewidth}\footnotesize",
+            f"  {_escape_latex(note)}",
+            r"  \end{minipage}",
+        ]
+    tex += [r"\end{table}", ""]
     tex_path = paths.output / f"{stem}.tex"
     tex_path.write_text("\n".join(tex))
     written.append(tex_path)
@@ -262,7 +271,10 @@ def export_table(
     ]
     for r in rows:
         html.append("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>")
-    html += ["</tbody></table>", ""]
+    html += ["</tbody></table>"]
+    if note:
+        html.append(f'<p class="stride-table-note">{note}</p>')
+    html.append("")
     html_path = paths.output / f"{stem}.html"
     html_path.write_text("\n".join(html))
     written.append(html_path)
@@ -276,6 +288,8 @@ def export_table(
     ]
     for r in rows:
         md.append("| " + " | ".join(r) + " |")
+    if note:
+        md.extend(["", f"*Note.* {note}"])
     md.append("")
     md_path = paths.output / f"{stem}.md"
     md_path.write_text("\n".join(md))

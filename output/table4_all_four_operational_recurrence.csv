@@ -1,0 +1,19 @@
+canonical_coordinate,chain,configured_group,n_total,n_present,n_absent,n_crossing,n_present_below_cutoff,present_in_all_four,crossing_all_four
+NS2B:-25,NS2B,unassigned,4,4,0,4,0,True,True
+NS2B:-24,NS2B,unassigned,4,4,0,4,0,True,True
+NS2B:-23,NS2B,unassigned,4,4,0,4,0,True,True
+NS2B:-19,NS2B,unassigned,4,4,0,4,0,True,True
+NS2B:-17,NS2B,unassigned,4,4,0,4,0,True,True
+NS2B:-9,NS2B,unassigned,4,4,0,4,0,True,True
+NS3:33,NS3,unassigned,4,4,0,4,0,True,True
+NS3:34,NS3,unassigned,4,4,0,4,0,True,True
+NS3:43,NS3,Gly45 Turn,4,4,0,4,0,True,True
+NS3:47,NS3,Gly45 Turn,4,4,0,4,0,True,True
+NS3:72,NS3,unassigned,4,4,0,4,0,True,True
+NS3:84,NS3,unassigned,4,4,0,4,0,True,True
+NS3:85,NS3,unassigned,4,4,0,4,0,True,True
+NS3:94,NS3,unassigned,4,4,0,4,0,True,True
+NS3:106,NS3,unassigned,4,4,0,4,0,True,True
+NS3:121,NS3,120s Loop,4,4,0,4,0,True,True
+NS3:130,NS3,unassigned,4,4,0,4,0,True,True
+NS3:131,NS3,unassigned,4,4,0,4,0,True,True

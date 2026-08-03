@@ -1,0 +1,271 @@
+{
+  "cutoffs": [
+    0.4,
+    0.5,
+    0.5330838393,
+    0.6
+  ],
+  "environment": {
+    "numpy_version": "2.5.1",
+    "pandas_version": "3.0.5",
+    "python_version": "3.13.5"
+  },
+  "figure5_row_order": {
+    "canonical_coordinate": "ascending_final_tie_break",
+    "canonical_coordinate_number": "ascending",
+    "chain": "ascending",
+    "n_crossing_at_0.5": "descending",
+    "n_present": "descending"
+  },
+  "outputs": {
+    "configured_group_supports.csv": {
+      "rows": 32,
+      "sha256": "d79502ac53fe7fa2448d54cef3f553a974be379d6efeb4d12f94280961b552af",
+      "sort_keys": [
+        "dataset",
+        "chain",
+        "configured_group_label"
+      ]
+    },
+    "figure2_item_first_aggregate.csv": {
+      "rows": 924,
+      "sha256": "0e2fbb283ec13d10350de9c809c7300c9b462540e916de55f7cafce1f034aac5",
+      "sort_keys": [
+        "dataset",
+        "canonical_item_key"
+      ]
+    },
+    "figure2_observed_first_crossing_sensitivity.csv": {
+      "rows": 100,
+      "sha256": "2580f51c6fc9a9a12a99bed61a20f411b3b5efa1fb0d53d054da3cf4a9a5efa5",
+      "sort_keys": [
+        "cutoff",
+        "dataset",
+        "crossing_level_index"
+      ]
+    },
+    "figure2_unique_supports.csv": {
+      "rows": 3493,
+      "sha256": "66ec717fc3d870369c614c78effd20bbbf1f99bc07aa1970132219c141bd3324",
+      "sort_keys": [
+        "dataset",
+        "canonical_item_key",
+        "presentation_level_index"
+      ]
+    },
+    "figure2_v9a_alias_provenance.csv": {
+      "rows": 4,
+      "sha256": "ce1b4e0697eee66b05006157358982db9f0ae827f6a87b0cab9ff40077ca2111",
+      "sort_keys": [
+        "m",
+        "e",
+        "t",
+        "r",
+        "i",
+        "c"
+      ]
+    },
+    "figure2_v9a_first_crossing.csv": {
+      "rows": 40,
+      "sha256": "db469705399f0424cc80dfdc5e3ccc7b037493a703b2d8850fc1f684ec232c6c",
+      "sort_keys": [
+        "dataset",
+        "regime",
+        "crossing_level_index"
+      ]
+    },
+    "figure2_v9a_item_first_aggregate.csv": {
+      "rows": 8,
+      "sha256": "f286db5001b7469179a7890698a1b3b9a0de73e73f865b5b37a19e20b0e551d4",
+      "sort_keys": [
+        "dataset",
+        "regime"
+      ]
+    },
+    "figure2_v9a_support_size.csv": {
+      "rows": 48,
+      "sha256": "3223ac932563a41d692a6d3ca8eeeb918d68cc5520ca7e03191122a66927b31b",
+      "sort_keys": [
+        "dataset",
+        "regime",
+        "support_size_stratum_index"
+      ]
+    },
+    "figure2_v9a_support_size_association.csv": {
+      "rows": 8,
+      "sha256": "90a7cd341da2b7d6f7a8d95721c7a5327e58bc9c394c6a98dc23a7eda773cbe5",
+      "sort_keys": [
+        "dataset",
+        "regime"
+      ]
+    },
+    "figure4_top1.csv": {
+      "rows": 12,
+      "sha256": "33d2eea47f7ca630de7e1ed24656c102fdbcee03d9956953ef28c87aae0832b2",
+      "sort_keys": [
+        "dataset",
+        "run_index"
+      ]
+    },
+    "figure4_top10_heatmap.csv": {
+      "rows": 315,
+      "sha256": "a2aa0548bef61dfedddac9b3e92129ec8f46c18abf295680df73c182c7e8b95c",
+      "sort_keys": [
+        "dataset",
+        "union_order",
+        "run_index"
+      ]
+    },
+    "figure4_topn_jaccard.csv": {
+      "rows": 36,
+      "sha256": "84c2e87523562bda9b78e1103e790ac31e1a0a96ae7adbd865cbbd5868617979",
+      "sort_keys": [
+        "dataset",
+        "N",
+        "run_a_index",
+        "run_b_index"
+      ]
+    },
+    "figure5_coordinate_summary.csv": {
+      "rows": 992,
+      "sha256": "6e7fd487db737e1bc5bebcfcea6e96b87753365a8334981c67bd365a05a90b97",
+      "sort_keys": [
+        "cutoff",
+        "canonical_coordinate"
+      ]
+    },
+    "figure5_row_order.csv": {
+      "rows": 248,
+      "sha256": "cc098ea1f5299738cfab719d9e6f6b27c94341979bfbb8926faaf39e1aabd43d",
+      "sort_keys": [
+        "row_index"
+      ]
+    },
+    "figure5_status_matrix.csv": {
+      "rows": 3968,
+      "sha256": "f34c265ebc3f4113296fe064cf2fa14a051449a7240d501a588508ba5d66d2c5",
+      "sort_keys": [
+        "cutoff",
+        "canonical_coordinate",
+        "dataset"
+      ]
+    }
+  },
+  "purpose": "deterministic_presentation_only_data_preparation",
+  "ranking": {
+    "effect_column": "r",
+    "exact_tie_groups": 0,
+    "primary_order": "absolute_effect_descending",
+    "rows_in_exact_ties": 0,
+    "tie_break": "canonical_coordinate_ascending"
+  },
+  "schema_version": "phase3e.presentation_data.1",
+  "script": {
+    "path": "prepare_phase3e_data.py",
+    "sha256": "4d43c91fc10f1a8aaa49ad894091e4ec151b903d374375493b926489b95c2cd0"
+  },
+  "source_commits": {
+    "presentation_base": "b617444d9a3b5ef528a9d0cd1c9fc3dd738daadb",
+    "stride": "b06f7d1d40b5d860915cf1e1f046a6392f71a09b",
+    "stride_downstream": "4388dbcefaaa1672b63cc7bbce357e1b4ec40b71"
+  },
+  "sources": {
+    "frozen": [
+      {
+        "bytes": 121297,
+        "path": "outputs/stride_table.parquet",
+        "role": "observed_support_profiles",
+        "sha256": "732509f98469cac7c5a5bb723ca78caa58341e47d4f5c1f2f6df3693fb89a213"
+      },
+      {
+        "bytes": 443227,
+        "path": "outputs/replicate_table.parquet",
+        "role": "per_run_effects_and_memberships",
+        "sha256": "593e1f45ad59899569e0a2807ae4c5cf4f2f4dbd641eaee347e61a43fbca2178"
+      },
+      {
+        "bytes": 46154,
+        "path": "outputs_s2/residue_landscape.parquet",
+        "role": "observed_item_rho",
+        "sha256": "45948ed5cae98c1e164942f408bd42cbe2cdf6e459719e5f6981f24023151788"
+      },
+      {
+        "bytes": 20825,
+        "path": "outputs_s5/position_conservation.parquet",
+        "role": "cross_dataset_coordinate_union",
+        "sha256": "01508bf2d1a127c9070de639edf5fcb85d41638c2491d730b64d678f460af513"
+      }
+    ],
+    "v9a": [
+      {
+        "bytes": 1894329,
+        "path": "v9a_frozen_design_input.json",
+        "role": "completed_v9a_artifact",
+        "sha256": "b765662cc826e355d54c45c2397a1f5badbc1a42c37b8e5cf0812977379c86dd"
+      },
+      {
+        "bytes": 952644,
+        "path": "v9a_frozen_design_results.json",
+        "role": "completed_v9a_artifact",
+        "sha256": "da3a4d8ceabe6ec493c47abb06ab358798b0e9cb21a125e2af4506bd28f3a0d9"
+      },
+      {
+        "bytes": 24028,
+        "path": "v9a_frozen_design_support_size.csv",
+        "role": "completed_v9a_artifact",
+        "sha256": "f1bc2e65fc9fac3084693b259e3a597668ea9791138f18429a9d17bc4fe4224f"
+      },
+      {
+        "bytes": 14322,
+        "path": "v9a_frozen_design_first_crossing.csv",
+        "role": "completed_v9a_artifact",
+        "sha256": "8447560e939c3e2ca5242e699f16641f461c7611c78db17e00000cd3ef8c4d8e"
+      },
+      {
+        "bytes": 4983,
+        "path": "v9a_frozen_design_alias_effects.csv",
+        "role": "completed_v9a_artifact",
+        "sha256": "9bb8f4a45c7991e6bfff35f5255cc5669842e6e8d8a9f2b6f6b457ea18a41c20"
+      },
+      {
+        "bytes": 1281,
+        "path": "v9a_frozen_design_manifest.json",
+        "role": "completed_v9a_artifact",
+        "sha256": "dd8d6e821dad1b1958ae6706e1772b268118bad15e15aa1752e366f0cde58e5a"
+      }
+    ],
+    "v9b": [
+      {
+        "bytes": 265,
+        "path": "v9b_partial_presence_fixture.csv",
+        "role": "completed_v9b_artifact",
+        "sha256": "d3a6700203a9772f0ba0b23e24a881fb338d0a491bb126d6477381da7a7a5a5c"
+      },
+      {
+        "bytes": 640,
+        "path": "v9b_partial_presence_expected.csv",
+        "role": "completed_v9b_artifact",
+        "sha256": "372e7ce860ef9586389078ebe1721b6f961c1fc655d3d40d2cbfa197bd906ae4"
+      },
+      {
+        "bytes": 4624,
+        "path": "v9b_partial_presence_results.json",
+        "role": "completed_v9b_artifact",
+        "sha256": "82537e65b61d2465767d9f6b8a13d498eb36fe294291659e2a01f63000c4a9fb"
+      },
+      {
+        "bytes": 1287,
+        "path": "v9b_manifest.json",
+        "role": "completed_v9b_artifact",
+        "sha256": "9cc2011d6f801eaa8c8739425667da753b9c0f22c1b4c3de7336f3c944839301"
+      }
+    ]
+  },
+  "unique_support_diagnostics": {
+    "group_chain_alias_profiles": 203,
+    "item_profiles": 924,
+    "protein_complex_alias_profiles": 924,
+    "ss_motif_domain_alias_profiles": 924,
+    "unique_item_support_rows": 3493
+  }
+}

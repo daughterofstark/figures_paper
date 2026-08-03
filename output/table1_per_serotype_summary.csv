@@ -1,0 +1,5 @@
+dataset,item_rows,item_rows_rho_ge_provisional_0.5,selected_signed_rows_with_finite_Wald_test,selected_rows_without_finite_signed_test,fraction_without_finite_signed_test,selected_signed_rows_Wald_interval_excludes_zero,BH_flagged_selected_item_rows,median_item_rho,item_rho_q1,item_rho_q3
+DENV1,236,122,70,166,0.70339,48,40,0.51536,0.366672,0.731756
+DENV2,247,137,79,168,0.680162,32,16,0.535456,0.377356,0.69112
+DENV3,242,145,94,148,0.61157,52,48,0.557931,0.387199,0.706193
+DENV4,199,106,59,140,0.703518,49,48,0.528394,0.315277,0.702025

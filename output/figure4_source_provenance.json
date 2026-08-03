@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "figure4_top1.csv": "33d2eea47f7ca630de7e1ed24656c102fdbcee03d9956953ef28c87aae0832b2",
+    "figure4_top10_heatmap.csv": "a2aa0548bef61dfedddac9b3e92129ec8f46c18abf295680df73c182c7e8b95c",
+    "figure4_topn_jaccard.csv": "84c2e87523562bda9b78e1103e790ac31e1a0a96ae7adbd865cbbd5868617979"
+  },
+  "phase3e_manifest_sha256": "2043b2c418c5524964492ee32ea9cfad82393b2b8dd60db7b98f1690a6f89873",
+  "plotting_module": "figure4.py",
+  "schema_version": "phase3h.figure4.provenance.1",
+  "scientific_inputs": [
+    "figure4_top1.csv",
+    "figure4_topn_jaccard.csv",
+    "figure4_top10_heatmap.csv"
+  ]
+}

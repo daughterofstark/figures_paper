@@ -1,0 +1,297 @@
+{
+  "authoritative_frozen_sources": true,
+  "bh_family": "within_dataset_over_finite_selected_item_rows",
+  "bh_values_recalculated": false,
+  "coherence_eligibility_reference": 0.6,
+  "counts": {
+    "bh_flagged_rows": 152,
+    "distinct_bh_flagged_fits": 145,
+    "distinct_finite_fits": 268,
+    "distinct_selected_fits": 538,
+    "finite_signed_rows": 302,
+    "raw_interval_exclusion_rows": 181,
+    "raw_wald_flagged_rows": 181,
+    "selected_item_rows": 924
+  },
+  "distinct_bh_flagged_fits_by_dataset": {
+    "DENV1": 40,
+    "DENV2": 12,
+    "DENV3": 48,
+    "DENV4": 45
+  },
+  "distinct_finite_fits_by_dataset": {
+    "DENV1": 66,
+    "DENV2": 57,
+    "DENV3": 89,
+    "DENV4": 56
+  },
+  "distinct_signed_fits_represented_more_than_once": 7,
+  "duplicate_fit_records": [
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV1::NS2B-NS3/protease/NS2B/unassigned/none/unknown",
+      "item_row_multiplicity": 14,
+      "mech_n_loci": 14.0,
+      "mech_region_id": "NS2B-NS3/protease/NS2B/unassigned/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV1"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV1::NS2B-NS3/protease/NS3/C-Terminal Tail/none/unknown",
+      "item_row_multiplicity": 14,
+      "mech_n_loci": 14.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/C-Terminal Tail/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV1"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV1::NS2B-NS3/protease/NS3/Gly45 Turn/none/unknown",
+      "item_row_multiplicity": 5,
+      "mech_n_loci": 5.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/Gly45 Turn/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV1"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": true,
+      "fit_id": "DENV1::NS2B-NS3/protease/NS3/Oxyanion Loop/none/unknown",
+      "item_row_multiplicity": 5,
+      "mech_n_loci": 5.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/Oxyanion Loop/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV1"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV1::NS2B-NS3/protease/NS3/unassigned/none/unknown",
+      "item_row_multiplicity": 74,
+      "mech_n_loci": 74.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/unassigned/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV1"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV2::NS2B-NS3/protease/NS2B/unassigned/none/unknown",
+      "item_row_multiplicity": 20,
+      "mech_n_loci": 20.0,
+      "mech_region_id": "NS2B-NS3/protease/NS2B/unassigned/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV2"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV2::NS2B-NS3/protease/NS3",
+      "item_row_multiplicity": 5,
+      "mech_n_loci": 5.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3",
+      "scale_level": "chain",
+      "serotype": "DENV2"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV2::NS2B-NS3/protease/NS3/120s Loop/none/unknown",
+      "item_row_multiplicity": 2,
+      "mech_n_loci": 2.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/120s Loop/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV2"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": true,
+      "fit_id": "DENV2::NS2B-NS3/protease/NS3/C-Terminal Tail/none/unknown",
+      "item_row_multiplicity": 16,
+      "mech_n_loci": 16.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/C-Terminal Tail/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV2"
+    },
+    {
+      "bh_flagged": true,
+      "finite_signed_test": true,
+      "fit_id": "DENV2::NS2B-NS3/protease/NS3/Gly45 Turn/none/unknown",
+      "item_row_multiplicity": 5,
+      "mech_n_loci": 5.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/Gly45 Turn/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV2"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": true,
+      "fit_id": "DENV2::NS2B-NS3/protease/NS3/Oxyanion Loop/none/unknown",
+      "item_row_multiplicity": 4,
+      "mech_n_loci": 4.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/Oxyanion Loop/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV2"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV2::NS2B-NS3/protease/NS3/unassigned/none/unknown",
+      "item_row_multiplicity": 58,
+      "mech_n_loci": 58.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/unassigned/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV2"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV3::NS2B-NS3/protease/NS2B/unassigned/none/unknown",
+      "item_row_multiplicity": 25,
+      "mech_n_loci": 25.0,
+      "mech_region_id": "NS2B-NS3/protease/NS2B/unassigned/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV3"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV3::NS2B-NS3/protease/NS3",
+      "item_row_multiplicity": 3,
+      "mech_n_loci": 3.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3",
+      "scale_level": "chain",
+      "serotype": "DENV3"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV3::NS2B-NS3/protease/NS3/120s Loop/none/unknown",
+      "item_row_multiplicity": 5,
+      "mech_n_loci": 5.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/120s Loop/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV3"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV3::NS2B-NS3/protease/NS3/C-Terminal Tail/none/unknown",
+      "item_row_multiplicity": 13,
+      "mech_n_loci": 13.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/C-Terminal Tail/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV3"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": true,
+      "fit_id": "DENV3::NS2B-NS3/protease/NS3/Oxyanion Loop/none/unknown",
+      "item_row_multiplicity": 6,
+      "mech_n_loci": 6.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/Oxyanion Loop/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV3"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV3::NS2B-NS3/protease/NS3/unassigned/none/unknown",
+      "item_row_multiplicity": 44,
+      "mech_n_loci": 44.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/unassigned/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV3"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV4::NS2B-NS3/protease/NS2B/unassigned/none/unknown",
+      "item_row_multiplicity": 18,
+      "mech_n_loci": 18.0,
+      "mech_region_id": "NS2B-NS3/protease/NS2B/unassigned/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV4"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV4::NS2B-NS3/protease/NS3",
+      "item_row_multiplicity": 7,
+      "mech_n_loci": 7.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3",
+      "scale_level": "chain",
+      "serotype": "DENV4"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV4::NS2B-NS3/protease/NS3/120s Loop/none/unknown",
+      "item_row_multiplicity": 2,
+      "mech_n_loci": 2.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/120s Loop/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV4"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV4::NS2B-NS3/protease/NS3/B2b-C2 Hairpin/none/unknown",
+      "item_row_multiplicity": 3,
+      "mech_n_loci": 3.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/B2b-C2 Hairpin/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV4"
+    },
+    {
+      "bh_flagged": true,
+      "finite_signed_test": true,
+      "fit_id": "DENV4::NS2B-NS3/protease/NS3/Gly45 Turn/none/unknown",
+      "item_row_multiplicity": 3,
+      "mech_n_loci": 3.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/Gly45 Turn/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV4"
+    },
+    {
+      "bh_flagged": true,
+      "finite_signed_test": true,
+      "fit_id": "DENV4::NS2B-NS3/protease/NS3/Oxyanion Loop/none/unknown",
+      "item_row_multiplicity": 2,
+      "mech_n_loci": 2.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/Oxyanion Loop/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV4"
+    },
+    {
+      "bh_flagged": false,
+      "finite_signed_test": false,
+      "fit_id": "DENV4::NS2B-NS3/protease/NS3/unassigned/none/unknown",
+      "item_row_multiplicity": 58,
+      "mech_n_loci": 58.0,
+      "mech_region_id": "NS2B-NS3/protease/NS3/unassigned/none/unknown",
+      "scale_level": "secondary_structure",
+      "serotype": "DENV4"
+    }
+  ],
+  "interpretation": "Conditional selected-support signed associations under the implemented provisional screen.",
+  "post_selection_fdr_control_established": false,
+  "provisional_rho_reference": 0.5,
+  "repeated_finite_row_representations_beyond_first": 34,
+  "schema_version": "phase3i.supplementary_signed.audit.1",
+  "source_sha256": {
+    "outputs/stride_table.parquet": "732509f98469cac7c5a5bb723ca78caa58341e47d4f5c1f2f6df3693fb89a213",
+    "outputs_s4/significance_screen.parquet": "1a15af3264bfb9919cfd56d226bdb745450f53ecdbb02fe7967273f5d22a08e1"
+  },
+  "wald_null_calibration_for_selected_pipeline_established": false,
+  "within_dataset_finite_row_family_sizes": {
+    "DENV1": 70,
+    "DENV2": 79,
+    "DENV3": 94,
+    "DENV4": 59
+  }
+}

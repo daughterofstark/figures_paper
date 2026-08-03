@@ -1,0 +1,38 @@
+**Configured-group magnitude stability and operational coherence.**
+
+| dataset | configured group | support size | magnitude rho | operational coherence | selected item rows | distinct selected fits represented |
+| --- | --- | --- | --- | --- | --- | --- |
+| DENV1 | 120s Loop (NS3) | 6 | 0.972 | 1 | 6 | 6 |
+| DENV1 | B2b-C2 Hairpin (NS3) | 3 | 0.837 | 0.701 | 3 | 3 |
+| DENV1 | C-Terminal Tail (NS3) | 27 | 0.939 | 0.297 | 27 | 14 |
+| DENV1 | Catalytic Triad (NS3) | 3 | 0.575 | 0.965 | 3 | 3 |
+| DENV1 | Gly45 Turn (NS3) | 8 | 0.855 | 0.13 | 8 | 4 |
+| DENV1 | Oxyanion Loop (NS3) | 8 | 0.565 | 0.781 | 8 | 4 |
+| DENV1 | unassigned (NS2B) | 50 | 0.861 | 0.595 | 50 | 37 |
+| DENV1 | unassigned (NS3) | 131 | 0.978 | 0.294 | 131 | 58 |
+| DENV2 | 120s Loop (NS3) | 6 | 0.873 | 1 | 6 | 5 |
+| DENV2 | B2b-C2 Hairpin (NS3) | 3 | 0.344 | 0.693 | 3 | 1 |
+| DENV2 | C-Terminal Tail (NS3) | 26 | 0.616 | 0.696 | 26 | 11 |
+| DENV2 | Catalytic Triad (NS3) | 3 | 0.388 | 0.572 | 3 | 2 |
+| DENV2 | Gly45 Turn (NS3) | 8 | 0.936 | 0.954 | 8 | 4 |
+| DENV2 | Oxyanion Loop (NS3) | 8 | 0.641 | 0.889 | 8 | 5 |
+| DENV2 | unassigned (NS2B) | 62 | 0.978 | 0.515 | 62 | 43 |
+| DENV2 | unassigned (NS3) | 131 | 0.975 | 0.205 | 131 | 74 |
+| DENV3 | 120s Loop (NS3) | 6 | 0.517 | 0.903 | 6 | 2 |
+| DENV3 | B2b-C2 Hairpin (NS3) | 3 | 0.776 | 1 | 3 | 3 |
+| DENV3 | C-Terminal Tail (NS3) | 23 | 0.803 | 0.404 | 23 | 11 |
+| DENV3 | Catalytic Triad (NS3) | 3 | 0.362 | 0.64 | 3 | 1 |
+| DENV3 | Gly45 Turn (NS3) | 8 | 0.979 | 0.932 | 8 | 8 |
+| DENV3 | Oxyanion Loop (NS3) | 8 | 0.623 | 0.786 | 8 | 3 |
+| DENV3 | unassigned (NS2B) | 60 | 0.933 | 0.374 | 60 | 36 |
+| DENV3 | unassigned (NS3) | 131 | 0.976 | 0.141 | 131 | 88 |
+| DENV4 | 120s Loop (NS3) | 6 | 0.744 | 0.824 | 6 | 5 |
+| DENV4 | B2b-C2 Hairpin (NS3) | 3 | 0.502 | 0.672 | 3 | 1 |
+| DENV4 | C-Terminal Tail (NS3) | 9 | 0.495 | 0.557 | 9 | 3 |
+| DENV4 | Catalytic Triad (NS3) | 3 | 0.778 | 0.861 | 3 | 3 |
+| DENV4 | Gly45 Turn (NS3) | 8 | 0.768 | 0.626 | 8 | 6 |
+| DENV4 | Oxyanion Loop (NS3) | 8 | 0.894 | 0.712 | 8 | 7 |
+| DENV4 | unassigned (NS2B) | 31 | 0.645 | 0.345 | 31 | 14 |
+| DENV4 | unassigned (NS3) | 131 | 0.903 | 0.297 | 131 | 74 |
+
+*Note.* Rho is support-specific magnitude stability. Coherence is the implemented pooled sign-homogeneity statistic. Row counts are selected item-row representations after provisional rho=0.5 first crossing; fit counts are unique selected exact-support identities represented among those rows. A fit spanning multiple configured groups can appear in more than one group row, so group-level fit counts are not additive. Finite-test and stored BH-flag bookkeeping is reported separately.

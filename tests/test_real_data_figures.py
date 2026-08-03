@@ -64,11 +64,11 @@ def test_full_build_all_on_realistic_outputs(realistic_paths):
         results = build_all.build_all(realistic_paths)
 
     total = sum(len(v) for v in results.values())
-    # 6 main + 2 supplementary figures ×3 formats, + 5 tables ×3 formats
-    assert total == 8 * 3 + 5 * 3
+    # 6 main + 2 supplementary figures ×3 formats, + 6 table exports ×4 formats
+    assert total == 8 * 3 + 6 * 4
     out = realistic_paths.output
     assert (out / "figure6_variance_composition.svg").is_file()
-    assert (out / "table5_variance_component_budget.tex").is_file()
+    assert (out / "table5_configured_group_variance_composition.tex").is_file()
     for i in range(1, 3):
         for ext in ("svg", "pdf", "png"):
             assert (out / f"Supplementary_Figure_S{i}.{ext}").is_file()

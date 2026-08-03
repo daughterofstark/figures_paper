@@ -1,0 +1,301 @@
+{
+  "configured_group_rows": 32,
+  "metadata": {
+    "metadata_sha256": "d79502ac53fe7fa2448d54cef3f553a974be379d6efeb4d12f94280961b552af",
+    "metadata_source": "/Users/medhasharma/Downloads/forcodexstride/paper_figures/derived_data/phase3e/configured_group_supports.csv"
+  },
+  "rows": [
+    {
+      "chain": "NS2B",
+      "coherence": 0.595087,
+      "configured_group": "unassigned",
+      "dataset": "DENV1",
+      "is_configured_catalytic_group": false,
+      "rho": 0.861293,
+      "support_size": 50
+    },
+    {
+      "chain": "NS3",
+      "coherence": 1.0,
+      "configured_group": "120s Loop",
+      "dataset": "DENV1",
+      "is_configured_catalytic_group": false,
+      "rho": 0.971707,
+      "support_size": 6
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.701149,
+      "configured_group": "B2b-C2 Hairpin",
+      "dataset": "DENV1",
+      "is_configured_catalytic_group": false,
+      "rho": 0.837288,
+      "support_size": 3
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.296692,
+      "configured_group": "C-Terminal Tail",
+      "dataset": "DENV1",
+      "is_configured_catalytic_group": false,
+      "rho": 0.938533,
+      "support_size": 27
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.965314,
+      "configured_group": "Catalytic Triad",
+      "dataset": "DENV1",
+      "is_configured_catalytic_group": true,
+      "rho": 0.575071,
+      "support_size": 3
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.129689,
+      "configured_group": "Gly45 Turn",
+      "dataset": "DENV1",
+      "is_configured_catalytic_group": false,
+      "rho": 0.855396,
+      "support_size": 8
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.781318,
+      "configured_group": "Oxyanion Loop",
+      "dataset": "DENV1",
+      "is_configured_catalytic_group": true,
+      "rho": 0.564845,
+      "support_size": 8
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.294123,
+      "configured_group": "unassigned",
+      "dataset": "DENV1",
+      "is_configured_catalytic_group": false,
+      "rho": 0.97805,
+      "support_size": 131
+    },
+    {
+      "chain": "NS2B",
+      "coherence": 0.515369,
+      "configured_group": "unassigned",
+      "dataset": "DENV2",
+      "is_configured_catalytic_group": false,
+      "rho": 0.978053,
+      "support_size": 62
+    },
+    {
+      "chain": "NS3",
+      "coherence": 1.0,
+      "configured_group": "120s Loop",
+      "dataset": "DENV2",
+      "is_configured_catalytic_group": false,
+      "rho": 0.873449,
+      "support_size": 6
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.693026,
+      "configured_group": "B2b-C2 Hairpin",
+      "dataset": "DENV2",
+      "is_configured_catalytic_group": false,
+      "rho": 0.343603,
+      "support_size": 3
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.696222,
+      "configured_group": "C-Terminal Tail",
+      "dataset": "DENV2",
+      "is_configured_catalytic_group": false,
+      "rho": 0.616081,
+      "support_size": 26
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.572132,
+      "configured_group": "Catalytic Triad",
+      "dataset": "DENV2",
+      "is_configured_catalytic_group": true,
+      "rho": 0.387816,
+      "support_size": 3
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.954466,
+      "configured_group": "Gly45 Turn",
+      "dataset": "DENV2",
+      "is_configured_catalytic_group": false,
+      "rho": 0.936416,
+      "support_size": 8
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.888879,
+      "configured_group": "Oxyanion Loop",
+      "dataset": "DENV2",
+      "is_configured_catalytic_group": true,
+      "rho": 0.640791,
+      "support_size": 8
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.204798,
+      "configured_group": "unassigned",
+      "dataset": "DENV2",
+      "is_configured_catalytic_group": false,
+      "rho": 0.974523,
+      "support_size": 131
+    },
+    {
+      "chain": "NS2B",
+      "coherence": 0.373891,
+      "configured_group": "unassigned",
+      "dataset": "DENV3",
+      "is_configured_catalytic_group": false,
+      "rho": 0.933255,
+      "support_size": 60
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.903445,
+      "configured_group": "120s Loop",
+      "dataset": "DENV3",
+      "is_configured_catalytic_group": false,
+      "rho": 0.517239,
+      "support_size": 6
+    },
+    {
+      "chain": "NS3",
+      "coherence": 1.0,
+      "configured_group": "B2b-C2 Hairpin",
+      "dataset": "DENV3",
+      "is_configured_catalytic_group": false,
+      "rho": 0.776231,
+      "support_size": 3
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.403973,
+      "configured_group": "C-Terminal Tail",
+      "dataset": "DENV3",
+      "is_configured_catalytic_group": false,
+      "rho": 0.802903,
+      "support_size": 23
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.640115,
+      "configured_group": "Catalytic Triad",
+      "dataset": "DENV3",
+      "is_configured_catalytic_group": true,
+      "rho": 0.361739,
+      "support_size": 3
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.932139,
+      "configured_group": "Gly45 Turn",
+      "dataset": "DENV3",
+      "is_configured_catalytic_group": false,
+      "rho": 0.979307,
+      "support_size": 8
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.785961,
+      "configured_group": "Oxyanion Loop",
+      "dataset": "DENV3",
+      "is_configured_catalytic_group": true,
+      "rho": 0.622595,
+      "support_size": 8
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.140749,
+      "configured_group": "unassigned",
+      "dataset": "DENV3",
+      "is_configured_catalytic_group": false,
+      "rho": 0.976409,
+      "support_size": 131
+    },
+    {
+      "chain": "NS2B",
+      "coherence": 0.344897,
+      "configured_group": "unassigned",
+      "dataset": "DENV4",
+      "is_configured_catalytic_group": false,
+      "rho": 0.645353,
+      "support_size": 31
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.823892,
+      "configured_group": "120s Loop",
+      "dataset": "DENV4",
+      "is_configured_catalytic_group": false,
+      "rho": 0.744056,
+      "support_size": 6
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.672182,
+      "configured_group": "B2b-C2 Hairpin",
+      "dataset": "DENV4",
+      "is_configured_catalytic_group": false,
+      "rho": 0.501759,
+      "support_size": 3
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.557209,
+      "configured_group": "C-Terminal Tail",
+      "dataset": "DENV4",
+      "is_configured_catalytic_group": false,
+      "rho": 0.495194,
+      "support_size": 9
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.86138,
+      "configured_group": "Catalytic Triad",
+      "dataset": "DENV4",
+      "is_configured_catalytic_group": true,
+      "rho": 0.778074,
+      "support_size": 3
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.62601,
+      "configured_group": "Gly45 Turn",
+      "dataset": "DENV4",
+      "is_configured_catalytic_group": false,
+      "rho": 0.768328,
+      "support_size": 8
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.712102,
+      "configured_group": "Oxyanion Loop",
+      "dataset": "DENV4",
+      "is_configured_catalytic_group": true,
+      "rho": 0.893744,
+      "support_size": 8
+    },
+    {
+      "chain": "NS3",
+      "coherence": 0.296528,
+      "configured_group": "unassigned",
+      "dataset": "DENV4",
+      "is_configured_catalytic_group": false,
+      "rho": 0.903487,
+      "support_size": 131
+    }
+  ],
+  "sources": {
+    "../strideouts/outputs_s7/F3_domain_serotype_rho_heatmap.parquet": "61757722ca7d211b5d1e106975b13b6a8096b4a8d98ac50ac3c33e924bb865e1",
+    "../strideouts/outputs_s7/F8_coherence_vs_rho.parquet": "fa1b9322394ad9d6a6884d33a70ed3de034220b2669cd46ebbc152867f91c80e"
+  }
+}
