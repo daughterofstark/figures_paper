@@ -19,6 +19,25 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=7", "ruff>=0.5"]
 
+[tool.setuptools]
+py-modules = [
+  "build_all",
+  "figure1",
+  "figure2",
+  "figure3",
+  "figure4",
+  "figure5",
+  "figure6",
+  "figure_config",
+  "phase3j_support",
+  "prepare_phase3e_data",
+  "styles",
+  "supplementary_figure1",
+  "supplementary_figure2",
+  "tables",
+  "utils",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
