@@ -10,6 +10,8 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+
+from figure_config import resolve_external_sources
 from typing import Any
 
 import pandas as pd
@@ -738,12 +740,12 @@ Useful contrast: NS3 unassigned has the highest mean rho but low coherence; Cata
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--root", type=Path,
-                        default=Path(__file__).resolve().parents[2] / "strideouts")
+    parser.add_argument("--root", type=Path, default=None)
     parser.add_argument("--outdir", type=Path,
                         default=Path(__file__).resolve().parent)
     args = parser.parse_args()
-    build_audit(args.root.resolve(), args.outdir.resolve())
+    root = args.root or resolve_external_sources().outputs_root
+    build_audit(root.resolve(), args.outdir.resolve())
 
 
 if __name__ == "__main__":

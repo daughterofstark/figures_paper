@@ -12,8 +12,11 @@ import figure3
 import figure6
 import supplementary_figure1 as s1
 from figure_config import resolve_paths
+from external_data import require_frozen_root, sources
 
-ROOT = Path(__file__).resolve().parents[2] / "strideouts"
+pytestmark = pytest.mark.integration
+
+ROOT = sources().outputs_root
 FORBIDDEN = (
     "rescue",
     "recovery",
@@ -32,6 +35,7 @@ FORBIDDEN = (
 
 @pytest.fixture(scope="module")
 def frozen_paths():
+    require_frozen_root(ROOT, "Figures 1, 3, 6, and S1")
     return resolve_paths(root=ROOT)
 
 

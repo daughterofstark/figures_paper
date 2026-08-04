@@ -58,10 +58,44 @@ paper_figures/
 ## Build
 
 ```
-python build_all.py                       # uses ./outputs* or $STRIDE_OUTPUTS_ROOT
+python build_all.py                       # uses $STRIDE_OUTPUTS_ROOT when set
 python build_all.py --root /path/to/outs --output-dir output
 python figure5.py                         # any module builds standalone
 ```
+
+Cross-repository inputs are resolved in one configuration layer
+(`figure_config.py`). Command-line arguments override environment variables,
+which override documented relative defaults. The supported variables are:
+
+- `STRIDE_PRODUCTION_ROOT`
+- `STRIDE_DOWNSTREAM_ROOT`
+- `STRIDE_OUTPUTS_ROOT`
+- `STRIDE_MANUSCRIPT_PATH`
+- `STRIDE_V9A_ARTIFACTS`
+- `STRIDE_V9B_ARTIFACTS`
+
+Inspect the resolved paths with `python figure_config.py`. Prepare Phase 3E data
+with explicit roots using:
+
+```
+python prepare_phase3e_data.py \
+  --production-root /path/to/STRIDE \
+  --downstream-root /path/to/STRIDE_downstream \
+  --outputs-root /path/to/strideouts \
+  --manuscript-path /path/to/STRIDE_MANUSCRIPT_DESCRIPTIVE_METHODS_WORKING.md
+```
+
+## Clean-clone tests
+
+```
+python -m pip install -e ".[dev]"
+MPLBACKEND=Agg pytest -m "not integration" -q
+```
+
+Integration tests require the archived frozen outputs plus V9A/V9B artifacts.
+When these are absent they skip with a message naming the missing files and the
+relevant `STRIDE_*` variables. Missing integration data is not reported as a
+successful integration run.
 
 For **every figure**: `output/figureN_<name>.{svg,pdf,png}` (main) and
 `output/Supplementary_Figure_S{1,2}.{svg,pdf,png}` (supplementary) — vector SVG + PDF

@@ -31,6 +31,8 @@ from typing import Iterable, Mapping, Sequence
 import numpy as np
 import pandas as pd
 
+from figure_config import resolve_external_sources
+
 
 STRIDE_COMMIT = "b06f7d1d40b5d860915cf1e1f046a6392f71a09b"
 DOWNSTREAM_COMMIT = "4388dbcefaaa1672b63cc7bbce357e1b4ec40b71"
@@ -1326,17 +1328,11 @@ def prepare_all(
 
 
 def default_sources(root: Path) -> SourcePaths:
-    downloads = root.parent.parent
+    configured = resolve_external_sources(outputs_root=root)
     return SourcePaths(
-        frozen_root=root,
-        v9a_dir=downloads
-        / "mechrep3"
-        / "validation"
-        / "artifacts"
-        / "v9a",
-        v9b_dir=downloads
-        / "stride-dengue-analysis"
-        / "validation_artifacts",
+        frozen_root=configured.outputs_root,
+        v9a_dir=configured.v9a_artifacts,
+        v9b_dir=configured.v9b_artifacts,
     )
 
 
@@ -1344,27 +1340,31 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Prepare Phase 3E presentation-only data tables."
     )
-    parser.add_argument(
-        "--root",
-        type=Path,
-        default=Path(__file__).resolve().parent.parent / "strideouts",
-        help="Frozen outputs root.",
-    )
-    parser.add_argument("--v9a-dir", type=Path, default=None)
-    parser.add_argument("--v9b-dir", type=Path, default=None)
+    parser.add_argument("--root", "--outputs-root", dest="outputs_root", type=Path)
+    parser.add_argument("--production-root", type=Path)
+    parser.add_argument("--downstream-root", type=Path)
+    parser.add_argument("--manuscript-path", type=Path)
+    parser.add_argument("--v9a-dir", "--v9a-artifacts", dest="v9a_artifacts", type=Path)
+    parser.add_argument("--v9b-dir", "--v9b-artifacts", dest="v9b_artifacts", type=Path)
     parser.add_argument(
         "--output-dir",
         type=Path,
         default=Path(__file__).resolve().parent / "derived_data" / "phase3e",
     )
     args = parser.parse_args()
-    sources = default_sources(args.root)
-    if args.v9a_dir is not None or args.v9b_dir is not None:
-        sources = SourcePaths(
-            frozen_root=args.root,
-            v9a_dir=args.v9a_dir or sources.v9a_dir,
-            v9b_dir=args.v9b_dir or sources.v9b_dir,
-        )
+    configured = resolve_external_sources(
+        production_root=args.production_root,
+        downstream_root=args.downstream_root,
+        outputs_root=args.outputs_root,
+        manuscript_path=args.manuscript_path,
+        v9a_artifacts=args.v9a_artifacts,
+        v9b_artifacts=args.v9b_artifacts,
+    )
+    sources = SourcePaths(
+        frozen_root=configured.outputs_root,
+        v9a_dir=configured.v9a_artifacts,
+        v9b_dir=configured.v9b_artifacts,
+    )
     written = prepare_all(sources, args.output_dir)
     for filename, path in sorted(written.items()):
         print(f"{filename}: {path}")

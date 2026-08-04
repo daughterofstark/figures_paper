@@ -9,12 +9,21 @@ import pandas as pd
 import pytest
 
 import prepare_phase3e_data as p3e
+from external_data import require_files, sources
+
+pytestmark = pytest.mark.integration
 
 
 @pytest.fixture(scope="session")
 def authoritative_sources() -> p3e.SourcePaths:
-    frozen = Path(__file__).resolve().parents[2] / "strideouts"
-    return p3e.default_sources(frozen)
+    configured = sources()
+    resolved = p3e.SourcePaths(
+        frozen_root=configured.outputs_root,
+        v9a_dir=configured.v9a_artifacts,
+        v9b_dir=configured.v9b_artifacts,
+    )
+    require_files(resolved.all_inputs(), "Phase 3E deterministic rebuild")
+    return resolved
 
 
 @pytest.fixture(scope="session")

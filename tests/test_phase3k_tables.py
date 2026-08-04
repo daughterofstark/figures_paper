@@ -5,11 +5,15 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
 import tables
 from figure_config import resolve_paths
+from external_data import require_frozen_root, sources
 
-ROOT = Path(__file__).resolve().parents[2] / "strideouts"
+pytestmark = pytest.mark.integration
+
+ROOT = sources().outputs_root
 FORBIDDEN = (
     "fdr-controlled",
     "robust effect",
@@ -25,6 +29,7 @@ FORBIDDEN = (
 
 
 def _prepared() -> tables.PreparedTables:
+    require_frozen_root(ROOT, "repaired Tables 1-5")
     return tables.prepare_tables(resolve_paths(root=ROOT))
 
 

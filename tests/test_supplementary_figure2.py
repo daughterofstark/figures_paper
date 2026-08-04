@@ -10,13 +10,16 @@ import pytest
 
 import supplementary_figure2 as s2
 from figure_config import resolve_paths
+from external_data import require_frozen_root, sources
+
+FROZEN = sources().outputs_root
+pytestmark = pytest.mark.integration
 
 
 @pytest.fixture(scope="module")
 def signed_data() -> s2.SignedFigureData:
-    paths = resolve_paths(
-        root=Path(__file__).resolve().parents[2] / "strideouts"
-    )
+    require_frozen_root(FROZEN, "Supplementary Figure S2")
+    paths = resolve_paths(root=FROZEN)
     return s2.load_signed_figure_data(paths)
 
 
@@ -118,10 +121,7 @@ def test_sign_beta_and_intervals_are_unchanged(
         np.where(finite["direction"] == "increase", 1, -1),
     )
     frozen = pd.read_parquet(
-        Path(__file__).resolve().parents[2]
-        / "strideouts"
-        / "outputs_s4"
-        / "significance_screen.parquet"
+        FROZEN / "outputs_s4" / "significance_screen.parquet"
     ).sort_values(["serotype", "chain", "canon_label"], kind="stable")
     for column in (
         "beta_signed",
@@ -176,9 +176,8 @@ def test_unsafe_figure_facing_terminology_is_absent(
 def test_build_writes_deterministic_figure_metadata_and_caption(
     tmp_path: Path,
 ) -> None:
-    root = Path(__file__).resolve().parents[2] / "strideouts"
-    first = resolve_paths(root=root, output=tmp_path / "first")
-    second = resolve_paths(root=root, output=tmp_path / "second")
+    first = resolve_paths(root=FROZEN, output=tmp_path / "first")
+    second = resolve_paths(root=FROZEN, output=tmp_path / "second")
     written_first = s2.build(first)
     written_second = s2.build(second)
     assert {path.suffix for path in written_first} == {".svg", ".pdf", ".png"}

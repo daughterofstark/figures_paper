@@ -6,11 +6,21 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
+
+from external_data import require_files, require_frozen_root, sources
+
+pytestmark = pytest.mark.integration
+
+EXTERNAL = sources()
+FROZEN = EXTERNAL.outputs_root
+MANUSCRIPT = EXTERNAL.manuscript_path
 
 
-ROOT = Path(__file__).resolve().parents[2]
-FROZEN = ROOT / "strideouts"
-MANUSCRIPT = ROOT / "STRIDE_MANUSCRIPT_DESCRIPTIVE_METHODS_WORKING.md"
+@pytest.fixture(autouse=True)
+def _require_external_inputs() -> None:
+    require_frozen_root(FROZEN, "Phase 3N.1 core closure")
+    require_files([MANUSCRIPT], "Phase 3N.1 manuscript checks")
 
 
 def _bh(values: list[float]) -> list[float]:
