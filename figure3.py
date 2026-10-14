@@ -1,4 +1,14 @@
-"""Figure 3: configured-group magnitude rho and operational coherence."""
+"""Figure 3: configured-group magnitude rho and profile coherence.
+
+Panel A shows frozen configured-group magnitude rho with exact support sizes.
+Panel B plots magnitude rho against profile coherence: the mean over runs of the
+within-run sign-homogeneity ratio |sum z| / sum |z| (the production ``coherence``
+field written by ``statistics/reproducibility.py`` and carried into the profile by
+``replicate/aggregator.build_profiles``). Profile coherence is NOT the pooled
+coherence used for signed-analysis eligibility (``mech_coherence``, computed in
+``replicate/aggregator._signed_fit``). The 0.6 line reproduces the pooled
+eligibility value as a visual guide only.
+"""
 from __future__ import annotations
 
 from pathlib import Path
@@ -24,19 +34,25 @@ from phase3j_support import (
 )
 from utils import load_s7_figure, panel_letter, save_figure
 
-TITLE = "Configured-group magnitude stability and operational coherence differ"
+TITLE = "Configured-group magnitude stability and profile coherence differ"
 PANEL_TITLES = (
     "Magnitude rho by configured group",
-    "Coherence versus magnitude rho",
+    "Profile coherence versus magnitude rho",
+)
+Y_LABEL = "Profile coherence (mean within-run sign homogeneity)"
+REFERENCE_NOTE = (
+    "Guides: rho 0.5 provisional reference; "
+    "0.6 = pooled-coherence eligibility value (visual guide only)"
 )
 FIGURE_STRINGS = (
     TITLE,
     *PANEL_TITLES,
     "Configured-group magnitude rho",
-    "Operational pooled sign homogeneity",
+    Y_LABEL,
     "provisional rho reference",
-    "operational coherence reference",
+    "pooled-coherence eligibility value",
 )
+COHERENCE_STATISTIC = "profile coherence: mean over runs of |sum z| / sum |z|"
 
 
 def _text_color(cmap, norm, v: float) -> str:
@@ -112,13 +128,10 @@ def _panel_heatmap(ax, df: pd.DataFrame, serotypes: list[str]):
     ax.set_xticklabels(serotypes, rotation=0)
     ax.set_yticks(range(len(regions)))
     support = df.set_index(["chain", "domain", "serotype"])["support_size"]
-    labels = []
-    for chain, group in regions:
-        sizes = [int(support.loc[(chain, group, s)]) for s in serotypes]
-        labels.append(f"{group} ({chain})")
+    labels = [f"{group} ({chain})" for chain, group in regions]
     ax.set_yticklabels(labels, fontsize=styles.FS_ANNOT)
-    for tick, (_c, d) in zip(ax.get_yticklabels(), regions, strict=True):
-        group_rows = df[(df["chain"] == _c) & (df["domain"] == d)]
+    for tick, (chain, group) in zip(ax.get_yticklabels(), regions, strict=True):
+        group_rows = df[(df["chain"] == chain) & (df["domain"] == group)]
         if group_rows["is_configured_catalytic_group"].all():
             tick.set_color(styles.CATALYTIC_ACCENT)
             tick.set_fontweight("bold")
@@ -127,7 +140,9 @@ def _panel_heatmap(ax, df: pd.DataFrame, serotypes: list[str]):
         for j in range(vals.shape[1]):
             if np.isfinite(vals[i, j]):
                 size = int(support.loc[(regions[i][0], regions[i][1], serotypes[j])])
-                ax.text(j, i, f"{vals[i, j]:.2f}\nn={size}",
+                # three decimals so values either side of the 0.5 reference
+                # (e.g. 0.495 vs 0.502) are not both displayed as "0.50"
+                ax.text(j, i, f"{vals[i, j]:.3f}\nn={size}",
                         ha="center", va="center",
                         fontsize=styles.FS_ANNOT,
                         color=_text_color(cmap, norm, vals[i, j]))
@@ -135,12 +150,14 @@ def _panel_heatmap(ax, df: pd.DataFrame, serotypes: list[str]):
     return im, norm, cmap
 
 
-def _panel_scatter(ax, df: pd.DataFrame, serotypes: list[str]):
+def _panel_scatter(ax, df: pd.DataFrame):
     df = df.copy()
     df["rho_domain"] = pd.to_numeric(df["rho_domain"], errors="coerce")
     df["coherence_domain"] = pd.to_numeric(df["coherence_domain"], errors="coerce")
     df = df.dropna(subset=["rho_domain", "coherence_domain"])
-    # provisional guides — faint, explicitly uncalibrated
+    # visual guides only: rho 0.5 is provisional; 0.6 reproduces the pooled-
+    # coherence eligibility value, which is a different statistic from the
+    # profile coherence plotted on this axis
     ax.axvline(PROVISIONAL_RHO_STAR, color="#d9d9d9", lw=0.6, ls=(0, (4, 3)), zorder=1)
     ax.axhline(PROVISIONAL_COHERENCE_THRESHOLD, color="#d9d9d9", lw=0.6,
                ls=(0, (4, 3)), zorder=1)
@@ -161,8 +178,28 @@ def _panel_scatter(ax, df: pd.DataFrame, serotypes: list[str]):
     ax.set_xticks([0, 0.5, 1.0])
     ax.set_yticks([0, 0.5, 1.0])
     ax.set_xlabel("Configured-group magnitude rho")
-    ax.set_ylabel("Operational pooled sign homogeneity")
+    ax.set_ylabel(Y_LABEL)
     ax.set_title(PANEL_TITLES[1], loc="left", fontsize=styles.FS_LABEL)
+
+
+def _caption_text() -> str:
+    return (
+        "**Figure 3. Configured-group magnitude stability and profile coherence "
+        "differ.** (A) Frozen magnitude rho for each of the 32 dataset-by-"
+        "configured-group rows; each cell gives rho and the exact support size n. "
+        "(B) Magnitude rho is shown against the implemented profile-coherence "
+        "statistic, defined as the mean of the within-run sign-homogeneity values. "
+        "Point area varies modestly with support size, and outlined points identify "
+        "configured catalytic groups. The rho = 0.5 line is the provisional "
+        "reference. The 0.6 line reproduces the value of the pooled-coherence "
+        "eligibility reference and is drawn only as a visual guide. Signed-analysis "
+        "eligibility is decided on pooled coherence at the selected support, so the "
+        "profile-coherence values plotted here mark no eligibility decision, "
+        "including for configured groups that were selected as supports. The lines "
+        "define no validated quadrant. Profile coherence summarizes mean within-run "
+        "sign homogeneity. It does not establish run-level sign recovery. "
+        "Group-level uncertainty uses the zero-covariance approximation.\n"
+    )
 
 
 def build(paths: Paths) -> list[Path]:
@@ -172,27 +209,30 @@ def build(paths: Paths) -> list[Path]:
     serotypes += sorted(set(data["serotype"].astype(str)) - set(serotypes))
 
     fig, (axa, axb) = plt.subplots(
-        1, 2, figsize=(DOUBLE_COL, 3.45),
-        gridspec_kw={"width_ratios": [1.25, 1.0], "wspace": 0.32})
+        1, 2, figsize=(DOUBLE_COL, 3.7),
+        gridspec_kw={"width_ratios": [1.25, 1.0], "wspace": 0.38})
     im, norm, cmap = _panel_heatmap(axa, data, serotypes)
     panel_letter(axa, "A")
     cbar = fig.colorbar(im, ax=axa, fraction=0.045, pad=0.03)
-    cbar.set_label("ρ", fontsize=styles.FS_TICK)
+    # title on top of the colorbar instead of a side label, so it cannot
+    # collide with Panel B's y-axis label
+    cbar.ax.set_title("ρ", fontsize=styles.FS_TICK, pad=3)
     cbar.set_ticks([0, 0.5, 1.0])
     cbar.outline.set_linewidth(0.4)
 
-    _panel_scatter(axb, data, serotypes)
-    panel_letter(axb, "B", dx=-0.06)
+    _panel_scatter(axb, data)
+    panel_letter(axb, "B", dx=-0.08)
 
     handles, labels = axb.get_legend_handles_labels()
     fig.legend(handles, labels, loc="lower center", bbox_to_anchor=(0.72, 0.005),
-               fontsize=styles.FS_ANNOT, ncol=2)
-    fig.text(0.72, 0.052,
-             "References: rho 0.5 provisional; coherence 0.6 operational",
+               fontsize=styles.FS_ANNOT, ncol=2, frameon=False)
+    fig.text(0.72, 0.055, REFERENCE_NOTE,
              ha="center", va="bottom", fontsize=styles.FS_ANNOT, color="#7f7f7f")
     fig.suptitle(TITLE, x=0.5, y=0.995)
-    fig.subplots_adjust(bottom=0.17, top=0.88)
+    # larger bottom margin keeps the x-axis label clear of the note and legend
+    fig.subplots_adjust(bottom=0.24, top=0.88)
     written = save_figure(fig, paths, "figure3_catalytic_core")
+
     audit_rows = []
     for row in data.sort_values(["serotype", "chain", "domain"]).itertuples(index=False):
         audit_rows.append(
@@ -212,6 +252,7 @@ def build(paths: Paths) -> list[Path]:
         paths.output / "figure3_numeric_audit.json",
         {
             "configured_group_rows": len(data),
+            "coherence_statistic": COHERENCE_STATISTIC,
             "metadata": metadata_provenance,
             "rows": audit_rows,
             "sources": {
@@ -224,19 +265,7 @@ def build(paths: Paths) -> list[Path]:
             },
         },
     )
-    (paths.output / "figure3_caption_draft.md").write_text(
-        "**Figure 3. Configured-group magnitude stability and operational "
-        "coherence differ.** (A) Frozen magnitude rho for each configured "
-        "group and dataset; each cell gives rho and exact support size n. "
-        "(B) Magnitude rho is shown against the implemented pooled "
-        "sign-homogeneity statistic. Point area varies modestly with support "
-        "size, and outlined points identify configured catalytic groups. The "
-        "rho=0.5 and coherence=0.6 lines are provisional and operational "
-        "references, respectively, rather than validated quadrants. Coherence "
-        "summarizes pooled sign homogeneity; it does not establish run-level "
-        "sign recovery. Group-level uncertainty uses the zero-covariance "
-        "approximation.\n"
-    )
+    (paths.output / "figure3_caption_draft.md").write_text(_caption_text())
     return written
 
 
