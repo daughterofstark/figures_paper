@@ -690,22 +690,13 @@ def make_figure(data: SignedFigureData) -> Figure:
         fontsize=styles.FS_ANNOT - 0.45,
         color="#555555",
     )
-    fig.suptitle(
+   fig.suptitle(
         "Conditional selected-support signed associations under the implemented provisional screen",
         x=0.085,
         y=0.975,
         ha="left",
         fontsize=styles.FS_TITLE,
         fontweight="bold",
-    )
-    fig.text(
-        0.985,
-        0.975,
-        "Supplementary Figure S2",
-        ha="right",
-        va="top",
-        fontsize=styles.FS_ANNOT,
-        color="#666666",
     )
     return fig
 
@@ -807,8 +798,8 @@ def _caption_text(data: SignedFigureData) -> str:
         f"{counts['bh_flagged_rows']} item rows representing "
         f"{counts['distinct_bh_flagged_fits']} distinct fitted effects. "
         "(B) All selected item-row locations are shown. Darker cells carry the "
-        "stored BH-adjusted flag, negative estimates are hatched, grey cells have "
-        "no finite signed test, blank cells are absent, and black outlines mark "
+        "stored BH-adjusted flag, negative estimates are hatched, gray cells have "
+        "no finite signed test, blank cells are absent, and blue outlines mark "
         "copied fitted-effect representations. BH adjustment was implemented "
         "separately within each dataset over finite selected item rows. Support "
         "selection and coherence eligibility reuse the fitted input values; "
