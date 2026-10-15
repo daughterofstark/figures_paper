@@ -31,7 +31,9 @@ def test_environment_values_override_relative_defaults(monkeypatch, tmp_path):
     assert resolved.v9b_artifacts == values["STRIDE_V9B_ARTIFACTS"].resolve()
 
 
-def test_v9a_and_v9b_defaults_derive_from_repository_roots(tmp_path):
+def test_v9a_and_v9b_defaults_derive_from_repository_roots(monkeypatch, tmp_path):
+    monkeypatch.delenv("STRIDE_V9A_ARTIFACTS", raising=False)
+    monkeypatch.delenv("STRIDE_V9B_ARTIFACTS", raising=False)
     production = tmp_path / "production"
     downstream = tmp_path / "downstream"
     resolved = resolve_external_sources(

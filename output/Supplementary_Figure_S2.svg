@@ -9,7 +9,7 @@
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
-      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
      </cc:Agent>
     </dc:creator>
    </cc:Work>
@@ -9952,9 +9952,6 @@ z
   </g>
   <g id="text_40">
    <text style="font-weight: 700; font-size: 8px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start" x="34.339513" y="7.264219" transform="rotate(-0 34.339513 7.264219)">Conditional selected-support signed associations under the implemented provisional screen</text>
-  </g>
-  <g id="text_41">
-   <text style="font-size: 6px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: end; fill: #666666" x="501.205655" y="5.808164" transform="rotate(-0 501.205655 5.808164)">Supplementary Figure S2</text>
   </g>
  </g>
  <defs>

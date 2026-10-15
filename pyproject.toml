@@ -7,6 +7,8 @@ name = "stride-paper-figures"
 version = "0.1.0"
 description = "Presentation-only figures and tables for STRIDE"
 requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "STRIDE authors"}]
 dependencies = [
   "adjustText>=0.8",
   "matplotlib>=3.7",
@@ -18,6 +20,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7", "ruff>=0.5"]
+
+[project.urls]
+Homepage = "https://github.com/daughterofstark/figures_paper"
+Repository = "https://github.com/daughterofstark/figures_paper"
+Issues = "https://github.com/daughterofstark/figures_paper/issues"
 
 [tool.setuptools]
 py-modules = [

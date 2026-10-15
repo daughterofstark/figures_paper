@@ -256,10 +256,10 @@ def build(paths: Paths) -> list[Path]:
             "metadata": metadata_provenance,
             "rows": audit_rows,
             "sources": {
-                str(paths.s7("F3_domain_serotype_rho_heatmap.parquet")): sha256(
+                "outputs_s7/F3_domain_serotype_rho_heatmap.parquet": sha256(
                     paths.s7("F3_domain_serotype_rho_heatmap.parquet")
                 ),
-                str(paths.s7("F8_coherence_vs_rho.parquet")): sha256(
+                "outputs_s7/F8_coherence_vs_rho.parquet": sha256(
                     paths.s7("F8_coherence_vs_rho.parquet")
                 ),
             },

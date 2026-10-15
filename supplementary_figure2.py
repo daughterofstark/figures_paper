@@ -690,7 +690,7 @@ def make_figure(data: SignedFigureData) -> Figure:
         fontsize=styles.FS_ANNOT - 0.45,
         color="#555555",
     )
-   fig.suptitle(
+    fig.suptitle(
         "Conditional selected-support signed associations under the implemented provisional screen",
         x=0.085,
         y=0.975,

@@ -1,71 +1,37 @@
-# paper_figures
+# STRIDE paper figures
 
-Publication-quality figure suite for the STRIDE dengue NS2B–NS3 reproducibility
-analysis. This project is **presentation-only**: it reads the frozen pipeline's
-parquet outputs (`outputs/`, `outputs_s1a/ … outputs_s7/`) and renders figures and
-tables. It never recomputes statistics, alters thresholds, or touches raw STRIDE data.
+This repository contains the presentation layer for the STRIDE descriptive
+methods paper. It reads frozen downstream outputs and committed Phase 3E tables,
+then renders figures, tables, captions, and numeric audit records. It does not
+fit the STRIDE estimator, change thresholds, or recompute scientific results.
 
-## The manuscript at a glance (6 main + 2 supplementary)
+## Paper architecture
 
-The suite is designed as one coherent visual narrative: *where* reproducible dynamics
-live → *at what scale* they resolve → *which module* carries them → *what the signed
-effects are* → *how they behave across serotypes* → *what limits them*.
+| Display item | Descriptive question |
+| --- | --- |
+| Figure 1 | How does item-level magnitude stability vary across coordinates and datasets, and where are coordinates absent? |
+| Figure 2 | How does support-specific magnitude stability change between an item and its first unique aggregate, and how does V9A characterize support-size behavior? |
+| Figure 3 | How do configured-group magnitude rho and profile coherence differ? |
+| Figure 4 | How much do single-run top-item and top-N rankings vary among run labels? |
+| Figure 5 | How do coordinate presence and provisional item-level crossing vary across datasets and reference values? |
+| Figure 6 | How does the fitted K=3 model divide variance between the fitted between-run component and propagated within-run uncertainty? |
+| Supplementary Figure S1 | What are the complete per-dataset item-rho profiles? |
+| Supplementary Figure S2 | What conditional selected-support signed associations are present under the implemented provisional screen? |
 
-| Figure | One-sentence biological message | Built from |
-| --- | --- | --- |
-| **Fig 1** — reproducibility landscape | Residue-level reproducibility is heterogeneous and distributed across NS2B–NS3. | `s5/position_conservation` |
-| **Fig 2** — spatial resolution | Catalytic-region ρ plateaus after residue aggregation, while gates remain mostly residue/SS. | `s7/F7` (residue→SS→motif→domain) + `s7/F2` |
-| **Fig 3** — domain/coherence audit | Catalytic domains are directionally coherent but are not the highest-ρ regions. | `s7/F3` + `s7/F8` |
-| **Fig 4** — signed-effect volcano | FDR-significant signed effects are widespread across NS2B–NS3, with catalytic examples highlighted. | `s4/significance_screen` |
-| **Fig 5** — cross-serotype audit | Cross-serotype reproducibility is heterogeneous; positions conserved in more serotypes have higher median ρ. | `s5/position_conservation` + `s7/F1` |
-| **Fig 6** — variance decomposition | Reproducibility is limited by between-replicate variance (τ²), not sampling. | `s7/F6` |
-| **Supp S1** — per-serotype landscape | Per-serotype residue-level ρ landscapes are heterogeneous, with catalytic residues as landmarks. | `s7/F1` |
-| **Supp S2** — signed-β Manhattan | Signed effects are distributed along the sequence, complementing the Fig 4 volcano. | `s4/significance_screen` |
+The figures use continuous rho as a support-specific magnitude-stability
+summary. The value `0.5` is a provisional operational reference. Larger
+supports define different L2 aggregate objects, so cross-support rho changes do
+not form an evidence ladder. Signed and BH outputs are conditional descriptive
+summaries. Cross-dataset recurrence distinguishes absence from presence below a
+reference value.
 
-Each module's docstring records its biological message, rationale, source tables, and
-Main-vs-Supplementary justification for future maintenance.
+## Inputs
 
-## Global visual system
+External source discovery is centralized in `figure_config.py`. A command-line
+argument overrides an environment variable, which overrides a documented
+relative default.
 
-**One colour = one meaning** (see `styles.py`): catalytic = vermillion (reserved);
-serotype identity = blue/sky/green/purple; reproducibility ρ = viridis; conservation =
-blue ramp; correlation = cividis; FDR significance = darkness (ink vs light grey);
-variance τ² = orange, σ̄² = neutral grey. Colours are never reused for unrelated
-concepts.
-
-**One label rule** (`utils.objective_labels`): for signed-effect plots, label an
-observation only when it is FDR-significant and its |score| is in the top decile, capped
-at 4 by |score| and de-overlapped with adjustText. Used in Figure 4 and Supplementary
-Figure S2.
-
-**Typography / lettering**: a single rcParams style (`styles.apply_style`) fixes font
-family, sizes, tick sizing and panel-letter placement (`utils.panel_letter`) across
-every figure. Declarative, data-justified titles throughout.
-
-## Layout
-
-```
-paper_figures/
-  README.md          CHANGELOG.md       figure_config.py   styles.py   utils.py
-  build_all.py       tables.py          conftest.py
-  figure1.py … figure6.py               # 6 main figures
-  supplementary_figure1.py, supplementary_figure2.py
-  requirements.txt   requirements-dev.txt
-  tests/             # regression tests + real-like multi-chain fixture
-  output/            # generated artifacts (git-ignored)
-```
-
-## Build
-
-```
-python build_all.py                       # uses $STRIDE_OUTPUTS_ROOT when set
-python build_all.py --root /path/to/outs --output-dir output
-python figure5.py                         # any module builds standalone
-```
-
-Cross-repository inputs are resolved in one configuration layer
-(`figure_config.py`). Command-line arguments override environment variables,
-which override documented relative defaults. The supported variables are:
+Supported environment variables:
 
 - `STRIDE_PRODUCTION_ROOT`
 - `STRIDE_DOWNSTREAM_ROOT`
@@ -74,10 +40,33 @@ which override documented relative defaults. The supported variables are:
 - `STRIDE_V9A_ARTIFACTS`
 - `STRIDE_V9B_ARTIFACTS`
 
-Inspect the resolved paths with `python figure_config.py`. Prepare Phase 3E data
-with explicit roots using:
+Inspect the resolved paths:
 
+```bash
+python figure_config.py
 ```
+
+The prepared frozen-input archive is not stored in this repository. Integration
+tests skip with an explicit reason when their external inputs are unavailable.
+A skipped integration test is not evidence that the external-data workflow
+passed.
+
+## Installation
+
+```bash
+git clone https://github.com/daughterofstark/figures_paper.git
+cd figures_paper
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+```
+
+## Prepare Phase 3E tables
+
+Phase 3E is the read-only presentation-data layer used by Figures 2, 4, and 5.
+Run it with explicit roots:
+
+```bash
 python prepare_phase3e_data.py \
   --production-root /path/to/STRIDE \
   --downstream-root /path/to/STRIDE_downstream \
@@ -85,27 +74,70 @@ python prepare_phase3e_data.py \
   --manuscript-path /path/to/STRIDE_MANUSCRIPT_DESCRIPTIVE_METHODS_WORKING.md
 ```
 
-## Clean-clone tests
+The command writes presentation tables and their manifest. It does not overwrite
+the frozen STRIDE or downstream outputs.
 
+## Build
+
+Build the full presentation set:
+
+```bash
+python build_all.py --root /path/to/strideouts --output-dir output
 ```
-python -m pip install -e ".[dev]"
+
+Individual modules also build independently:
+
+```bash
+python figure3.py
+python supplementary_figure2.py
+python tables.py
+```
+
+Figures are exported as PDF, SVG, and high-resolution PNG. Table outputs include
+machine-readable and manuscript-ready forms where supported. Plotting modules
+validate required columns and denominators before rendering.
+
+## Tests
+
+Self-contained checks require no archived scientific data:
+
+```bash
+python -m compileall -q .
+ruff check --select E9,F63,F7,F82 .
 MPLBACKEND=Agg pytest -m "not integration" -q
 ```
 
-Integration tests require the archived frozen outputs plus V9A/V9B artifacts.
-When these are absent they skip with a message naming the missing files and the
-relevant `STRIDE_*` variables. Missing integration data is not reported as a
-successful integration run.
+Run the complete suite by supplying the external roots:
 
-For **every figure**: `output/figureN_<name>.{svg,pdf,png}` (main) and
-`output/Supplementary_Figure_S{1,2}.{svg,pdf,png}` (supplementary) — vector SVG + PDF
-for typesetting and 600 dpi PNG for viewing. Tables T1–T5 export as `.tex/.html/.md`.
+```bash
+export STRIDE_PRODUCTION_ROOT=/path/to/STRIDE
+export STRIDE_DOWNSTREAM_ROOT=/path/to/STRIDE_downstream
+export STRIDE_OUTPUTS_ROOT=/path/to/strideouts
+export STRIDE_MANUSCRIPT_PATH=/path/to/STRIDE_MANUSCRIPT_DESCRIPTIVE_METHODS_WORKING.md
+export STRIDE_V9A_ARTIFACTS=/path/to/STRIDE/validation/artifacts/v9a
+export STRIDE_V9B_ARTIFACTS=/path/to/STRIDE_downstream/validation_artifacts
+MPLBACKEND=Agg pytest -q
+```
 
-## Reproducibility
+GitHub Actions runs the self-contained tests on Python 3.10, 3.11, and 3.12. It
+also verifies that absent integration data produce explicit skips.
 
-Deterministic and byte-reproducible: metadata/timestamps are stripped on save,
-adjustText runs with a fixed iteration cap, and clustering (Fig 5B) is deterministic.
-Two builds of the full suite are identical (0/39 files differ). The suite builds
-cleanly under `PYTHONWARNINGS=error` on both the multi-chain real-like outputs and the
-single-chain synthetic example (figures degrade gracefully when a chain/domain is
-absent).
+## Reproducibility boundary
+
+This repository verifies presentation transformations, deterministic ordering,
+and agreement with frozen source values. It does not establish threshold
+calibration, post-selection inference, biological homology, or mechanistic
+interpretation. Those limits are part of the manuscript and should remain
+visible in any reuse of the figures or tables.
+
+## Historical audit material
+
+Directories named `manuscript_number_audit` and `manuscript_placeholder_audit`
+preserve earlier review records. They refer to a retired manuscript and figure
+architecture and are not sources for the current scientific wording. Use the
+active scripts, `output/` audit records, Phase 3 reports, and the current
+descriptive manuscript when checking present claims.
+
+## License
+
+MIT. See `LICENSE`.

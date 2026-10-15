@@ -1,4 +1,5 @@
 {
+  "coherence_statistic": "profile coherence: mean over runs of |sum z| / sum |z|",
   "configured_group_rows": 32,
   "metadata": {
     "metadata_sha256": "d79502ac53fe7fa2448d54cef3f553a974be379d6efeb4d12f94280961b552af",
@@ -295,7 +296,7 @@
     }
   ],
   "sources": {
-    "../strideouts/outputs_s7/F3_domain_serotype_rho_heatmap.parquet": "61757722ca7d211b5d1e106975b13b6a8096b4a8d98ac50ac3c33e924bb865e1",
-    "../strideouts/outputs_s7/F8_coherence_vs_rho.parquet": "fa1b9322394ad9d6a6884d33a70ed3de034220b2669cd46ebbc152867f91c80e"
+    "outputs_s7/F3_domain_serotype_rho_heatmap.parquet": "61757722ca7d211b5d1e106975b13b6a8096b4a8d98ac50ac3c33e924bb865e1",
+    "outputs_s7/F8_coherence_vs_rho.parquet": "fa1b9322394ad9d6a6884d33a70ed3de034220b2669cd46ebbc152867f91c80e"
   }
 }

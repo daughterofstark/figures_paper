@@ -7,6 +7,7 @@
     "bh_flagged_rows": 152,
     "distinct_bh_flagged_fits": 145,
     "distinct_finite_fits": 268,
+    "distinct_raw_interval_exclusion_fits": 174,
     "distinct_selected_fits": 538,
     "finite_signed_rows": 302,
     "raw_interval_exclusion_rows": 181,
